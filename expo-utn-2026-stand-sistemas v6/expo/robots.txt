@@ -1,4 +1,0 @@
-# El sitio del stand no debe aparecer en buscadores.
-# Ojo: esto evita la indexación, NO el acceso. Quien tenga la URL entra igual.
-User-agent: *
-Disallow: /
