@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vida y testimonios · Expo UTN 2026</title>
+<link rel="stylesheet" href="../css/base.css">
+<style>
+.testi{display:flex;flex-direction:column}
+.testi .cita{font-size:var(--t-lg);line-height:1.4;color:var(--tinta);margin:14px 0 18px}
+.testi iframe{width:100%;height:420px;border:1px solid var(--borde);border-radius:8px;background:var(--gris)}
+.sin-conexion{
+  background:var(--gris);border:1px dashed var(--borde);border-radius:8px;
+  padding:18px 20px;font-size:var(--t-sm);color:var(--tinta-2);
+}
+.sin-conexion strong{display:block;margin-bottom:4px;color:var(--tinta)}
+.bloqueado{
+  border:1px dashed var(--a3);background:#FFF9EF;border-radius:8px;
+  padding:22px;font-size:var(--t-sm);color:#7A5100;
+}
+</style>
+</head>
+<body>
+
+<section class="portada">
+  <div class="envoltorio">
+    <p class="epigrafe">06 · Vida y testimonios</p>
+    <h1>Cómo es cursar acá, contado por quienes lo hicieron</h1>
+    <p class="bajada">Estudiantes que están en el medio, graduados que terminaron y docentes que
+      volvieron a dar clase donde cursaron.</p>
+  </div>
+</section>
+
+<section class="bloque">
+  <div class="envoltorio">
+    <p class="epigrafe">Final feliz</p>
+    <h2>Acá se recibe la gente</h2>
+    <p class="bajada" style="margin-bottom:26px">Cinco años son muchos. Terminan.</p>
+    <div id="graduaciones"></div>
+  </div>
+</section>
+
+<section class="bloque">
+  <div class="envoltorio">
+    <p class="epigrafe">En primera persona</p>
+    <h2>Publicaciones de la comunidad</h2>
+    <p class="bajada" style="margin-bottom:26px">Escaneá el QR de cada tarjeta para abrir la
+      publicación original.</p>
+    <div class="rejilla dos" id="testimonios"></div>
+  </div>
+</section>
+
+<section class="bloque">
+  <div class="envoltorio">
+    <p class="epigrafe">Los espacios</p>
+    <h2>Dónde pasás los próximos cinco años</h2>
+    <div id="espacios" style="margin-top:26px"></div>
+  </div>
+</section>
+
+<script src="../js/config.js"></script>
+<script src="../js/comun.js"></script>
+<script src="../js/editor.js"></script>
+<script src="../datos/vida.js"></script>
+<script>
+(function () {
+  var el = EXPO.el, esc = EXPO.esc;
+  EXPO.cabecera("Vida y testimonios");
+  EXPO.editor.registrar("datos/vida.js", { TESTIMONIOS: TESTIMONIOS, GRADUACIONES: GRADUACIONES, ESPACIOS: ESPACIOS },
+    "Testimonios de LinkedIn, fotos de graduación y espacios de la Facultad.");
+
+  /* ── Graduaciones ──────────────────────────────────────────────
+     Solo se muestran las fotos marcadas como autorizadas. Si no hay
+     ninguna, queda el aviso en lugar del carrusel: es preferible un
+     hueco visible a publicar la cara de alguien sin permiso.        */
+  var okGrad = GRADUACIONES.filter(function (g) { return g.autorizado; });
+  var cg = document.getElementById("graduaciones");
+  EXPO.editor.carruselEditable(cg, GRADUACIONES, "GRADUACIONES", function (c, l) {
+    var vis = l.filter(function (g) { return g.autorizado; });
+    var d = EXPO.el("div"); c.appendChild(d);
+    if (vis.length) EXPO.carrusel(d, vis);
+  }, "graduacion");
+  if (!okGrad.length) {
+    var b = el("div", "bloqueado");
+    b.innerHTML = "<strong>" + GRADUACIONES.length + " fotos de graduación esperando autorización.</strong>" +
+      "Los archivos ya están en /assets/fotos/graduacion/. Se muestran cuando cada persona " +
+      "dé su OK: poné <code>autorizado: true</code> en datos/vida.js.";
+    cg.appendChild(b);
+  }
+
+  /* ── Testimonios ───────────────────────────────────────────────
+     El embed de LinkedIn necesita internet. Se intenta solo si el
+     navegador dice estar en línea; si no, se muestra el respaldo.   */
+  var hayRed = navigator.onLine;
+  var ct = document.getElementById("testimonios");
+
+  TESTIMONIOS.forEach(function (t) {
+    var card = el("article", "tarjeta testi");
+    var b = "TESTIMONIOS." + TESTIMONIOS.indexOf(t) + ".";
+    card.appendChild(EXPO.ligar(el("h3", null, t.persona), b + "persona"));
+    card.appendChild(EXPO.ligar(el("span", "etiqueta", t.rol), b + "rol"));
+    card.appendChild(EXPO.ligar(el("p", "cita", t.respaldo), b + "respaldo", { multilinea: true }));
+
+    if (!t.autorizado) {
+      var b = el("div", "bloqueado");
+      b.innerHTML = "<strong>Pendiente de autorización.</strong>No se publica hasta tener el OK de la persona.";
+      card.appendChild(b);
+    } else if (hayRed) {
+      var f = document.createElement("iframe");
+      f.src = "https://www.linkedin.com/embed/feed/update/" + t.urn;
+      f.title = "Publicación de " + t.persona;
+      f.setAttribute("frameborder", "0");
+      f.setAttribute("allowfullscreen", "");
+      card.appendChild(f);
+    } else if (t.captura) {
+      var im = el("img"); im.src = t.captura; im.alt = "Captura de la publicación de " + t.persona;
+      im.style.borderRadius = "8px"; im.style.border = "1px solid var(--borde)";
+      card.appendChild(im);
+    } else {
+      var s = el("div", "sin-conexion");
+      s.innerHTML = "<strong>Sin conexión</strong>La publicación original está en LinkedIn. " +
+        "Escaneá el QR para verla desde el celular.";
+      card.appendChild(s);
+    }
+
+    if (t.autorizado) card.appendChild(EXPO.filaQr(t.qr, t.url, "Publicación original."));
+    ct.appendChild(card);
+  });
+
+  /* ── Espacios ──────────────────────────────────────────────── */
+  EXPO.editor.carruselEditable(document.getElementById("espacios"), ESPACIOS, "ESPACIOS",
+    function (c, l) { var d = EXPO.el("div"); c.appendChild(d); EXPO.carrusel(d, l); }, "aulas");
+
+  EXPO.pie(hayRed
+    ? "Las publicaciones se muestran embebidas porque hay conexión."
+    : "Sin conexión: las publicaciones se muestran como texto y QR.");
+})();
+</script>
+</body>
+</html>
