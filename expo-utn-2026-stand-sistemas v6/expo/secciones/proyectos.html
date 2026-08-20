@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proyectos · Expo UTN 2026</title>
+<link rel="stylesheet" href="../css/base.css">
+</head>
+<body>
+
+<section class="portada">
+  <div class="envoltorio">
+    <p class="epigrafe">05 · Proyectos</p>
+    <h1>Lo que construyen los estudiantes</h1>
+    <p class="bajada">Proyectos finales y trabajos destacados, con autores, imágenes y enlaces.</p>
+  </div>
+</section>
+
+<section class="bloque">
+  <div class="envoltorio">
+    <div class="rejilla dos" id="contenido"></div>
+  </div>
+</section>
+
+<script src="../js/comun.js"></script>
+<script src="../datos/proyectos.js"></script>
+<script>
+/* Plantilla mínima: toma la lista BLOQUES del archivo de datos y la
+   renderiza como tarjetas. Mismo patrón que el resto de los módulos:
+   para cargar contenido se edita datos/proyectos.js, nunca este HTML. */
+(function () {
+  var el = EXPO.el, esc = EXPO.esc;
+  EXPO.cabecera("Proyectos");
+  var c = document.getElementById("contenido");
+  (window.BLOQUES || []).forEach(function (b) {
+    var t = el("article", "tarjeta");
+    t.innerHTML = "<h3>" + esc(b.titulo) + "</h3><p>" + esc(b.texto || "") + "</p>";
+    if (b.items && b.items.length) {
+      var ul = el("ul", "lista-limpia"); ul.style.marginTop = "14px";
+      b.items.forEach(function (i) { ul.appendChild(el("li", null, i)); });
+      t.appendChild(ul);
+    }
+    if (b.url && b.qr) t.appendChild(EXPO.filaQr(b.qr, b.url, b.leyenda || ""));
+    if (b._pendiente) t.appendChild(EXPO.pendiente("Falta cargar", b._pendiente));
+    c.appendChild(t);
+  });
+  if (!c.children.length) {
+    c.appendChild(EXPO.pendiente("Sección vacía",
+      "Cargá los bloques en datos/proyectos.js. La estructura ya está lista."));
+  }
+  EXPO.pie();
+})();
+</script>
+</body>
+</html>
