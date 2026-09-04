@@ -2,6 +2,7 @@
 # Lo único que no debe indexarse es la herramienta interna de diagnóstico.
 User-agent: *
 Disallow: /diagnostico.html
+Disallow: /sembrar.html
 
 # Ojo: esto evita la indexación, NO el acceso.
 # Quien tenga la URL entra igual.

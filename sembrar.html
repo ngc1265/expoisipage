@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Siembra inicial · Expo UTN 2026</title>
+<link rel="stylesheet" href="css/base.css">
+<style>
+.linea{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;
+  padding:13px 0;border-bottom:1px solid var(--borde);font-size:var(--t-sm)}
+.linea:last-child{border-bottom:none}
+.linea .m{font-size:20px;text-align:center}
+.linea .n{font-weight:600}
+.linea .e{color:var(--apagado);text-align:right;font-size:var(--t-xs)}
+.ok .m{color:#0B8A3E} .mal .m{color:var(--rojo)} .esp .m{color:var(--apagado)}
+.saltada .m{color:#B26A00}
+.acciones{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}
+.acciones button{min-height:56px;padding:14px 26px;border-radius:100px;cursor:pointer;
+  font:inherit;font-weight:600;font-size:var(--t-sm);border:1px solid var(--borde);background:var(--papel)}
+.acciones button.primario{background:var(--rojo);border-color:var(--rojo);color:#fff}
+.acciones button:disabled{opacity:.5;cursor:default}
+#estado{padding:20px 24px;border-radius:var(--radio);border:1px solid var(--borde);
+  background:var(--gris);margin-bottom:8px;line-height:1.55;font-size:var(--t-md)}
+#estado.bien{border-color:#0B8A3E;background:#EAF6EE}
+#estado.mal{border-color:var(--rojo);background:#FDECEC}
+#estado strong{display:block;font-size:var(--t-lg);margin-bottom:6px}
+.aviso{border-left:3px solid var(--rojo);background:var(--gris);padding:14px 18px;
+  border-radius:8px;font-size:var(--t-sm);line-height:1.55;margin:20px 0}
+code{background:var(--gris-2);padding:2px 6px;border-radius:4px;
+  font-family:ui-monospace,Menlo,monospace;font-size:.9em}
+</style>
+</head>
+<body>
+
+<section class="portada">
+  <div class="envoltorio">
+    <p class="epigrafe">Herramienta interna · se usa una sola vez</p>
+    <h1>Siembra inicial</h1>
+    <p class="bajada">Sube a la base el contenido que hoy vive en los <code>datos/*.js</code>
+    del repositorio. Reemplaza a <code>railway run node sembrar.js</code> cuando no tenés
+    la CLI instalada.</p>
+  </div>
+</section>
+
+<section class="bloque">
+  <div class="envoltorio" style="max-width:760px">
+    <div id="estado">Leyendo los archivos de datos…</div>
+
+    <div class="aviso">
+      <strong>Solo inserta lo que falta.</strong> Una sección que ya existe en la base se
+      saltea: esta página no puede pisar contenido que alguien haya cargado.
+      Podés correrla dos veces sin miedo.
+    </div>
+
+    <div class="acciones">
+      <button class="primario accionable" id="b-sembrar" disabled>Sembrar</button>
+      <button class="accionable" id="b-repetir">Revisar de nuevo</button>
+    </div>
+
+    <div id="lista"></div>
+  </div>
+</section>
+
+<script src="js/config.js"></script>
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   Siembra desde el navegador.
+
+   POR QUÉ EXISTE: `sembrar.js` corre con `railway run`, que ejecuta el
+   script EN TU MÁQUINA con las variables de Railway inyectadas. Eso
+   hace falta porque lee `../datos/*.js`, y esos archivos NO están en
+   el contenedor: con Root Directory = servidor, el contenedor solo
+   tiene la carpeta del backend. Correrlo desde la Console web de
+   Railway no funciona.
+
+   Esta página hace lo mismo sin instalar nada: carga los datos/*.js
+   del sitio publicado y los manda por la API, uno por uno.
+   ══════════════════════════════════════════════════════════════════ */
+(function () {
+  var forzada = (location.search.match(/[?&]api=([^&]+)/) || [])[1];
+  var BASE = (forzada ? decodeURIComponent(forzada)
+                      : (typeof API_BASE !== "undefined" ? API_BASE : "") || "").replace(/\/+$/, "");
+
+  /* Mismo mapa que servidor/sembrar.js. Si agregás una sección, va en los dos. */
+  var SECCIONES = [
+    ["plan-estudios",  ["MATERIAS", "TUTORIAS", "APOYO", "LABORATORIOS", "DISCREPANCIAS"]],
+    ["materias",       ["DETALLE_MATERIAS"]],
+    ["salida-laboral", ["NIVELES_DEV", "PERFILES"]],
+    ["incumbencias",   ["RAIZ", "AREAS", "NOTA_LEGAL"]],
+    ["proyectos",      ["PROYECTOS", "INTRO"]],
+    ["vida",           ["TESTIMONIOS", "GRADUACIONES", "ESPACIOS"]],
+    ["investigacion",  ["CONGRESOS", "PAPER", "GRADUADOS", "COOPERACION", "PUBLICACIONES"]],
+    ["electivas",      ["BLOQUES"]],
+    ["links-utiles",   ["BLOQUES"]]
+  ];
+
+  var cajaE = document.getElementById("estado");
+  var cajaL = document.getElementById("lista");
+  var btn = document.getElementById("b-sembrar");
+  var leidos = {};   /* clave → { VAR: valor } */
+  var enBase = {};   /* clave → version */
+  var token = null;
+
+  function linea(clave, estado, texto) {
+    var id = "l-" + clave;
+    var d = document.getElementById(id);
+    if (!d) { d = document.createElement("div"); d.id = id; cajaL.appendChild(d); }
+    var m = { ok: "✓", mal: "✕", esp: "·", saltada: "=" }[estado];
+    d.className = "linea " + estado;
+    d.innerHTML = '<div class="m">' + m + '</div><div class="n">' + clave +
+                  '</div><div class="e">' + texto + "</div>";
+  }
+
+  /* Los datos/*.js son scripts clásicos con `var`: se cargan de a uno y se
+     leen las globales justo después. Varios archivos usan el mismo nombre
+     (BLOQUES en electivas y en links-utiles), así que hay que limpiarlo
+     entre carga y carga o el segundo se lleva los datos del primero. */
+  function cargarUno(clave, nombres) {
+    return new Promise(function (res) {
+      nombres.forEach(function (n) { window[n] = undefined; });
+      var s = document.createElement("script");
+      s.src = "datos/" + clave + ".js";
+      s.onload = function () {
+        var o = {}, hay = false;
+        nombres.forEach(function (n) {
+          if (window[n] !== undefined) { o[n] = window[n]; hay = true; }
+        });
+        nombres.forEach(function (n) { window[n] = undefined; });
+        res(hay ? o : null);
+      };
+      s.onerror = function () { res(null); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function revisar() {
+    cajaL.innerHTML = ""; leidos = {}; enBase = {}; btn.disabled = true;
+    cajaE.className = ""; cajaE.textContent = "Leyendo…";
+
+    if (!BASE) {
+      cajaE.className = "mal";
+      cajaE.innerHTML = "<strong>No hay URL de API</strong>Cargá el host en " +
+        "<code>API_BASE_POR_HOST</code> de <code>js/config.js</code>, o abrí esta " +
+        "página con <code>?api=https://tu-backend</code>.";
+      return;
+    }
+
+    fetch(BASE + "/api/contenido", { mode: "cors", cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function (j) {
+        Object.keys(j).forEach(function (k) { enBase[k] = j[k].version; });
+        var cadena = Promise.resolve();
+        SECCIONES.forEach(function (par) {
+          cadena = cadena.then(function () {
+            return cargarUno(par[0], par[1]).then(function (o) {
+              if (!o) { linea(par[0], "mal", "no se pudo leer datos/" + par[0] + ".js"); return; }
+              leidos[par[0]] = o;
+              if (enBase[par[0]] != null) linea(par[0], "saltada", "ya está en la base (v" + enBase[par[0]] + ")");
+              else linea(par[0], "esp", Object.keys(o).join(", ") + " · lista para subir");
+            });
+          });
+        });
+        return cadena;
+      })
+      .then(function () {
+        var faltan = Object.keys(leidos).filter(function (k) { return enBase[k] == null; });
+        if (!faltan.length) {
+          cajaE.className = "bien";
+          cajaE.innerHTML = "<strong>Ya está sembrada</strong>Las " +
+            Object.keys(enBase).length + " secciones están en la base. No hay nada que hacer acá.";
+        } else {
+          cajaE.className = "";
+          cajaE.innerHTML = "<strong>" + faltan.length + " secciones para subir</strong>" +
+            "Tocá <strong>Sembrar</strong>. Te va a pedir tu nombre y la clave de edición.";
+          btn.disabled = false;
+        }
+      })
+      .catch(function (e) {
+        cajaE.className = "mal";
+        cajaE.innerHTML = "<strong>No se pudo hablar con la API</strong>" + e.message +
+          "<br>Corré <code>diagnostico.html</code> primero.";
+      });
+  }
+
+  function entrar() {
+    if (token) return Promise.resolve(token);
+    var nombre = prompt("¿Quién sos? (queda registrado en cada cambio)");
+    if (nombre === null) return Promise.reject(new Error("cancelado"));
+    var clave = prompt("Clave de edición:");
+    if (clave === null) return Promise.reject(new Error("cancelado"));
+    return fetch(BASE + "/api/sesion", {
+      method: "POST", mode: "cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ clave: clave, nombre: nombre })
+    }).then(function (r) {
+      return r.json().then(function (j) {
+        if (!r.ok) throw new Error(j.error || "No se pudo entrar");
+        token = j.token; return token;
+      });
+    });
+  }
+
+  btn.onclick = function () {
+    btn.disabled = true;
+    entrar().then(function (t) {
+      var faltan = Object.keys(leidos).filter(function (k) { return enBase[k] == null; });
+      var cadena = Promise.resolve(), errores = 0;
+      faltan.forEach(function (clave) {
+        cadena = cadena.then(function () {
+          linea(clave, "esp", "subiendo…");
+          return fetch(BASE + "/api/contenido/" + encodeURIComponent(clave), {
+            method: "PUT", mode: "cors",
+            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + t },
+            body: JSON.stringify({ datos: leidos[clave] })
+          }).then(function (r) {
+            return r.json().then(function (j) {
+              if (!r.ok) { errores++; linea(clave, "mal", j.error || ("HTTP " + r.status)); }
+              else { enBase[clave] = j.version; linea(clave, "ok", "guardada (v" + j.version + ")"); }
+            });
+          }).catch(function (e) { errores++; linea(clave, "mal", e.message); });
+        });
+      });
+      return cadena.then(function () {
+        if (errores) {
+          cajaE.className = "mal";
+          cajaE.innerHTML = "<strong>Quedaron " + errores + " con error</strong>Mirá cuáles arriba.";
+          btn.disabled = false;
+        } else {
+          cajaE.className = "bien";
+          cajaE.innerHTML = "<strong>Listo</strong>El contenido está en la base. " +
+            "Volvé a <code>diagnostico.html</code>: tiene que dar todo verde. " +
+            "Después entrá a cualquier sección y probá el modo edición.";
+        }
+      });
+    }).catch(function (e) {
+      if (e.message !== "cancelado") alert(e.message);
+      btn.disabled = false;
+    });
+  };
+
+  document.getElementById("b-repetir").onclick = revisar;
+  revisar();
+})();
+</script>
+</body>
+</html>
