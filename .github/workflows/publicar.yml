@@ -1,1 +1,98 @@
+# ══════════════════════════════════════════════════════════════════
+# Publica el frontend en GitHub Pages en cada push a main.
+#
+# El repo es público, así que Pages es gratis. No hay build: la raíz
+# del repo YA es el sitio.
+#
+# Antes de publicar valida la sintaxis de todos los .js. Si alguien
+# commiteó una coma de más en datos/*.js, el deploy FALLA en vez de
+# publicar una sección en blanco que nadie nota hasta que un visitante
+# la abre.
+#
+# Ojo: NO apaga el modo edición. El sitio funciona antes y después de
+# la Expo y la gente tiene que poder cargar contenido. Para apagarlo el
+# 16/09, poné EDICION_HABILITADA = false en js/config.js y commiteá.
+# ══════════════════════════════════════════════════════════════════
+name: Publicar sitio
 
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Sintaxis de los archivos de datos y de js/
+        run: |
+          fallo=0
+          for f in datos/*.js js/*.js servidor/*.js; do
+            [ -e "$f" ] || continue
+            if ! node --check "$f" 2>/tmp/err; then
+              echo "::error file=$f::$(head -3 /tmp/err | tr '\n' ' ')"
+              fallo=1
+            fi
+          done
+          exit $fallo
+
+      - name: Sintaxis de los scripts dentro de los HTML
+        run: |
+          node -e '
+            const fs=require("fs"),path=require("path"),vm=require("vm");
+            let fallo=0;
+            const archivos=["index.html","diagnostico.html"]
+              .concat(fs.existsSync("secciones")?fs.readdirSync("secciones").filter(f=>f.endsWith(".html")).map(f=>"secciones/"+f):[]);
+            for(const a of archivos){
+              if(!fs.existsSync(a))continue;
+              const s=fs.readFileSync(a,"utf8");
+              for(const m of s.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)){
+                try{ new vm.Script(m[1],{filename:a}); }
+                catch(e){ console.log(`::error file=${a}::${e.message}`); fallo=1; }
+              }
+            }
+            process.exit(fallo);
+          '
+
+      - name: Que no falten los assets referenciados en datos/
+        run: |
+          node -e '
+            const fs=require("fs");
+            let faltan=[];
+            for(const f of fs.readdirSync("datos").filter(x=>x.endsWith(".js"))){
+              const s=fs.readFileSync("datos/"+f,"utf8");
+              for(const m of s.matchAll(/"(\.\.\/assets\/[^"]+)"/g)){
+                const r=m[1].replace(/^\.\.\//,"");
+                if(!fs.existsSync(r)) faltan.push(f+" → "+m[1]);
+              }
+            }
+            if(faltan.length){ console.log("::warning::Assets referenciados que no existen:\n"+faltan.join("\n")); }
+          '
+
+  publicar:
+    needs: verificar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - id: deploy
+        uses: actions/deploy-pages@v4
