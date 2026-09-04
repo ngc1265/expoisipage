@@ -27,7 +27,7 @@ var API_BASE_POR_HOST = {
 
   /* GitHub Pages — el primer deploy, mientras el dominio propaga.
      Pegá acá la URL que te da Railway (Settings → Networking). */
-  "ngc1265.github.io":  "",
+    "ngc1265.github.io":  "https://expoisipage-production.up.railway.app",
 
   /* Cloudflare Pages, si lo usás. La URL *.pages.dev del proyecto. */
 
