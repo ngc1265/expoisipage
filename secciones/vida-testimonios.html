@@ -60,10 +60,11 @@
 
 <script src="../js/config.js"></script>
 <script src="../js/comun.js"></script>
+<script src="../js/api.js"></script>
 <script src="../js/editor.js"></script>
 <script src="../datos/vida.js"></script>
 <script>
-(function () {
+EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
   EXPO.cabecera("Vida y testimonios");
   EXPO.editor.registrar("datos/vida.js", { TESTIMONIOS: TESTIMONIOS, GRADUACIONES: GRADUACIONES, ESPACIOS: ESPACIOS },
@@ -134,7 +135,7 @@
   EXPO.pie(hayRed
     ? "Las publicaciones se muestran embebidas porque hay conexión."
     : "Sin conexión: las publicaciones se muestran como texto y QR.");
-})();
+});
 </script>
 </body>
 </html>

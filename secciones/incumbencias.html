@@ -5,51 +5,482 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Incumbencias y áreas · Expo UTN 2026</title>
 <link rel="stylesheet" href="../css/base.css">
+<style>
+.grafo-marco{
+  display:grid;grid-template-columns:1fr 400px;gap:20px;align-items:stretch;
+  margin-top:26px;
+}
+@media (max-width:1100px){ .grafo-marco{grid-template-columns:1fr} }
+
+.lienzo{
+  position:relative;background:var(--gris);border:1px solid var(--borde);
+  border-radius:var(--radio);overflow:hidden;min-height:620px;touch-action:none;cursor:grab;
+}
+.lienzo.arrastrando{cursor:grabbing}
+.lienzo svg{display:block;width:100%;height:100%;min-height:620px}
+
+.arista{stroke:#C3C8D0;stroke-width:2;transition:stroke .2s,stroke-width .2s}
+.arista.viva{stroke:var(--rojo);stroke-width:3.5}
+
+.nodo{cursor:pointer}
+.nodo circle{
+  stroke:#fff;stroke-width:3;
+  transition:r .25s cubic-bezier(.2,.8,.3,1), filter .2s, stroke .2s;
+}
+.nodo:hover circle,.nodo.apuntado circle{stroke:var(--tinta);filter:brightness(1.08)}
+.nodo.sel circle{stroke:var(--tinta);stroke-width:5}
+.nodo text{
+  font-family:var(--tipo);font-weight:700;fill:var(--tinta);
+  paint-order:stroke;stroke:#F4F5F7;stroke-width:5px;stroke-linejoin:round;
+  pointer-events:none;user-select:none;
+}
+.nodo.raiz text{font-size:19px}
+.nodo.area text{font-size:16px}
+.nodo.puesto text{font-size:13.5px;font-weight:600}
+.nodo .mas{font-size:22px;font-weight:700;fill:#fff;stroke:none;text-anchor:middle}
+
+.mandos-grafo{
+  position:absolute;left:14px;bottom:14px;display:flex;gap:10px;flex-wrap:wrap;z-index:3;
+}
+.mandos-grafo button{
+  min-height:56px;padding:10px 18px;border-radius:100px;cursor:pointer;font:inherit;
+  font-size:var(--t-sm);font-weight:600;background:var(--papel);
+  border:1px solid var(--borde);color:var(--tinta-2);box-shadow:var(--sombra);
+}
+.mandos-grafo button:hover{border-color:var(--rojo);color:var(--rojo)}
+.pista{
+  position:absolute;left:16px;top:16px;z-index:3;font-size:var(--t-sm);
+  color:var(--apagado);background:rgba(255,255,255,.86);
+  padding:8px 14px;border-radius:100px;pointer-events:none;
+}
+
+.ficha{
+  background:var(--papel);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:26px 26px 30px;align-self:start;position:sticky;top:20px;
+}
+.ficha .tipo{
+  display:inline-block;font-size:var(--t-xs);font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;padding:5px 12px;border-radius:100px;
+  background:var(--gris);color:var(--apagado);margin-bottom:14px;
+}
+.ficha h2{font-size:var(--t-lg);line-height:1.2}
+.ficha .rotulo{
+  font-size:var(--t-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--apagado);margin:22px 0 8px;
+}
+.ficha p{font-size:var(--t-md);color:var(--tinta-2);line-height:1.55}
+.ficha .alcance{
+  border-left:3px solid var(--borde);padding-left:14px;font-size:var(--t-sm);color:var(--apagado);
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chip{
+  font-size:var(--t-xs);font-weight:600;padding:7px 13px;border-radius:100px;
+  background:var(--gris);color:var(--tinta-2);border:1px solid var(--gris-2);
+}
+.ficha .ir{
+  display:inline-block;margin-top:24px;min-height:56px;padding:16px 24px;
+  background:var(--rojo);color:#fff;text-decoration:none;border-radius:100px;
+  font-weight:600;font-size:var(--t-sm);
+}
+.ficha .ir:hover{background:var(--rojo-oscuro)}
+.ficha .vacia{color:var(--apagado);font-size:var(--t-md);line-height:1.55}
+</style>
 </head>
 <body>
 
 <section class="portada">
   <div class="envoltorio">
     <p class="epigrafe">04 · Incumbencias y áreas</p>
-    <h1>Los campos donde se aplica la carrera</h1>
-    <p class="bajada">Desarrollo, inteligencia artificial, datos, ciberseguridad, gestión, procesos y más.</p>
+    <h1 id="t-raiz"></h1>
+    <p class="bajada" id="t-resumen"></p>
   </div>
 </section>
 
 <section class="bloque">
   <div class="envoltorio">
-    <div class="rejilla dos" id="contenido"></div>
+    <div id="aviso-legal"></div>
+    <div class="grafo-marco">
+      <div class="lienzo" id="lienzo">
+        <p class="pista" id="pista">Tocá un área para abrirla</p>
+        <svg id="svg" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" role="img"
+             aria-label="Grafo de áreas y puestos de la carrera">
+          <g id="g-aristas"></g>
+          <g id="g-nodos"></g>
+        </svg>
+        <div class="mandos-grafo">
+          <button class="accionable" id="b-todo">Abrir todo</button>
+          <button class="accionable" id="b-cerrar">Cerrar todo</button>
+          <button class="accionable" id="b-centrar">Recentrar</button>
+        </div>
+      </div>
+
+      <aside class="ficha" id="ficha" aria-live="polite"></aside>
+    </div>
+
+    <div id="lista-accesible" class="visualmente-oculto"></div>
   </div>
 </section>
 
+<script src="../js/config.js"></script>
 <script src="../js/comun.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/editor.js"></script>
 <script src="../datos/incumbencias.js"></script>
+<script src="../datos/plan-estudios.js"></script>
 <script>
-/* Plantilla mínima: toma la lista BLOQUES del archivo de datos y la
-   renderiza como tarjetas. Mismo patrón que el resto de los módulos:
-   para cargar contenido se edita datos/incumbencias.js, nunca este HTML. */
-(function () {
+/* ══════════════════════════════════════════════════════════════════
+   Grafo de áreas e incumbencias — estilo explorador de Neo4j.
+
+   Simulación de fuerzas escrita a mano (repulsión + resortes +
+   gravedad al centro). Sin librerías: la regla del proyecto es cero
+   recursos externos, y d3 son 250 KB que el 16/09 pueden no bajar.
+
+   Apertura progresiva: arranca con la raíz y las 9 áreas. Los puestos
+   de un área aparecen recién al tocarla. Con las 40 y pico de golpe
+   no se entiende nada.
+   ══════════════════════════════════════════════════════════════════ */
+EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
   EXPO.cabecera("Incumbencias y áreas");
-  var c = document.getElementById("contenido");
-  (window.BLOQUES || []).forEach(function (b) {
-    var t = el("article", "tarjeta");
-    t.innerHTML = "<h3>" + esc(b.titulo) + "</h3><p>" + esc(b.texto || "") + "</p>";
-    if (b.items && b.items.length) {
-      var ul = el("ul", "lista-limpia"); ul.style.marginTop = "14px";
-      b.items.forEach(function (i) { ul.appendChild(el("li", null, i)); });
-      t.appendChild(ul);
-    }
-    if (b.url && b.qr) t.appendChild(EXPO.filaQr(b.qr, b.url, b.leyenda || ""));
-    if (b._pendiente) t.appendChild(EXPO.pendiente("Falta cargar", b._pendiente));
-    c.appendChild(t);
-  });
-  if (!c.children.length) {
-    c.appendChild(EXPO.pendiente("Sección vacía",
-      "Cargá los bloques en datos/incumbencias.js. La estructura ya está lista."));
+
+  var raiz = window.RAIZ || { nombre: "Carrera", resumen: "" };
+  var areas = window.AREAS || [];
+  var nota = window.NOTA_LEGAL || null;
+
+  document.getElementById("t-raiz").textContent = raiz.nombre;
+  document.getElementById("t-resumen").textContent = raiz.resumen || "";
+  if (nota && nota._pendiente) {
+    document.getElementById("aviso-legal")
+      .appendChild(EXPO.pendiente("Falta el texto oficial", nota._pendiente));
   }
+
+  /* ── Materias: para mostrar el nombre en vez del número ────── */
+  var nombreMateria = {};
+  (window.MATERIAS || []).forEach(function (m) { nombreMateria[m.id] = m.n; });
+
+  /* ── Construcción del modelo ──────────────────────────────── */
+  var W = 1000, H = 640, CX = W / 2, CY = H / 2;
+  var nodos = [], aristas = [];
+
+  function agregar(n) { nodos.push(n); return n; }
+
+  var nRaiz = agregar({
+    id: "raiz", tipo: "raiz", nombre: raiz.nombre, datos: raiz,
+    r: 46, color: "var(--rojo)", x: CX, y: CY, vx: 0, vy: 0, fijo: true, visible: true
+  });
+
+  areas.forEach(function (a, i) {
+    var ang = (i / areas.length) * Math.PI * 2 - Math.PI / 2;
+    var nA = agregar({
+      id: "a-" + a.id, tipo: "area", nombre: a.nombre, datos: a,
+      r: 34, color: a.color, abierto: false, visible: true,
+      x: CX + Math.cos(ang) * 210, y: CY + Math.sin(ang) * 190, vx: 0, vy: 0
+    });
+    aristas.push({ a: nRaiz, b: nA, visible: true });
+
+    (a.puestos || []).forEach(function (p, j) {
+      var ang2 = ang + (j - ((a.puestos.length - 1) / 2)) * 0.30;
+      var nP = agregar({
+        id: "p-" + a.id + "-" + j, tipo: "puesto", nombre: p.nombre, datos: p,
+        area: a, r: 22, color: a.color, visible: false,
+        x: CX + Math.cos(ang2) * 340, y: CY + Math.sin(ang2) * 310, vx: 0, vy: 0
+      });
+      aristas.push({ a: nA, b: nP, visible: false, padre: nA });
+    });
+  });
+
+  /* ── Simulación de fuerzas ────────────────────────────────── */
+  var svg = document.getElementById("svg");
+  var gA = document.getElementById("g-aristas");
+  var gN = document.getElementById("g-nodos");
+  var NS = "http://www.w3.org/2000/svg";
+  var alfa = 1, corriendo = true;
+
+  function largoResorte(ar) { return ar.b.tipo === "area" ? 200 : 120; }
+
+  function paso() {
+    var vis = nodos.filter(function (n) { return n.visible; });
+
+    /* Repulsión entre todos los nodos visibles */
+    for (var i = 0; i < vis.length; i++) {
+      for (var j = i + 1; j < vis.length; j++) {
+        var a = vis[i], b = vis[j];
+        var dx = b.x - a.x, dy = b.y - a.y;
+        var d2 = dx * dx + dy * dy || 0.01;
+        var d = Math.sqrt(d2);
+        var min = a.r + b.r + 26;
+        var f = 9000 / d2;
+        if (d < min) f += (min - d) * 0.9;      /* anticolisión dura */
+        var ux = dx / d, uy = dy / d;
+        if (!a.fijo) { a.vx -= ux * f * 0.01; a.vy -= uy * f * 0.01; }
+        if (!b.fijo) { b.vx += ux * f * 0.01; b.vy += uy * f * 0.01; }
+      }
+    }
+
+    /* Resortes de las aristas visibles */
+    aristas.forEach(function (ar) {
+      if (!ar.visible || !ar.a.visible || !ar.b.visible) return;
+      var dx = ar.b.x - ar.a.x, dy = ar.b.y - ar.a.y;
+      var d = Math.sqrt(dx * dx + dy * dy) || 0.01;
+      var f = (d - largoResorte(ar)) * 0.035;
+      var ux = dx / d, uy = dy / d;
+      if (!ar.a.fijo) { ar.a.vx += ux * f; ar.a.vy += uy * f; }
+      if (!ar.b.fijo) { ar.b.vx -= ux * f; ar.b.vy -= uy * f; }
+    });
+
+    /* Gravedad suave al centro + integración */
+    vis.forEach(function (n) {
+      if (n.fijo) { n.vx = n.vy = 0; return; }
+      n.vx += (CX - n.x) * 0.0035;
+      n.vy += (CY - n.y) * 0.0035;
+      n.vx *= 0.82; n.vy *= 0.82;
+      n.x += n.vx * alfa; n.y += n.vy * alfa;
+      var m = n.r + 60;
+      n.x = Math.max(m, Math.min(W - m, n.x));
+      n.y = Math.max(n.r + 24, Math.min(H - n.r - 24, n.y));
+    });
+
+    alfa = Math.max(0.22, alfa * 0.994);
+  }
+
+  /* ── Dibujo ───────────────────────────────────────────────── */
+  var elemNodo = {}, elemArista = [];
+
+  function crearSvg(tipo, attrs) {
+    var e = document.createElementNS(NS, tipo);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  function partirTexto(txt, max) {
+    var pal = String(txt).split(" "), lin = [], act = "";
+    pal.forEach(function (p) {
+      if ((act + " " + p).trim().length > max) { if (act) lin.push(act); act = p; }
+      else act = (act + " " + p).trim();
+    });
+    if (act) lin.push(act);
+    return lin.slice(0, 3);
+  }
+
+  function construir() {
+    gA.innerHTML = ""; gN.innerHTML = ""; elemArista = []; elemNodo = {};
+
+    aristas.forEach(function (ar) {
+      var l = crearSvg("line", { class: "arista" });
+      gA.appendChild(l);
+      elemArista.push({ ar: ar, el: l });
+    });
+
+    nodos.forEach(function (n) {
+      var g = crearSvg("g", { class: "nodo " + n.tipo, tabindex: "0", role: "button" });
+      g.classList.add("accionable");
+      g.setAttribute("aria-label", n.nombre);
+      var c = crearSvg("circle", { r: n.r, fill: n.color });
+      g.appendChild(c);
+
+      if (n.tipo === "area" && (n.datos.puestos || []).length) {
+        var mas = crearSvg("text", { class: "mas", dy: "7" });
+        mas.textContent = "+";
+        g.appendChild(mas);
+        n._mas = mas;
+      }
+
+      var lineas = partirTexto(n.nombre, n.tipo === "puesto" ? 20 : 24);
+      var t = crearSvg("text", { "text-anchor": "middle" });
+      lineas.forEach(function (li, k) {
+        var ts = crearSvg("tspan", { x: 0, dy: k === 0 ? (n.r + 20) : 17 });
+        ts.textContent = li;
+        t.appendChild(ts);
+      });
+      g.appendChild(t);
+
+      g.addEventListener("click", function () { tocar(n); });
+      g.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); tocar(n); }
+      });
+      gN.appendChild(g);
+      elemNodo[n.id] = g;
+    });
+  }
+
+  function pintar() {
+    elemArista.forEach(function (p) {
+      var v = p.ar.visible && p.ar.a.visible && p.ar.b.visible;
+      p.el.style.display = v ? "" : "none";
+      if (!v) return;
+      p.el.setAttribute("x1", p.ar.a.x); p.el.setAttribute("y1", p.ar.a.y);
+      p.el.setAttribute("x2", p.ar.b.x); p.el.setAttribute("y2", p.ar.b.y);
+    });
+    nodos.forEach(function (n) {
+      var g = elemNodo[n.id];
+      g.style.display = n.visible ? "" : "none";
+      if (!n.visible) return;
+      g.setAttribute("transform", "translate(" + n.x.toFixed(1) + "," + n.y.toFixed(1) + ")");
+      if (n._mas) n._mas.textContent = n.abierto ? "−" : "+";
+    });
+  }
+
+  function bucle() {
+    if (corriendo) { paso(); pintar(); }
+    requestAnimationFrame(bucle);
+  }
+
+  /* ── Interacción ──────────────────────────────────────────── */
+  var seleccionado = null;
+
+  function tocar(n) {
+    if (n.tipo === "area") alternarArea(n);
+    seleccionar(n);
+    alfa = 1;
+  }
+
+  function alternarArea(nA) {
+    nA.abierto = !nA.abierto;
+    nodos.forEach(function (n) {
+      if (n.tipo === "puesto" && n.area === nA.datos) {
+        n.visible = nA.abierto;
+        if (nA.abierto) {   /* nacen cerca del área para que la animación se lea */
+          n.x = nA.x + (Math.random() - .5) * 40;
+          n.y = nA.y + (Math.random() - .5) * 40;
+        }
+      }
+    });
+    aristas.forEach(function (ar) { if (ar.padre === nA) ar.visible = nA.abierto; });
+    document.getElementById("pista").textContent =
+      nodos.some(function (n) { return n.tipo === "puesto" && n.visible; })
+        ? "Tocá un puesto para ver qué se hace ahí" : "Tocá un área para abrirla";
+  }
+
+  function seleccionar(n) {
+    seleccionado = n;
+    Object.keys(elemNodo).forEach(function (k) { elemNodo[k].classList.remove("sel"); });
+    if (elemNodo[n.id]) elemNodo[n.id].classList.add("sel");
+    elemArista.forEach(function (p) {
+      p.el.classList.toggle("viva", p.ar.a === n || p.ar.b === n);
+    });
+    ficha(n);
+  }
+
+  /* ── Panel de ficha ───────────────────────────────────────── */
+  var caja = document.getElementById("ficha");
+
+  function ficha(n) {
+    caja.innerHTML = "";
+    var d = n.datos || {};
+
+    var tipo = el("span", "tipo", n.tipo === "raiz" ? "La carrera" : n.tipo === "area" ? "Área" : "Puesto");
+    caja.appendChild(tipo);
+
+    var h = el("h2", null, n.nombre);
+    caja.appendChild(h);
+
+    if (n.tipo === "puesto") {
+      caja.appendChild(el("p", "rotulo", "Qué se hace"));
+      caja.appendChild(el("p", null, d.quehace || ""));
+
+      if (d.materias && d.materias.length) {
+        caja.appendChild(el("p", "rotulo", "Materias que más se usan"));
+        var chips = el("div", "chips");
+        d.materias.forEach(function (num) {
+          chips.appendChild(el("span", "chip", nombreMateria[num] || ("Materia " + num)));
+        });
+        caja.appendChild(chips);
+      }
+
+      caja.appendChild(el("p", "rotulo", "Área"));
+      caja.appendChild(el("p", null, n.area.nombre));
+
+      if (d.perfil) {
+        var a = el("a", "ir accionable", "Ver el perfil completo →");
+        a.href = "salida-laboral.html#" + d.perfil;
+        caja.appendChild(a);
+      }
+    } else if (n.tipo === "area") {
+      caja.appendChild(el("p", null, d.resumen || ""));
+      if (d.alcance) {
+        caja.appendChild(el("p", "rotulo", "Qué habilita el título"));
+        caja.appendChild(el("p", "alcance", d.alcance));
+      }
+      caja.appendChild(el("p", "rotulo", "Puestos"));
+      caja.appendChild(el("p", null, (d.puestos || []).length + " puestos en esta área. " +
+        (elemNodo[n.id] && n.abierto ? "Tocá cualquiera en el grafo." : "Tocá el nodo para abrirlos.")));
+    } else {
+      caja.appendChild(el("p", null, d.resumen || ""));
+      caja.appendChild(el("p", "rotulo", "Cómo se lee"));
+      caja.appendChild(el("p", null, areas.length + " áreas y " +
+        nodos.filter(function (x) { return x.tipo === "puesto"; }).length +
+        " puestos concretos. Ninguna lista es cerrada: es un mapa para orientarse."));
+    }
+
+    if (d._pendiente) caja.appendChild(EXPO.pendiente("Falta cargar", d._pendiente));
+  }
+
+  /* ── Botones ──────────────────────────────────────────────── */
+  document.getElementById("b-todo").onclick = function () {
+    nodos.forEach(function (n) { if (n.tipo === "area" && !n.abierto) alternarArea(n); });
+    alfa = 1;
+  };
+  document.getElementById("b-cerrar").onclick = function () {
+    nodos.forEach(function (n) { if (n.tipo === "area" && n.abierto) alternarArea(n); });
+    seleccionar(nRaiz); alfa = 1;
+  };
+  document.getElementById("b-centrar").onclick = function () {
+    nodos.forEach(function (n) {
+      if (n.fijo) return;
+      n.x = CX + (Math.random() - .5) * 300; n.y = CY + (Math.random() - .5) * 260;
+      n.vx = n.vy = 0;
+    });
+    alfa = 1;
+  };
+
+  /* ── Arrastre de nodos (mouse y dedo) ─────────────────────── */
+  var lienzo = document.getElementById("lienzo"), agarrado = null;
+
+  function aCoordSvg(ev) {
+    var r = svg.getBoundingClientRect();
+    return { x: (ev.clientX - r.left) / r.width * W, y: (ev.clientY - r.top) / r.height * H };
+  }
+  lienzo.addEventListener("pointerdown", function (ev) {
+    var p = aCoordSvg(ev);
+    var cerca = nodos.filter(function (n) { return n.visible; })
+      .filter(function (n) { return Math.hypot(n.x - p.x, n.y - p.y) < n.r + 8; })[0];
+    if (!cerca || cerca.fijo) return;
+    agarrado = cerca; lienzo.classList.add("arrastrando");
+    lienzo.setPointerCapture(ev.pointerId);
+  });
+  lienzo.addEventListener("pointermove", function (ev) {
+    if (!agarrado) return;
+    var p = aCoordSvg(ev);
+    agarrado.x = p.x; agarrado.y = p.y; agarrado.vx = agarrado.vy = 0;
+    alfa = 1;
+  });
+  ["pointerup", "pointercancel"].forEach(function (e) {
+    lienzo.addEventListener(e, function () { agarrado = null; lienzo.classList.remove("arrastrando"); });
+  });
+
+  /* ── Alternativa accesible / imprimible ───────────────────── */
+  var lista = document.getElementById("lista-accesible");
+  areas.forEach(function (a) {
+    var h3 = el("h3", null, a.nombre); lista.appendChild(h3);
+    var ul = el("ul");
+    (a.puestos || []).forEach(function (p) {
+      ul.appendChild(el("li", null, p.nombre + ": " + (p.quehace || "")));
+    });
+    lista.appendChild(ul);
+  });
+
+  /* ── Modo edición ─────────────────────────────────────────── */
+  if (EXPO.editor) {
+    EXPO.editor.registrar("datos/incumbencias.js",
+      { RAIZ: raiz, AREAS: areas, NOTA_LEGAL: nota },
+      "Grafo de áreas, alcances y puestos.");
+  }
+
+  construir();
+  seleccionar(nRaiz);
+  bucle();
   EXPO.pie();
-})();
+});
 </script>
 </body>
 </html>

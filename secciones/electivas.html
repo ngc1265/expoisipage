@@ -22,13 +22,16 @@
   </div>
 </section>
 
+<script src="../js/config.js"></script>
 <script src="../js/comun.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/editor.js"></script>
 <script src="../datos/electivas.js"></script>
 <script>
 /* Plantilla mínima: toma la lista BLOQUES del archivo de datos y la
    renderiza como tarjetas. Mismo patrón que el resto de los módulos:
    para cargar contenido se edita datos/electivas.js, nunca este HTML. */
-(function () {
+EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
   EXPO.cabecera("Electivas");
   var c = document.getElementById("contenido");
@@ -40,6 +43,14 @@
       b.items.forEach(function (i) { ul.appendChild(el("li", null, i)); });
       t.appendChild(ul);
     }
+    if (b.video && b.video.src) {
+      var v = document.createElement("video");
+      v.src = b.video.src; if (b.video.poster) v.poster = b.video.poster;
+      v.controls = true; v.preload = "none"; v.playsInline = true;
+      v.style.cssText = "width:100%;border-radius:8px;background:#000;margin-top:14px";
+      t.appendChild(v);
+      if (b.video.pie) t.appendChild(el("p", "nota", b.video.pie));
+    }
     if (b.url && b.qr) t.appendChild(EXPO.filaQr(b.qr, b.url, b.leyenda || ""));
     if (b._pendiente) t.appendChild(EXPO.pendiente("Falta cargar", b._pendiente));
     c.appendChild(t);
@@ -48,8 +59,9 @@
     c.appendChild(EXPO.pendiente("Sección vacía",
       "Cargá los bloques en datos/electivas.js. La estructura ya está lista."));
   }
+  if (EXPO.editor) EXPO.editor.registrar("datos/electivas.js", { BLOQUES: window.BLOQUES || [] }, "Contenido de Electivas.");
   EXPO.pie();
-})();
+});
 </script>
 </body>
 </html>

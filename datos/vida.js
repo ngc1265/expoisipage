@@ -79,6 +79,7 @@ var TESTIMONIOS = [
    ⚠ Todas estas fotos tienen personas identificables. No publicar
    sin autorización individual. Poner autorizado: true una por una. */
 var GRADUACIONES = [
+  { img: "../assets/fotos/graduacion/egresada-banda.jpg", titulo: "Nueva ingeniera", pie: "Con docentes de la carrera, en el pasillo del laboratorio", autorizado: false },
   { img: "../assets/fotos/graduacion/egresada-festejo.jpg", titulo: "El festejo clásico", pie: "Espuma, bengalas y el cartel de \"Soy Ingeniera\" en la puerta de la Facultad", autorizado: false }
 ];
 

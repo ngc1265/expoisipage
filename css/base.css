@@ -321,3 +321,9 @@ body.editando{padding-bottom:96px}
   font-family:inherit;font-size:var(--t-xs);padding:0 12px;height:46px;
   border:1px solid var(--borde);border-radius:8px;background:var(--papel);cursor:pointer;
 }
+
+/* Alternativa en texto para lectores de pantalla (grafo de incumbencias). */
+.visualmente-oculto{
+  position:absolute;width:1px;height:1px;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;
+}

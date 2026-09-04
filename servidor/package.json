@@ -1,0 +1,22 @@
+{
+  "name": "expoisi-servidor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend del sitio del stand de Ingeniería en Sistemas — Expo UTN 2026",
+  "main": "servidor.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node servidor.js",
+    "migrar": "node migrar.js",
+    "sembrar": "node sembrar.js",
+    "clave": "node clave.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.11.5"
+  }
+}

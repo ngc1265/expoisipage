@@ -151,12 +151,27 @@
     b.id = "barra-edicion";
     b.innerHTML =
       '<span class="be-titulo">Modo edición</span>' +
-      '<span class="be-nota">Tocá cualquier texto para cambiarlo. Los cambios se bajan como archivo para commitear.</span>';
-    var bajar = E.el("button", "be-boton", "⬇ Descargar cambios");
+      '<span class="be-nota">' +
+        (E.api && E.api.disponible
+          ? "Tocá cualquier texto para cambiarlo. Guardá en el servidor y queda publicado."
+          : "Sin servidor: tocá cualquier texto y después bajá el archivo para commitear.") +
+      "</span>";
+    if (E.api && E.api.disponible) {
+      var guardar = E.el("button", "be-boton", "☁ Guardar en el servidor");
+      guardar.id = "btn-guardar"; guardar.onclick = guardarEnServidor;
+      b.appendChild(guardar);
+    }
+    var bajar = E.el("button", "be-boton" + (E.api && E.api.disponible ? " fantasma" : ""),
+                     "⬇ Descargar cambios");
     bajar.id = "btn-descargar"; bajar.onclick = descargar;
     var salir = E.el("button", "be-boton fantasma", "Salir");
     salir.onclick = function () {
-      if (sucio && !confirm("Hay cambios sin descargar. Se pierden. ¿Salir igual?")) return;
+      var conServidor = E.api && E.api.disponible;
+      var aviso = conServidor
+        ? "Hay cambios sin guardar. Se pierden. ¿Salir igual?"
+        : "Hay cambios sin descargar. Se pierden. ¿Salir igual?";
+      if (sucio && !confirm(aviso)) return;
+      if (conServidor && E.api.sesion) E.api.salir();
       alternar(false);
     };
     b.appendChild(bajar); b.appendChild(salir);
@@ -175,6 +190,73 @@
     if (t) t.textContent = on ? "Cerrar edición" : "✎ Editar";
   }
 
+  /* ── Entrada al modo edición ────────────────────────────────────
+     Dos caminos según dónde esté corriendo el sitio:
+
+     · CON servidor (Railway): la clave la valida el backend contra un
+       hash bcrypt. Además pedimos el nombre, porque queda pegado a
+       cada cambio. Con clave compartida y sin nombre, cuando algo
+       aparece borrado no hay forma de saber quién fue.
+
+     · SIN servidor (file:// o el backend caído): vale la validación
+       local de config.js, que no es seguridad y está documentado como
+       tal. Sirve para seguir trabajando offline; lo que se edite se
+       baja como archivo, igual que antes.                             */
+  function abrirEdicion() {
+    var api = E.api;
+    if (api && api.disponible) {
+      if (api.sesion) { alternar(true); return; }
+      var nombre = prompt("¿Quién sos? (queda registrado en cada cambio)");
+      if (nombre === null) return;
+      if (String(nombre).trim().length < 3) { alert("Poné tu nombre completo."); return; }
+      var clave = prompt("Clave de edición:");
+      if (clave === null) return;
+      api.entrar(clave, nombre)
+        .then(function () { alternar(true); })
+        .catch(function (e) { alert(e.message); });
+      return;
+    }
+    if (typeof EXPO_claveOk === "function") {
+      var k = prompt("Clave de edición:");
+      if (k === null) return;
+      if (!EXPO_claveOk(k)) { alert("Clave incorrecta."); return; }
+    }
+    alternar(true);
+  }
+
+  /* ── Guardar contra el backend ──────────────────────────────── */
+  function claveSeccion(archivo) {
+    return archivo.split("/").pop().replace(/\.js$/, "");
+  }
+
+  function guardarEnServidor() {
+    var api = E.api;
+    if (!api || !api.disponible) { descargar(); return; }
+    var b = document.getElementById("btn-guardar");
+    if (b) { b.disabled = true; b.textContent = "Guardando…"; }
+
+    var tareas = registro.map(function (entrada) {
+      return api.guardar(claveSeccion(entrada.archivo), entrada.vars);
+    });
+
+    Promise.all(tareas).then(function () {
+      sucio = false;
+      if (b) { b.disabled = false; b.textContent = "✓ Guardado"; b.classList.remove("hay-cambios"); }
+      setTimeout(function () { if (b) b.textContent = "☁ Guardar en el servidor"; }, 2500);
+    }).catch(function (e) {
+      if (b) { b.disabled = false; b.textContent = "☁ Guardar en el servidor"; }
+      if (e.estado === 409) {
+        alert("Otra persona guardó cambios en esta sección mientras editabas.\n\n" +
+              "Para no pisarle el trabajo, no se guardó nada. Recargá la página " +
+              "(vas a perder lo que hiciste) o descargá el archivo con \"⬇ Descargar\" " +
+              "y resolvelo a mano.");
+      } else {
+        alert("No se pudo guardar: " + e.message +
+              "\n\nUsá \"⬇ Descargar\" para no perder el trabajo.");
+      }
+    });
+  }
+
   /* ── Botón en la cabecera ──────────────────────────────────── */
   function montar() {
     /* Interruptor general — ver js/config.js */
@@ -185,13 +267,14 @@
     t.id = "btn-editar";
     t.style.marginLeft = "10px";
     t.onclick = function () {
-      if (!activo && typeof EDICION_CLAVE !== "undefined" && EDICION_CLAVE) {
-        if (prompt("Clave de edición:") !== EDICION_CLAVE) return;
-      }
-      alternar(!activo);
+      if (activo) { alternar(false); return; }
+      abrirEdicion();
     };
     m.appendChild(t);
-    if (/[?&]editar=1/.test(location.search)) alternar(true);
+    if (/[?&]editar=1/.test(location.search)) {
+      if (typeof EXPO_claveOk !== "function") alternar(true);
+      else { var k = prompt("Clave de edición:"); if (k !== null && EXPO_claveOk(k)) alternar(true); }
+    }
   }
 
   /* ── Importador de imágenes ─────────────────────────────────────
@@ -219,6 +302,19 @@
   }
 
   function importarImagenes(archivos, carpeta, modo, alListo) {
+    /* Con servidor: se suben de verdad y vuelve la URL definitiva.
+       Es el camino bueno — el usuario no tiene que mover ningún archivo. */
+    if (E.api && E.api.disponible && modo !== "incrustar") {
+      E.api.subir(archivos)
+        .then(function (subidos) {
+          alListo(subidos.map(function (a) {
+            return { img: a.url, titulo: "", pie: "", tipo: a.tipo };
+          }));
+        })
+        .catch(function (e) { alert("No se pudo subir: " + e.message); alListo([]); });
+      return;
+    }
+
     var restantes = archivos.length, resultados = [];
     Array.prototype.forEach.call(archivos, function (f) {
       if (!/^image\//.test(f.type)) {
@@ -312,15 +408,18 @@
       var pie = E.el("div", "panel-pie");
 
       var inputArch = document.createElement("input");
-      inputArch.type = "file"; inputArch.accept = "image/*"; inputArch.multiple = true;
+      inputArch.type = "file"; inputArch.multiple = true;
+      inputArch.accept = (E.api && E.api.disponible) ? "image/*,video/*" : "image/*";
       inputArch.style.display = "none";
 
       var modo = document.createElement("select");
       modo.innerHTML = '<option value="archivo">Guardar como archivo (recomendado)</option>' +
                        '<option value="incrustar">Incrustar en el .js (base64)</option>';
       modo.title = "Cómo se guarda la imagen importada";
+      if (E.api && E.api.disponible) modo.style.display = "none";  /* con servidor va derecho al disco */
 
-      var subir = E.el("button", "be-boton", "⬆ Importar fotos de mi computadora");
+      var subir = E.el("button", "be-boton",
+        (E.api && E.api.disponible) ? "⬆ Subir fotos o video" : "⬆ Importar fotos de mi computadora");
       subir.onclick = function () { inputArch.click(); };
 
       inputArch.onchange = function () {
@@ -329,7 +428,7 @@
           nuevas.forEach(function (n) { lista.push(n); });
           marcarSucio();
           redibujar();
-          if (modo.value === "archivo" && nuevas.length) {
+          if (modo.value === "archivo" && nuevas.length && !(E.api && E.api.disponible)) {
             alert("Se descargaron " + nuevas.length + " archivo(s) renombrado(s).\n\n" +
                   "Copialos a: assets/fotos/" + carpeta + "/\n\n" +
                   "Hasta que los copies, la miniatura va a aparecer con borde rojo.");

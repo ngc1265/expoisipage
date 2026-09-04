@@ -118,10 +118,11 @@
 
 <script src="../js/config.js"></script>
 <script src="../js/comun.js"></script>
+<script src="../js/api.js"></script>
 <script src="../js/editor.js"></script>
 <script src="../datos/plan-estudios.js"></script>
 <script>
-(function () {
+EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
   EXPO.cabecera("Plan de estudios");
   EXPO.editor.registrar("datos/plan-estudios.js", { MATERIAS: MATERIAS, ELECTIVAS: ELECTIVAS, TUTORIAS: TUTORIAS, APOYO: APOYO, LABORATORIOS: LABORATORIOS, DISCREPANCIAS: DISCREPANCIAS },
@@ -256,7 +257,7 @@
   });
 
   EXPO.pie("Fuente del plan: programas analíticos publicados por la FRBA.");
-})();
+});
 </script>
 </body>
 </html>

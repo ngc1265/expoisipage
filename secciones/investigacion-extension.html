@@ -93,10 +93,11 @@
 
 <script src="../js/config.js"></script>
 <script src="../js/comun.js"></script>
+<script src="../js/api.js"></script>
 <script src="../js/editor.js"></script>
 <script src="../datos/investigacion.js"></script>
 <script>
-(function () {
+EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc, lig = EXPO.ligar;
   EXPO.cabecera("Investigación y extensión");
 
@@ -264,7 +265,7 @@
   cc.appendChild(t2);
 
   EXPO.pie("Datos de congresos tomados de los sitios oficiales de cada edición 2026.");
-})();
+});
 </script>
 </body>
 </html>

@@ -51,8 +51,8 @@
         im.onerror = function () {
           im.remove();
           var ph = el("div", "carrusel-pie");
-          ph.innerHTML = '<div class="pendiente"><strong>Falta la imagen</strong>' +
-            esc(it.img) + "</div>";
+          var av = pendiente("Falta la imagen", it.img);
+          ph.appendChild(av);
           card.prepend(ph);
         };
         card.appendChild(im);
@@ -105,10 +105,21 @@
     return fila;
   }
 
-  /* ── Aviso de dato faltante ─────────────────────────────────── */
+  /* ── Aviso de dato faltante ─────────────────────────────────────
+     REGLA: el visitante NO ve los huecos. Los avisos amarillos llevan
+     la clase .solo-edicion y arrancan ocultos; editor.js los prende
+     al entrar en modo edición y los apaga al salir.
+     Para verlos siempre (repartir tareas en el equipo sin la clave),
+     poné MOSTRAR_PENDIENTES_EN_VISTA = true en js/config.js.        */
+  function verPendientes() {
+    if (typeof MOSTRAR_PENDIENTES_EN_VISTA !== "undefined" && MOSTRAR_PENDIENTES_EN_VISTA === true) return true;
+    return document.body.classList.contains("editando");
+  }
+
   function pendiente(titulo, detalle) {
-    var d = el("div", "pendiente");
+    var d = el("div", "pendiente solo-edicion");
     d.innerHTML = "<strong>" + esc(titulo) + "</strong>" + esc(detalle || "");
+    d.hidden = !verPendientes();
     return d;
   }
 
@@ -170,7 +181,8 @@
 
   EXPO.el = el; EXPO.q = q; EXPO.qa = qa; EXPO.esc = esc;
   EXPO.carrusel = carrusel; EXPO.qr = qr; EXPO.filaQr = filaQr;
-  EXPO.pendiente = pendiente; EXPO.cabecera = cabecera; EXPO.pie = pie;
+  EXPO.pendiente = pendiente; EXPO.verPendientes = verPendientes;
+  EXPO.cabecera = cabecera; EXPO.pie = pie;
   EXPO.dwell = dwell;
   window.EXPO = EXPO;
 })();

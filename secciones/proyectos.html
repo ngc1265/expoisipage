@@ -5,51 +5,211 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Proyectos · Expo UTN 2026</title>
 <link rel="stylesheet" href="../css/base.css">
+<style>
+.filtros{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 32px}
+.filtros button{
+  min-height:56px;padding:12px 22px;border-radius:100px;cursor:pointer;
+  border:1px solid var(--borde);background:var(--papel);
+  font:inherit;font-size:var(--t-sm);font-weight:600;color:var(--tinta-2);
+  transition:background .15s,color .15s,border-color .15s;
+}
+.filtros button:hover{border-color:var(--rojo);color:var(--rojo)}
+.filtros button[aria-pressed="true"]{background:var(--rojo);border-color:var(--rojo);color:#fff}
+.grilla-posters{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.poster{
+  display:flex;flex-direction:column;padding:0;overflow:hidden;cursor:zoom-in;
+  background:var(--papel);border:1px solid var(--borde);border-radius:var(--radio);
+  text-align:left;font:inherit;color:inherit;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.poster:hover,.poster:focus-visible{transform:translateY(-4px);box-shadow:var(--sombra-alta);border-color:var(--rojo);outline:none}
+.poster img{width:100%;aspect-ratio:1/1.35;object-fit:cover;object-position:top center;display:block;background:var(--gris)}
+.poster .meta{padding:14px 16px 16px}
+.poster h3{font-size:var(--t-base);line-height:1.25;margin:0}
+.poster .sub{margin-top:6px;font-size:var(--t-xs);color:var(--apagado);font-weight:600;letter-spacing:.04em}
+.poster .sin-titulo{color:var(--apagado);font-style:italic;font-weight:600}
+.contador{font-size:var(--t-sm);color:var(--apagado);margin-bottom:18px}
+
+/* Visor */
+.visor[hidden]{display:none}
+.visor{
+  position:fixed;inset:0;z-index:900;background:rgba(15,17,21,.94);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;
+}
+.visor img{max-width:100%;max-height:calc(100vh - 190px);object-fit:contain;border-radius:6px;background:#fff}
+.visor-pie{color:#fff;text-align:center;margin-top:18px;max-width:70ch}
+.visor-pie h3{color:#fff;font-size:var(--t-lg);margin:0}
+.visor-pie p{color:#C9CDD4;font-size:var(--t-sm);margin-top:6px}
+.visor-mandos{display:flex;gap:14px;margin-top:20px}
+.visor-mandos button{
+  min-width:88px;min-height:64px;font-size:26px;cursor:pointer;
+  border-radius:100px;border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.1);color:#fff;
+}
+.visor-mandos button:hover{background:rgba(255,255,255,.22)}
+.visor-cerrar{position:absolute;top:22px;right:26px;min-width:88px;min-height:64px;font-size:22px}
+</style>
 </head>
 <body>
 
 <section class="portada">
   <div class="envoltorio">
     <p class="epigrafe">05 · Proyectos</p>
-    <h1>Lo que construyen los estudiantes</h1>
-    <p class="bajada">Proyectos finales y trabajos destacados, con autores, imágenes y enlaces.</p>
+    <h1 id="p-titulo"></h1>
+    <p class="bajada" id="p-texto"></p>
   </div>
 </section>
 
 <section class="bloque">
   <div class="envoltorio">
-    <div class="rejilla dos" id="contenido"></div>
+    <div id="aviso-intro"></div>
+    <div class="filtros" id="filtros" role="group" aria-label="Filtrar por año"></div>
+    <p class="contador" id="contador"></p>
+    <div class="grilla-posters" id="grilla"></div>
   </div>
 </section>
 
+<div class="visor" id="visor" hidden role="dialog" aria-modal="true" aria-label="Póster ampliado">
+  <button class="visor-cerrar accionable" id="v-cerrar" aria-label="Cerrar">✕</button>
+  <img id="v-img" alt="">
+  <div class="visor-pie"><h3 id="v-titulo"></h3><p id="v-sub"></p></div>
+  <div class="visor-mandos">
+    <button class="accionable" id="v-ant" aria-label="Póster anterior">‹</button>
+    <button class="accionable" id="v-sig" aria-label="Póster siguiente">›</button>
+  </div>
+</div>
+
+<script src="../js/config.js"></script>
 <script src="../js/comun.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/editor.js"></script>
 <script src="../datos/proyectos.js"></script>
 <script>
-/* Plantilla mínima: toma la lista BLOQUES del archivo de datos y la
-   renderiza como tarjetas. Mismo patrón que el resto de los módulos:
-   para cargar contenido se edita datos/proyectos.js, nunca este HTML. */
-(function () {
+EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
   EXPO.cabecera("Proyectos");
-  var c = document.getElementById("contenido");
-  (window.BLOQUES || []).forEach(function (b) {
-    var t = el("article", "tarjeta");
-    t.innerHTML = "<h3>" + esc(b.titulo) + "</h3><p>" + esc(b.texto || "") + "</p>";
-    if (b.items && b.items.length) {
-      var ul = el("ul", "lista-limpia"); ul.style.marginTop = "14px";
-      b.items.forEach(function (i) { ul.appendChild(el("li", null, i)); });
-      t.appendChild(ul);
-    }
-    if (b.url && b.qr) t.appendChild(EXPO.filaQr(b.qr, b.url, b.leyenda || ""));
-    if (b._pendiente) t.appendChild(EXPO.pendiente("Falta cargar", b._pendiente));
-    c.appendChild(t);
-  });
-  if (!c.children.length) {
-    c.appendChild(EXPO.pendiente("Sección vacía",
-      "Cargá los bloques en datos/proyectos.js. La estructura ya está lista."));
+
+  var lista = window.PROYECTOS || [];
+  var intro = window.INTRO || { titulo: "Proyectos", texto: "" };
+
+  /* Intro editable */
+  var hT = document.getElementById("p-titulo");
+  hT.textContent = intro.titulo;
+  EXPO.ligar && EXPO.ligar(hT, "INTRO.titulo");
+  var pT = document.getElementById("p-texto");
+  pT.textContent = intro.texto;
+  EXPO.ligar && EXPO.ligar(pT, "INTRO.texto", { multilinea: true });
+  if (intro._pendiente) document.getElementById("aviso-intro")
+    .appendChild(EXPO.pendiente("Falta decidir", intro._pendiente));
+
+  /* Filtros por año */
+  var anios = [];
+  lista.forEach(function (p) { if (p.anio && anios.indexOf(p.anio) < 0) anios.push(p.anio); });
+  anios.sort(function (a, b) { return b - a; });
+
+  var filtroActivo = null;   /* null = todos */
+  var visibles = [];
+
+  var cajaF = document.getElementById("filtros");
+  function boton(texto, valor) {
+    var b = el("button", "accionable", texto);
+    b.setAttribute("aria-pressed", String(filtroActivo === valor));
+    b.onclick = function () { filtroActivo = valor; pintarFiltros(); dibujar(); };
+    b.dataset.v = String(valor);
+    cajaF.appendChild(b);
   }
+  boton("Todos", null);
+  anios.forEach(function (a) { boton(String(a), a); });
+  if (lista.some(function (p) { return !p.anio; })) boton("Sin año", "sin");
+
+  function pintarFiltros() {
+    EXPO.qa("button", cajaF).forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.v === String(filtroActivo)));
+    });
+  }
+
+  /* Grilla */
+  var grilla = document.getElementById("grilla");
+  var contador = document.getElementById("contador");
+
+  function pasa(p) {
+    if (filtroActivo === null) return true;
+    if (filtroActivo === "sin") return !p.anio;
+    return p.anio === filtroActivo;
+  }
+
+  function dibujar() {
+    visibles = lista.filter(pasa);
+    grilla.innerHTML = "";
+    contador.textContent = visibles.length + " póster" + (visibles.length === 1 ? "" : "es") +
+      (filtroActivo && filtroActivo !== "sin" ? " de " + filtroActivo : "");
+
+    visibles.forEach(function (p, i) {
+      var b = el("button", "poster accionable");
+      var im = el("img");
+      im.src = p.mini; im.loading = "lazy";
+      im.alt = p.titulo ? "Póster del proyecto " + p.titulo : "Póster de Proyecto Final";
+      im.onerror = function () { im.style.visibility = "hidden"; };
+      b.appendChild(im);
+
+      var meta = el("div", "meta");
+      var h = el("h3", null, p.titulo || "Proyecto sin identificar");
+      if (!p.titulo) h.className = "sin-titulo";
+      meta.appendChild(h);
+      var sub = [p.anio || "año a confirmar", p.comision].filter(Boolean).join(" · ");
+      meta.appendChild(el("p", "sub", sub));
+      if (p._pendiente) meta.appendChild(EXPO.pendiente("Falta cargar", p._pendiente));
+      b.appendChild(meta);
+
+      b.onclick = function () { abrir(i); };
+      grilla.appendChild(b);
+    });
+
+    if (!visibles.length) {
+      grilla.appendChild(EXPO.pendiente("Sin resultados", "No hay pósters cargados con ese filtro."));
+    }
+  }
+
+  /* Visor */
+  var visor = document.getElementById("visor"), actual = 0;
+  var vImg = document.getElementById("v-img"),
+      vTit = document.getElementById("v-titulo"),
+      vSub = document.getElementById("v-sub");
+
+  function abrir(i) {
+    actual = i; var p = visibles[i]; if (!p) return;
+    vImg.src = p.full;
+    vImg.alt = p.titulo ? "Póster del proyecto " + p.titulo : "Póster de Proyecto Final";
+    vTit.textContent = p.titulo || "Proyecto sin identificar";
+    vSub.textContent = [p.anio, p.comision, p.autores].filter(Boolean).join(" · ");
+    visor.hidden = false;
+    document.getElementById("v-cerrar").focus();
+  }
+  function mover(d) {
+    actual = (actual + d + visibles.length) % visibles.length;
+    abrir(actual);
+  }
+  document.getElementById("v-cerrar").onclick = function () { visor.hidden = true; };
+  document.getElementById("v-ant").onclick = function () { mover(-1); };
+  document.getElementById("v-sig").onclick = function () { mover(1); };
+  visor.onclick = function (e) { if (e.target === visor) visor.hidden = true; };
+  document.addEventListener("keydown", function (e) {
+    if (visor.hidden) return;
+    if (e.key === "Escape") visor.hidden = true;
+    if (e.key === "ArrowLeft") mover(-1);
+    if (e.key === "ArrowRight") mover(1);
+  });
+
+  /* Modo edición: registrar el archivo de datos */
+  if (EXPO.editor) {
+    EXPO.editor.registrar("datos/proyectos.js",
+      { PROYECTOS: lista, INTRO: intro },
+      "Pósters de Proyecto Final.");
+  }
+
+  dibujar();
   EXPO.pie();
-})();
+});
 </script>
 </body>
 </html>

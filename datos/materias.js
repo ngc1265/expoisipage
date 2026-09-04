@@ -12,7 +12,7 @@
          { n: "Apellido, Nombre", cargo: "Jefe de cátedra" },
          { n: "Apellido, Nombre", cargo: "JTP" }
        ],
-       fotos: [],
+       fotos: [ { img:"../assets/fotos/materias/bd-01.jpg", titulo:"", pie:"" } ],
        proyectos: [ { titulo:"", texto:"", autores:"" } ]
      },
 
@@ -25,7 +25,14 @@ var DETALLE_MATERIAS = {
     docentes: [],
     fotos: [],
     proyectos: [],
-    programa: "https://frba.utn.edu.ar/wp-content/uploads/2025/03/Analisis-de-Sistemas-de-Informacion_23.pdf"
+    programa: "https://frba.utn.edu.ar/wp-content/uploads/2025/03/Analisis-de-Sistemas-de-Informacion_23.pdf",
+    video: {
+      src: "../assets/video/ads-adriana-martinez.mp4",
+      poster: "../assets/video/ads-adriana-martinez-poster.jpg",
+      titulo: "Análisis de Sistemas contado por la cátedra",
+      pie: "Adriana Martínez · 2 min 11 s",
+      _pendiente: "Confirmar con Adriana Martínez que autoriza exhibir el video en el stand y en el sitio público."
+    }
   },
   23: {
     docentes: [],

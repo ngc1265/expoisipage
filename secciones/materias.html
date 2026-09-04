@@ -40,11 +40,12 @@
 
 <script src="../js/config.js"></script>
 <script src="../js/comun.js"></script>
+<script src="../js/api.js"></script>
 <script src="../js/editor.js"></script>
 <script src="../datos/plan-estudios.js"></script>
 <script src="../datos/materias.js"></script>
 <script>
-(function () {
+EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
   EXPO.cabecera("Materias");
   EXPO.editor.registrar("datos/materias.js", { DETALLE_MATERIAS: DETALLE_MATERIAS },
@@ -120,6 +121,21 @@
       }
       t.appendChild(doc);
 
+      /* Video de la cátedra, si lo hay */
+      if (d.video && d.video.src) {
+        var vb = el("div", "docentes");
+        vb.appendChild(el("h4", null, d.video.titulo || "Video de la cátedra"));
+        var v = document.createElement("video");
+        v.src = d.video.src;
+        if (d.video.poster) v.poster = d.video.poster;
+        v.controls = true; v.preload = "none"; v.playsInline = true;
+        v.style.cssText = "width:100%;border-radius:8px;background:#000;margin-top:10px";
+        vb.appendChild(v);
+        if (d.video.pie) vb.appendChild(el("p", "nota", d.video.pie));
+        if (d.video._pendiente) vb.appendChild(EXPO.pendiente("Falta autorización", d.video._pendiente));
+        t.appendChild(vb);
+      }
+
       if (!DETALLE_MATERIAS[m.id]) DETALLE_MATERIAS[m.id] = { docentes: [], fotos: [], proyectos: [] };
       if (!DETALLE_MATERIAS[m.id].fotos) DETALLE_MATERIAS[m.id].fotos = [];
       var cf2 = el("div"); cf2.style.marginTop = "16px"; t.appendChild(cf2);
@@ -156,7 +172,7 @@
   pintar();
   EXPO.pie("Descripciones y correlativas provienen de datos/plan-estudios.js. " +
            "El equipo docente se carga en datos/materias.js.");
-})();
+});
 </script>
 </body>
 </html>

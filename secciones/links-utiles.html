@@ -22,13 +22,16 @@
   </div>
 </section>
 
+<script src="../js/config.js"></script>
 <script src="../js/comun.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/editor.js"></script>
 <script src="../datos/links-utiles.js"></script>
 <script>
 /* Plantilla mínima: toma la lista BLOQUES del archivo de datos y la
    renderiza como tarjetas. Mismo patrón que el resto de los módulos:
    para cargar contenido se edita datos/links-utiles.js, nunca este HTML. */
-(function () {
+EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
   EXPO.cabecera("Links útiles");
   var c = document.getElementById("contenido");
@@ -48,8 +51,9 @@
     c.appendChild(EXPO.pendiente("Sección vacía",
       "Cargá los bloques en datos/links-utiles.js. La estructura ya está lista."));
   }
+  if (EXPO.editor) EXPO.editor.registrar("datos/links-utiles.js", { BLOQUES: window.BLOQUES || [] }, "Enlaces oficiales y QR.");
   EXPO.pie();
-})();
+});
 </script>
 </body>
 </html>
