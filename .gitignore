@@ -1,0 +1,18 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Node (solo si alguien corre herramientas locales; el sitio no lo necesita)
+node_modules/
+
+# Archivos que baja el modo edición antes de moverlos a su lugar
+/descargas/
+
+# Material sin clasificar
+assets/fotos/descartadas/

@@ -1,4 +1,7 @@
-# El sitio del stand no debe aparecer en buscadores.
-# Ojo: esto evita la indexación, NO el acceso. Quien tenga la URL entra igual.
+# El sitio es público: se quiere que se encuentre.
+# Lo único que no debe indexarse es la herramienta interna de diagnóstico.
 User-agent: *
-Disallow: /
+Disallow: /diagnostico.html
+
+# Ojo: esto evita la indexación, NO el acceso.
+# Quien tenga la URL entra igual.

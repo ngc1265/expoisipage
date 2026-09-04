@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagnóstico · Expo UTN 2026</title>
+<link rel="stylesheet" href="css/base.css">
+<style>
+.prueba{
+  display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;
+  padding:18px 0;border-bottom:1px solid var(--borde);
+}
+.prueba:last-child{border-bottom:none}
+.marca{font-size:26px;line-height:1;text-align:center}
+.prueba h3{font-size:var(--t-base);margin:0 0 4px}
+.prueba p{font-size:var(--t-sm);color:var(--tinta-2);margin:0;line-height:1.5}
+.prueba .arreglo{
+  margin-top:10px;padding:12px 14px;border-radius:8px;background:var(--gris);
+  border-left:3px solid var(--rojo);font-size:var(--t-sm);line-height:1.55;
+}
+.prueba code, .dato code{
+  background:var(--gris-2);padding:2px 6px;border-radius:4px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;word-break:break-all;
+}
+.ok .marca{color:#0B8A3E} .mal .marca{color:var(--rojo)} .duda .marca{color:#B26A00}
+.pendiente .marca{color:var(--apagado)}
+.dato{font-size:var(--t-sm);color:var(--apagado);margin:6px 0}
+.acciones{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}
+.acciones button{
+  min-height:56px;padding:14px 24px;border-radius:100px;cursor:pointer;font:inherit;
+  font-weight:600;font-size:var(--t-sm);border:1px solid var(--borde);background:var(--papel);
+}
+.acciones button.primario{background:var(--rojo);border-color:var(--rojo);color:#fff}
+#veredicto{
+  padding:22px 26px;border-radius:var(--radio);margin-bottom:8px;
+  font-size:var(--t-md);line-height:1.55;border:1px solid var(--borde);background:var(--gris);
+}
+#veredicto.bien{border-color:#0B8A3E;background:#EAF6EE}
+#veredicto.mal{border-color:var(--rojo);background:#FDECEC}
+#veredicto strong{display:block;font-size:var(--t-lg);margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<section class="portada">
+  <div class="envoltorio">
+    <p class="epigrafe">Herramienta interna</p>
+    <h1>Diagnóstico de conexión</h1>
+    <p class="bajada">Esta página prueba el puente entre el sitio y la API, y te dice
+    exactamente qué falta configurar. No es parte del sitio público: borrala o dejala,
+    no la enlaza nadie.</p>
+  </div>
+</section>
+
+<section class="bloque">
+  <div class="envoltorio" style="max-width:820px">
+    <div id="veredicto">Probando…</div>
+    <div class="acciones">
+      <button class="primario accionable" id="b-repetir">Repetir</button>
+      <button class="accionable" id="b-otra">Probar otra URL de API</button>
+      <button class="accionable" id="b-copiar">Copiar informe</button>
+    </div>
+    <div id="pruebas"></div>
+  </div>
+</section>
+
+<script src="js/config.js"></script>
+<script>
+/* Deliberadamente NO carga comun.js ni api.js: si algo de eso está roto,
+   esta página tiene que seguir funcionando para poder decírtelo. */
+(function () {
+  var cajaP = document.getElementById("pruebas");
+  var cajaV = document.getElementById("veredicto");
+  var informe = [];
+
+  var forzada = (location.search.match(/[?&]api=([^&]+)/) || [])[1];
+  var BASE = (forzada ? decodeURIComponent(forzada)
+                      : (typeof API_BASE !== "undefined" ? API_BASE : "") || "").replace(/\/+$/, "");
+
+  function fila(estado, titulo, detalle, arreglo) {
+    var marcas = { ok: "✓", mal: "✕", duda: "!", pendiente: "·" };
+    var d = document.createElement("div");
+    d.className = "prueba " + estado;
+    d.innerHTML = '<div class="marca">' + marcas[estado] + "</div><div>" +
+      "<h3>" + titulo + "</h3><p>" + detalle + "</p>" +
+      (arreglo ? '<div class="arreglo">' + arreglo + "</div>" : "") + "</div>";
+    cajaP.appendChild(d);
+    informe.push(marcas[estado] + " " + titulo + " — " + detalle.replace(/<[^>]+>/g, ""));
+    return estado;
+  }
+
+  function conTiempo(p, ms) {
+    return Promise.race([p, new Promise(function (_, rej) {
+      setTimeout(function () { rej(new Error("timeout")); }, ms);
+    })]);
+  }
+
+  function correr() {
+    cajaP.innerHTML = ""; informe = [];
+    cajaV.className = ""; cajaV.textContent = "Probando…";
+    var fallas = 0, avisos = 0;
+
+    /* 1 · Contexto */
+    var host = location.hostname || "(archivo local)";
+    if (location.protocol === "file:") {
+      avisos++;
+      fila("duda", "Estás abriendo el sitio con doble clic",
+        "Protocolo <code>file://</code>. Acá no hay API posible y el sitio usa siempre los <code>datos/*.js</code> del repo.",
+        "Para probar el backend, servilo por HTTP: <code>npx serve -l 5500 .</code> y entrá por <code>http://localhost:5500</code>.");
+    } else {
+      fila("ok", "Servido por HTTP", "Origen: <code>" + location.origin + "</code>");
+    }
+
+    /* 2 · API_BASE */
+    if (!BASE) {
+      fallas++;
+      fila("mal", "No hay URL de API configurada",
+        "Para el host <code>" + host + "</code> no hay ninguna entrada cargada.",
+        "Abrí <code>js/config.js</code> y completá <code>API_BASE_POR_HOST[\"" + host + "\"]</code> " +
+        "con la URL del backend (Railway → Settings → Networking).<br><br>" +
+        "Para probar ya mismo sin commitear, tocá <strong>Probar otra URL de API</strong>.");
+      terminar(fallas, avisos);
+      return;
+    }
+    fila("ok", "URL de API configurada",
+      "<code>" + BASE + "</code>" + (forzada ? " (forzada por <code>?api=</code>, no es la del archivo)" : ""));
+
+    if (location.protocol === "https:" && BASE.indexOf("http://") === 0) {
+      fallas++;
+      fila("mal", "Mezcla de HTTP y HTTPS",
+        "El sitio va por HTTPS pero la API por HTTP. El navegador bloquea eso sin avisar en pantalla.",
+        "Usá la URL <code>https://</code> del backend. Railway te da una por defecto.");
+    }
+
+    /* 3 · ¿Contesta? */
+    conTiempo(fetch(BASE + "/salud", { mode: "cors" }), 8000)
+      .then(function (r) {
+        if (r.ok) return r.json();
+        throw Object.assign(new Error("HTTP " + r.status), { http: r.status });
+      })
+      .then(function (j) {
+        if (j.ok) fila("ok", "El backend está vivo", "<code>/salud</code> respondió y la base contesta.");
+        else { fallas++; fila("mal", "El backend está vivo pero la base no",
+          "<code>/salud</code> respondió que Postgres no contesta.",
+          "En Railway: ¿el servicio Postgres está corriendo? ¿La variable <code>DATABASE_URL</code> está cargada como <strong>referencia</strong> al servicio y no copiada a mano?"); }
+      })
+      .catch(function (e) {
+        fallas++;
+        if (e.http) {
+          fila("mal", "El backend contestó con error " + e.http, "Llegamos al servidor pero devolvió " + e.http + ".",
+            "Mirá los logs del servicio en Railway.");
+        } else {
+          fila("mal", "No se pudo llegar al backend",
+            "Ni siquiera hubo respuesta desde <code>" + BASE + "/salud</code>.",
+            "Tres causas posibles, en orden de probabilidad:<br>" +
+            "1. La URL está mal escrita o el servicio no terminó de desplegar.<br>" +
+            "2. <strong>CORS:</strong> el origen <code>" + location.origin + "</code> no está en " +
+            "<code>ORIGENES_PERMITIDOS</code>. Copiá ese origen tal cual, sin barra final.<br>" +
+            "3. El servicio se cayó o se acabaron los créditos de Railway.<br><br>" +
+            "Abrí la consola del navegador (F12): si dice <em>CORS policy</em>, es la 2.");
+        }
+      })
+      /* 4 · Contenido */
+      .then(function () {
+        return conTiempo(fetch(BASE + "/api/contenido", { mode: "cors", cache: "no-store" }), 8000)
+          .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+          .then(function (j) {
+            var claves = Object.keys(j);
+            if (!claves.length) {
+              fallas++;
+              fila("mal", "La base está vacía", "La API contesta pero no hay ninguna sección cargada.",
+                "Falta la siembra inicial: <code>railway run node sembrar.js</code>");
+            } else {
+              fila("ok", "Contenido en la base",
+                claves.length + " secciones: <code>" + claves.join("</code> <code>") + "</code>");
+              var sinVer = claves.filter(function (k) { return !j[k].version; });
+              if (sinVer.length) { avisos++; fila("duda", "Secciones sin versión", sinVer.join(", ")); }
+            }
+          })
+          .catch(function (e) {
+            fallas++;
+            fila("mal", "No se pudo leer el contenido", e.message,
+              "Si <code>/salud</code> anduvo y esto no, casi seguro es CORS: " +
+              "<code>/salud</code> lo probamos igual pero el navegador filtra la respuesta.");
+          });
+      })
+      /* 5 · Escritura (preflight) */
+      .then(function () {
+        return conTiempo(fetch(BASE + "/api/contenido/electivas", {
+          method: "PUT", mode: "cors",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer prueba-de-diagnostico" },
+          body: JSON.stringify({ datos: { BLOQUES: [] }, version: -1 })
+        }), 8000)
+          .then(function (r) {
+            if (r.status === 401) {
+              fila("ok", "La escritura está protegida y el preflight pasa",
+                "Un <code>PUT</code> con token inválido devolvió <code>401</code>: es exactamente lo que tiene que pasar. " +
+                "Que haya llegado significa que el preflight CORS con <code>Authorization</code> está bien.");
+            } else if (r.status === 403) {
+              fallas++;
+              fila("mal", "El preflight CORS fue rechazado",
+                "El servidor devolvió <code>403</code> al pedido previo.",
+                "Tu origen <code>" + location.origin + "</code> no está en <code>ORIGENES_PERMITIDOS</code>. " +
+                "Agregalo tal cual, separado por coma, <strong>sin barra final</strong>, y redesplegá.");
+            } else {
+              avisos++;
+              fila("duda", "Respuesta inesperada al escribir", "Código <code>" + r.status + "</code>.",
+                r.status < 300 ? "<strong>Un token inválido no debería poder escribir.</strong> Revisá <code>exigirSesion</code> antes de publicar." : "");
+            }
+          })
+          .catch(function () {
+            fallas++;
+            fila("mal", "El preflight de escritura no pasó",
+              "El <code>OPTIONS</code> previo al <code>PUT</code> falló.",
+              "Es CORS. Verificá <code>ORIGENES_PERMITIDOS</code> y que la respuesta incluya " +
+              "<code>Access-Control-Allow-Headers: Content-Type, Authorization</code>.");
+          });
+      })
+      /* 6 · Assets del frontend */
+      .then(function () {
+        return conTiempo(fetch("assets/proyectos/mini/proyecto-final-2025-sirca.webp", { method: "HEAD" }), 6000)
+          .then(function (r) {
+            if (r.ok) fila("ok", "Los assets del frontend cargan", "Los pósters salen del CDN, no de Railway.");
+            else { avisos++; fila("duda", "Un póster de muestra dio " + r.status,
+              "Puede ser que el deploy del frontend no haya subido <code>assets/</code>.",
+              "Ojo con mayúsculas: Linux distingue, Windows no."); }
+          })
+          .catch(function () { avisos++; fila("duda", "No se pudo verificar los assets", "Prueba no concluyente."); });
+      })
+      .then(function () { terminar(fallas, avisos); });
+  }
+
+  function terminar(fallas, avisos) {
+    if (fallas) {
+      cajaV.className = "mal";
+      cajaV.innerHTML = "<strong>Todavía no está listo</strong>" + fallas +
+        (fallas === 1 ? " problema" : " problemas") + " que hay que resolver. " +
+        "Cada uno de abajo tiene el arreglo concreto.";
+    } else if (avisos) {
+      cajaV.className = "";
+      cajaV.innerHTML = "<strong>Anda, con reparos</strong>El puente funciona. " +
+        avisos + (avisos === 1 ? " cosa" : " cosas") + " para mirar cuando tengas tiempo.";
+    } else {
+      cajaV.className = "bien";
+      cajaV.innerHTML = "<strong>Listo para producción</strong>" +
+        "Frontend y API se hablan, la base tiene contenido y la escritura está protegida. " +
+        "Entrá a cualquier sección, tocá <strong>✎ Editar</strong> y confirmá que aparezca " +
+        "el botón <strong>☁ Guardar en el servidor</strong>.";
+    }
+  }
+
+  document.getElementById("b-repetir").onclick = correr;
+  document.getElementById("b-otra").onclick = function () {
+    var u = prompt("URL del backend (sin barra final):", BASE || "https://");
+    if (u) location.search = "?api=" + encodeURIComponent(u.replace(/\/+$/, ""));
+  };
+  document.getElementById("b-copiar").onclick = function () {
+    var t = "Diagnóstico expoisi\nOrigen: " + location.origin + "\nAPI: " + (BASE || "(sin configurar)") +
+            "\n\n" + informe.join("\n");
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
+      .then(function () { alert("Informe copiado."); })
+      .catch(function () { prompt("Copiá esto:", t); });
+  };
+
+  correr();
+})();
+</script>
+</body>
+</html>

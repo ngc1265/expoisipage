@@ -70,5 +70,10 @@ Un archivo de datos con un error de sintaxis deja la sección en blanco.
 
 ## ¿GitHub Pages?
 
-Ver **`PUBLICAR.md`**. Resumen de una línea: **un sitio de Pages es público
-aunque el repo sea privado**, así que leé ese archivo antes de activarlo.
+Se puede (`Settings → Pages → Deploy from branch → main → / (root)`) y sirve
+para que el equipo revise sin bajar nada. Pero **el sitio del stand corre local
+igual**, así que Pages es una comodidad de revisión, no un requisito.
+
+Ojo con una asimetría: en Pages hay internet, así que los embeds de LinkedIn se
+van a ver. En el stand no. No uses Pages para decidir si algo "se ve bien":
+probalo siempre abriendo el archivo con doble clic y el WiFi apagado.
