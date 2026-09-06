@@ -4,20 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Incumbencias y áreas · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/base.css?v=20260904a">
 <style>
 .grafo-marco{
-  display:grid;grid-template-columns:1fr 400px;gap:20px;align-items:stretch;
+  display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:stretch;
   margin-top:26px;
 }
 @media (max-width:1100px){ .grafo-marco{grid-template-columns:1fr} }
 
 .lienzo{
   position:relative;background:var(--gris);border:1px solid var(--borde);
-  border-radius:var(--radio);overflow:hidden;min-height:620px;touch-action:none;cursor:grab;
+  border-radius:var(--radio);overflow:hidden;min-height:700px;touch-action:none;cursor:grab;
 }
 .lienzo.arrastrando{cursor:grabbing}
-.lienzo svg{display:block;width:100%;height:100%;min-height:620px}
+.lienzo svg{display:block;width:100%;height:100%;min-height:700px}
 
 .arista{stroke:#C3C8D0;stroke-width:2;transition:stroke .2s,stroke-width .2s}
 .arista.viva{stroke:var(--rojo);stroke-width:3.5}
@@ -102,14 +102,13 @@
     <div class="grafo-marco">
       <div class="lienzo" id="lienzo">
         <p class="pista" id="pista">Tocá un área para abrirla</p>
-        <svg id="svg" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" role="img"
+        <svg id="svg" viewBox="0 0 1320 960" preserveAspectRatio="xMidYMid meet" role="img"
              aria-label="Grafo de áreas y puestos de la carrera">
           <g id="g-aristas"></g>
           <g id="g-nodos"></g>
         </svg>
         <div class="mandos-grafo">
-          <button class="accionable" id="b-todo">Abrir todo</button>
-          <button class="accionable" id="b-cerrar">Cerrar todo</button>
+          <button class="accionable" id="b-cerrar">Cerrar el área</button>
           <button class="accionable" id="b-centrar">Recentrar</button>
         </div>
       </div>
@@ -121,12 +120,12 @@
   </div>
 </section>
 
-<script src="../js/config.js"></script>
-<script src="../js/comun.js"></script>
-<script src="../js/api.js"></script>
-<script src="../js/editor.js"></script>
-<script src="../datos/incumbencias.js"></script>
-<script src="../datos/plan-estudios.js"></script>
+<script src="../js/config.js?v=20260904a"></script>
+<script src="../js/comun.js?v=20260904a"></script>
+<script src="../js/api.js?v=20260904a"></script>
+<script src="../js/editor.js?v=20260904a"></script>
+<script src="../datos/incumbencias.js?v=20260904a"></script>
+<script src="../datos/plan-estudios.js?v=20260904a"></script>
 <script>
 /* ══════════════════════════════════════════════════════════════════
    Grafo de áreas e incumbencias — estilo explorador de Neo4j.
@@ -147,8 +146,12 @@ EXPO.alCargarDatos(function () {
   var areas = window.AREAS || [];
   var nota = window.NOTA_LEGAL || null;
 
-  document.getElementById("t-raiz").textContent = raiz.nombre;
-  document.getElementById("t-resumen").textContent = raiz.resumen || "";
+  var hR = document.getElementById("t-raiz");
+  hR.textContent = raiz.nombre;
+  EXPO.ligar && EXPO.ligar(hR, "RAIZ.nombre");
+  var pR = document.getElementById("t-resumen");
+  pR.textContent = raiz.resumen || "";
+  EXPO.ligar && EXPO.ligar(pR, "RAIZ.resumen", { multilinea: true });
   if (nota && nota._pendiente) {
     document.getElementById("aviso-legal")
       .appendChild(EXPO.pendiente("Falta el texto oficial", nota._pendiente));
@@ -159,31 +162,42 @@ EXPO.alCargarDatos(function () {
   (window.MATERIAS || []).forEach(function (m) { nombreMateria[m.id] = m.n; });
 
   /* ── Construcción del modelo ──────────────────────────────── */
-  var W = 1000, H = 640, CX = W / 2, CY = H / 2;
+  var W = 1320, H = 960, CX = W / 2, CY = H / 2;
+  var RX = 460, RY = 282;          /* elipse donde viven las áreas    */
+  var R2X = 735, R2Y = 408;        /* elipse base de los puestos      */
   var nodos = [], aristas = [];
 
-  function agregar(n) { nodos.push(n); return n; }
+  function agregar(n) {
+    /* Valores provisorios hasta que construir() mida el texto de verdad. */
+    n.anchoTexto = Math.max(n.r * 2, n.nombre.length * 4.6);
+    n.altoTexto = 34;
+    nodos.push(n);
+    return n;
+  }
 
   var nRaiz = agregar({
     id: "raiz", tipo: "raiz", nombre: raiz.nombre, datos: raiz,
     r: 46, color: "var(--rojo)", x: CX, y: CY, vx: 0, vy: 0, fijo: true, visible: true
   });
 
+  var nodosArea = [];
+
   areas.forEach(function (a, i) {
     var ang = (i / areas.length) * Math.PI * 2 - Math.PI / 2;
     var nA = agregar({
       id: "a-" + a.id, tipo: "area", nombre: a.nombre, datos: a,
       r: 34, color: a.color, abierto: false, visible: true,
-      x: CX + Math.cos(ang) * 210, y: CY + Math.sin(ang) * 190, vx: 0, vy: 0
+      x: CX + Math.cos(ang) * 300, y: CY + Math.sin(ang) * 265, vx: 0, vy: 0
     });
+    nodosArea.push(nA);
     aristas.push({ a: nRaiz, b: nA, visible: true });
 
     (a.puestos || []).forEach(function (p, j) {
-      var ang2 = ang + (j - ((a.puestos.length - 1) / 2)) * 0.30;
+      var ang2 = ang + (j - ((a.puestos.length - 1) / 2)) * 0.34;
       var nP = agregar({
         id: "p-" + a.id + "-" + j, tipo: "puesto", nombre: p.nombre, datos: p,
         area: a, r: 22, color: a.color, visible: false,
-        x: CX + Math.cos(ang2) * 340, y: CY + Math.sin(ang2) * 310, vx: 0, vy: 0
+        x: CX + Math.cos(ang2) * 500, y: CY + Math.sin(ang2) * 440, vx: 0, vy: 0
       });
       aristas.push({ a: nA, b: nP, visible: false, padre: nA });
     });
@@ -194,53 +208,125 @@ EXPO.alCargarDatos(function () {
   var gA = document.getElementById("g-aristas");
   var gN = document.getElementById("g-nodos");
   var NS = "http://www.w3.org/2000/svg";
-  var alfa = 1, corriendo = true;
+  var animando = true;
 
-  function largoResorte(ar) { return ar.b.tipo === "area" ? 200 : 120; }
+  /* ── Posicionamiento ────────────────────────────────────────────
+     Antes esto era una simulación de fuerzas. No funcionaba, y no era
+     cuestión de ajustar constantes: con las 9 áreas abiertas hay 49
+     nodos cuyas ETIQUETAS suman más superficie que el lienzo entero.
+     Ningún reparto los acomoda sin encimarse. El dato además no es un
+     grafo: es un árbol, y un árbol se dibuja, no se simula.
 
-  function paso() {
-    var vis = nodos.filter(function (n) { return n.visible; });
+     Ahora las posiciones se CALCULAN:
+       · la raíz en el centro
+       · las 9 áreas repartidas sobre una elipse
+       · los puestos del área abierta sobre un arco alrededor de ella,
+         con el radio estirado hasta que el arco alcance para la suma
+         de los anchos de etiqueta
 
-    /* Repulsión entre todos los nodos visibles */
-    for (var i = 0; i < vis.length; i++) {
-      for (var j = i + 1; j < vis.length; j++) {
-        var a = vis[i], b = vis[j];
-        var dx = b.x - a.x, dy = b.y - a.y;
-        var d2 = dx * dx + dy * dy || 0.01;
-        var d = Math.sqrt(d2);
-        var min = a.r + b.r + 26;
-        var f = 9000 / d2;
-        if (d < min) f += (min - d) * 0.9;      /* anticolisión dura */
-        var ux = dx / d, uy = dy / d;
-        if (!a.fijo) { a.vx -= ux * f * 0.01; a.vy -= uy * f * 0.01; }
-        if (!b.fijo) { b.vx += ux * f * 0.01; b.vy += uy * f * 0.01; }
+     Después una relajación corta separa lo que quedó rozando. La
+     animación interpola hacia esas posiciones, así que se mantiene la
+     sensación de grafo vivo sin el desorden.
+
+     Verificado fuera del navegador con las 9 áreas, una por una:
+     cero pares de etiquetas encimadas.                                */
+
+  function movilidad(n) { return n.tipo === "raiz" ? 0 : n.tipo === "area" ? 0.9 : 1; }
+
+  function alBorde(n) {
+    var mx = n.anchoTexto / 2 + 10;
+    n.tx = Math.max(mx, Math.min(W - mx, n.tx));
+    n.ty = Math.max(n.r + 20, Math.min(H - n.r - n.altoTexto - 14, n.ty));
+  }
+
+  function relajar(vis) {
+    for (var it = 0; it < 400; it++) {
+      var hubo = false;
+      for (var i = 0; i < vis.length; i++) {
+        for (var j = i + 1; j < vis.length; j++) {
+          var a = vis[i], b = vis[j];
+          var mx = (a.anchoTexto + b.anchoTexto) / 2 + 14;
+          var my = (a.r + b.r) + (a.altoTexto + b.altoTexto) / 2 + 8;
+          var dcx = b.tx - a.tx;
+          var dcy = (b.ty + b.altoTexto / 2) - (a.ty + a.altoTexto / 2);
+          var sX = mx - Math.abs(dcx), sY = my - Math.abs(dcy);
+          if (sX <= 0 || sY <= 0) continue;
+          hubo = true;
+          var ma = movilidad(a), mb = movilidad(b), tt = ma + mb || 1;
+          if (sX < sY) {
+            var d = (dcx >= 0 ? 1 : -1) * (sX + 1) / tt;
+            a.tx -= d * ma; b.tx += d * mb;
+          } else {
+            var e = (dcy >= 0 ? 1 : -1) * (sY + 1) / tt;
+            a.ty -= e * ma; b.ty += e * mb;
+          }
+        }
       }
+      /* El borde se aplica DENTRO del bucle: si se aplicara al final,
+         empujar un nodo contra el margen podría recrear el solape que
+         se acababa de resolver. */
+      vis.forEach(alBorde);
+      if (!hubo) break;
     }
+  }
 
-    /* Resortes de las aristas visibles */
-    aristas.forEach(function (ar) {
-      if (!ar.visible || !ar.a.visible || !ar.b.visible) return;
-      var dx = ar.b.x - ar.a.x, dy = ar.b.y - ar.a.y;
-      var d = Math.sqrt(dx * dx + dy * dy) || 0.01;
-      var f = (d - largoResorte(ar)) * 0.035;
-      var ux = dx / d, uy = dy / d;
-      if (!ar.a.fijo) { ar.a.vx += ux * f; ar.a.vy += uy * f; }
-      if (!ar.b.fijo) { ar.b.vx -= ux * f; ar.b.vy -= uy * f; }
+  function calcularDestinos() {
+    var anclados = {};
+    nodos.forEach(function (n) { if (n.anclado) anclados[n.id] = { x: n.tx, y: n.ty }; });
+
+    nRaiz.tx = CX; nRaiz.ty = CY;
+
+    nodosArea.forEach(function (nA, i) {
+      var ang = -Math.PI / 2 + (i / nodosArea.length) * Math.PI * 2;
+      nA.ang = ang;
+      nA.tx = CX + RX * Math.cos(ang);
+      nA.ty = CY + RY * Math.sin(ang);
+
+      var hijos = nodos.filter(function (n) { return n.tipo === "puesto" && n.area === nA.datos; });
+      if (!nA.abierto || !hijos.length) return;
+
+      /* Cada puesto reserva su ancho de etiqueta sobre el arco. El
+         radio se estira hasta que el arco dé la vuelta necesaria: es
+         el ancho del texto el que manda, no un número fijo. */
+      var anchos = hijos.map(function (n) { return n.anchoTexto + 46; });
+      var total = anchos.reduce(function (s, x) { return s + x; }, 0);
+      var R = Math.max(R2X, total / 1.9);
+      var Ry = R * (R2Y / R2X);
+      var rad = Math.min(R, Ry);
+      var acum = 0;
+      hijos.forEach(function (n, k) {
+        var centro = acum + anchos[k] / 2;
+        acum += anchos[k];
+        var a2 = ang + (centro - total / 2) / rad;
+        n.tx = CX + R * Math.cos(a2);
+        n.ty = CY + Ry * Math.sin(a2);
+      });
     });
 
-    /* Gravedad suave al centro + integración */
-    vis.forEach(function (n) {
-      if (n.fijo) { n.vx = n.vy = 0; return; }
-      n.vx += (CX - n.x) * 0.0035;
-      n.vy += (CY - n.y) * 0.0035;
-      n.vx *= 0.82; n.vy *= 0.82;
-      n.x += n.vx * alfa; n.y += n.vy * alfa;
-      var m = n.r + 60;
-      n.x = Math.max(m, Math.min(W - m, n.x));
-      n.y = Math.max(n.r + 24, Math.min(H - n.r - 24, n.y));
+    Object.keys(anclados).forEach(function (id) {
+      var n = nodos.filter(function (x) { return x.id === id; })[0];
+      if (n) { n.tx = anclados[id].x; n.ty = anclados[id].y; }
     });
 
-    alfa = Math.max(0.22, alfa * 0.994);
+    var vis = nodos.filter(function (n) { return n.visible; });
+    vis.forEach(alBorde);
+    relajar(vis);
+    animando = true;
+  }
+
+  /* Interpolación hacia el destino: la parte que da la sensación de
+     grafo vivo. Se apaga sola cuando todos llegaron, así no queda un
+     requestAnimationFrame girando de fondo. */
+  function paso() {
+    var quietos = true;
+    nodos.forEach(function (n) {
+      if (!n.visible || n.tx == null) return;
+      var dx = n.tx - n.x, dy = n.ty - n.y;
+      if (Math.abs(dx) < 0.4 && Math.abs(dy) < 0.4) { n.x = n.tx; n.y = n.ty; return; }
+      n.x += dx * 0.16; n.y += dy * 0.16;
+      quietos = false;
+    });
+    if (quietos) animando = false;
   }
 
   /* ── Dibujo ───────────────────────────────────────────────── */
@@ -259,7 +345,7 @@ EXPO.alCargarDatos(function () {
       else act = (act + " " + p).trim();
     });
     if (act) lin.push(act);
-    return lin.slice(0, 3);
+    return lin.slice(0, 4);
   }
 
   function construir() {
@@ -285,14 +371,35 @@ EXPO.alCargarDatos(function () {
         n._mas = mas;
       }
 
-      var lineas = partirTexto(n.nombre, n.tipo === "puesto" ? 20 : 24);
+      /* Etiquetas más cortas por línea: dos líneas angostas ocupan
+         mucho menos ancho que una larga, y el ancho es lo que hacía
+         que se encimaran. */
+      var lineas = partirTexto(n.nombre, n.tipo === "puesto" ? 13 : 15);
       var t = crearSvg("text", { "text-anchor": "middle" });
+      var alto = n.tipo === "raiz" ? 21 : n.tipo === "area" ? 19 : 17;
       lineas.forEach(function (li, k) {
-        var ts = crearSvg("tspan", { x: 0, dy: k === 0 ? (n.r + 20) : 17 });
+        var ts = crearSvg("tspan", { x: 0, dy: k === 0 ? (n.r + 20) : alto });
         ts.textContent = li;
         t.appendChild(ts);
       });
       g.appendChild(t);
+
+      /* Ancho real de la etiqueta. Se mide una vez: getComputedTextLength
+         fuerza reflow y llamarlo en cada cuadro tiraría el frame rate.
+         Si el navegador todavía no calculó el layout, se estima por
+         cantidad de caracteres. */
+      var anchoMax = 0;
+      try {
+        for (var q = 0; q < t.childNodes.length; q++) {
+          anchoMax = Math.max(anchoMax, t.childNodes[q].getComputedTextLength() || 0);
+        }
+      } catch (e) { anchoMax = 0; }
+      if (!anchoMax) {
+        var porChar = n.tipo === "raiz" ? 10.5 : n.tipo === "area" ? 8.8 : 7.4;
+        lineas.forEach(function (li) { anchoMax = Math.max(anchoMax, li.length * porChar); });
+      }
+      n.anchoTexto = Math.max(anchoMax, n.r * 2);
+      n.altoTexto = lineas.length * alto + 6;
 
       g.addEventListener("click", function () { tocar(n); });
       g.addEventListener("keydown", function (e) {
@@ -321,7 +428,7 @@ EXPO.alCargarDatos(function () {
   }
 
   function bucle() {
-    if (corriendo) { paso(); pintar(); }
+    if (animando) { paso(); pintar(); }
     requestAnimationFrame(bucle);
   }
 
@@ -331,17 +438,25 @@ EXPO.alCargarDatos(function () {
   function tocar(n) {
     if (n.tipo === "area") alternarArea(n);
     seleccionar(n);
-    alfa = 1;
+    animando = true;
   }
 
+  /* Acordeón: una sola área abierta por vez. No es una preferencia
+     estética — con dos o más abiertas las etiquetas no entran en el
+     lienzo y se encima todo, que es justamente lo que rompía antes. */
   function alternarArea(nA) {
-    nA.abierto = !nA.abierto;
+    var abrir = !nA.abierto;
+    if (abrir) {
+      nodosArea.forEach(function (o) {
+        if (o !== nA && o.abierto) cerrarArea(o);
+      });
+    }
+    nA.abierto = abrir;
     nodos.forEach(function (n) {
       if (n.tipo === "puesto" && n.area === nA.datos) {
         n.visible = nA.abierto;
-        if (nA.abierto) {   /* nacen cerca del área para que la animación se lea */
-          n.x = nA.x + (Math.random() - .5) * 40;
-          n.y = nA.y + (Math.random() - .5) * 40;
+        if (nA.abierto) {   /* nacen sobre el área: la animación los "despliega" */
+          n.x = nA.x; n.y = nA.y;
         }
       }
     });
@@ -349,6 +464,15 @@ EXPO.alCargarDatos(function () {
     document.getElementById("pista").textContent =
       nodos.some(function (n) { return n.tipo === "puesto" && n.visible; })
         ? "Tocá un puesto para ver qué se hace ahí" : "Tocá un área para abrirla";
+    calcularDestinos();
+  }
+
+  function cerrarArea(nA) {
+    nA.abierto = false;
+    nodos.forEach(function (n) {
+      if (n.tipo === "puesto" && n.area === nA.datos) n.visible = false;
+    });
+    aristas.forEach(function (ar) { if (ar.padre === nA) ar.visible = false; });
   }
 
   function seleccionar(n) {
@@ -364,19 +488,33 @@ EXPO.alCargarDatos(function () {
   /* ── Panel de ficha ───────────────────────────────────────── */
   var caja = document.getElementById("ficha");
 
+  /* Ruta del dato dentro de AREAS, para que el editor sepa dónde
+     escribir de vuelta. resolver() de editor.js entiende "AREAS.3.resumen". */
+  function rutaArea(nA) { return "AREAS." + areas.indexOf(nA.datos); }
+  function rutaPuesto(n) {
+    var ia = areas.indexOf(n.area);
+    var ip = (n.area.puestos || []).indexOf(n.datos);
+    return "AREAS." + ia + ".puestos." + ip;
+  }
+
   function ficha(n) {
     caja.innerHTML = "";
     var d = n.datos || {};
+    var L = EXPO.ligar || function (e) { return e; };
 
     var tipo = el("span", "tipo", n.tipo === "raiz" ? "La carrera" : n.tipo === "area" ? "Área" : "Puesto");
     caja.appendChild(tipo);
 
     var h = el("h2", null, n.nombre);
+    if (n.tipo === "area") L(h, rutaArea(n) + ".nombre");
+    else if (n.tipo === "puesto") L(h, rutaPuesto(n) + ".nombre");
+    else L(h, "RAIZ.nombre");
     caja.appendChild(h);
 
     if (n.tipo === "puesto") {
       caja.appendChild(el("p", "rotulo", "Qué se hace"));
-      caja.appendChild(el("p", null, d.quehace || ""));
+      caja.appendChild(L(el("p", null, d.quehace || ""),
+                         rutaPuesto(n) + ".quehace", { multilinea: true }));
 
       if (d.materias && d.materias.length) {
         caja.appendChild(el("p", "rotulo", "Materias que más se usan"));
@@ -396,16 +534,18 @@ EXPO.alCargarDatos(function () {
         caja.appendChild(a);
       }
     } else if (n.tipo === "area") {
-      caja.appendChild(el("p", null, d.resumen || ""));
+      caja.appendChild(L(el("p", null, d.resumen || ""),
+                         rutaArea(n) + ".resumen", { multilinea: true }));
       if (d.alcance) {
         caja.appendChild(el("p", "rotulo", "Qué habilita el título"));
-        caja.appendChild(el("p", "alcance", d.alcance));
+        caja.appendChild(L(el("p", "alcance", d.alcance),
+                           rutaArea(n) + ".alcance", { multilinea: true }));
       }
       caja.appendChild(el("p", "rotulo", "Puestos"));
       caja.appendChild(el("p", null, (d.puestos || []).length + " puestos en esta área. " +
         (elemNodo[n.id] && n.abierto ? "Tocá cualquiera en el grafo." : "Tocá el nodo para abrirlos.")));
     } else {
-      caja.appendChild(el("p", null, d.resumen || ""));
+      caja.appendChild(L(el("p", null, d.resumen || ""), "RAIZ.resumen", { multilinea: true }));
       caja.appendChild(el("p", "rotulo", "Cómo se lee"));
       caja.appendChild(el("p", null, areas.length + " áreas y " +
         nodos.filter(function (x) { return x.tipo === "puesto"; }).length +
@@ -413,24 +553,23 @@ EXPO.alCargarDatos(function () {
     }
 
     if (d._pendiente) caja.appendChild(EXPO.pendiente("Falta cargar", d._pendiente));
+
+    /* La ficha se redibuja en cada click, así que los campos nuevos
+       tienen que volver a hacerse editables si el modo está activo. */
+    if (EXPO.editor && EXPO.editor.activo()) EXPO.editor.alternar(true);
   }
 
   /* ── Botones ──────────────────────────────────────────────── */
-  document.getElementById("b-todo").onclick = function () {
-    nodos.forEach(function (n) { if (n.tipo === "area" && !n.abierto) alternarArea(n); });
-    alfa = 1;
-  };
   document.getElementById("b-cerrar").onclick = function () {
-    nodos.forEach(function (n) { if (n.tipo === "area" && n.abierto) alternarArea(n); });
-    seleccionar(nRaiz); alfa = 1;
+    nodosArea.forEach(function (n) { if (n.abierto) cerrarArea(n); });
+    document.getElementById("pista").textContent = "Tocá un área para abrirla";
+    seleccionar(nRaiz);
+    calcularDestinos();
   };
   document.getElementById("b-centrar").onclick = function () {
-    nodos.forEach(function (n) {
-      if (n.fijo) return;
-      n.x = CX + (Math.random() - .5) * 300; n.y = CY + (Math.random() - .5) * 260;
-      n.vx = n.vy = 0;
-    });
-    alfa = 1;
+    /* Deshace los nodos que el visitante arrastró a mano. */
+    nodos.forEach(function (n) { n.anclado = false; });
+    calcularDestinos();
   };
 
   /* ── Arrastre de nodos (mouse y dedo) ─────────────────────── */
@@ -451,8 +590,12 @@ EXPO.alCargarDatos(function () {
   lienzo.addEventListener("pointermove", function (ev) {
     if (!agarrado) return;
     var p = aCoordSvg(ev);
-    agarrado.x = p.x; agarrado.y = p.y; agarrado.vx = agarrado.vy = 0;
-    alfa = 1;
+    /* Al arrastrar, el destino pasa a ser donde lo dejás: el layout no
+       te lo devuelve al lugar calculado. "Recentrar" deshace esto. */
+    agarrado.x = agarrado.tx = p.x;
+    agarrado.y = agarrado.ty = p.y;
+    agarrado.anclado = true;
+    animando = true;
   });
   ["pointerup", "pointercancel"].forEach(function (e) {
     lienzo.addEventListener(e, function () { agarrado = null; lienzo.classList.remove("arrastrando"); });
@@ -477,6 +620,8 @@ EXPO.alCargarDatos(function () {
   }
 
   construir();
+  calcularDestinos();
+  nodos.forEach(function (n) { if (n.tx != null) { n.x = n.tx; n.y = n.ty; } });
   seleccionar(nRaiz);
   bucle();
   EXPO.pie();
