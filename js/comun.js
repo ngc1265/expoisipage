@@ -112,7 +112,12 @@
      Para verlos siempre (repartir tareas en el equipo sin la clave),
      poné MOSTRAR_PENDIENTES_EN_VISTA = true en js/config.js.        */
   function verPendientes() {
-    if (typeof MOSTRAR_PENDIENTES_EN_VISTA !== "undefined" && MOSTRAR_PENDIENTES_EN_VISTA === true) return true;
+    if (typeof MOSTRAR_PENDIENTES_EN_VISTA !== "undefined" && MOSTRAR_PENDIENTES_EN_VISTA === true) {
+      /* La clase la lee el CSS: es lo que decide de verdad si se ven.
+         El atributo hidden queda como refuerzo, no como único control. */
+      document.body.classList.add("mostrar-pendientes");
+      return true;
+    }
     return document.body.classList.contains("editando");
   }
 
