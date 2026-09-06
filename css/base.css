@@ -216,10 +216,20 @@ h3{font-size:var(--t-lg);line-height:1.25;font-weight:600;margin-bottom:6px}
 }
 
 /* ── Aviso de contenido pendiente ─────────────────────────────── */
-.pendiente{
+/* Los avisos de "falta cargar" son para el equipo, no para el visitante.
+   Se ocultan por CSS y no solo con el atributo hidden que pone comun.js:
+   así, aunque el JS falle, se cargue una versión vieja de cache o quede a
+   medias, el visitante NUNCA ve los huecos. El CSS no depende del orden
+   de ejecución; el atributo sí. */
+.pendiente{display:none}
+body.editando .pendiente,
+body.mostrar-pendientes .pendiente{
+  display:block;
   border:1px dashed var(--a3);background:#FFF9EF;color:#7A5100;
   border-radius:8px;padding:14px 18px;font-size:var(--t-sm);margin-top:14px;
 }
+body.editando .pendiente[hidden],
+body.mostrar-pendientes .pendiente[hidden]{display:block}
 .pendiente strong{display:block;margin-bottom:2px}
 
 /* ── Pie ──────────────────────────────────────────────────────── */
