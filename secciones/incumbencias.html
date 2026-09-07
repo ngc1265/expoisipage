@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Incumbencias y áreas · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260904a">
+<link rel="stylesheet" href="../css/base.css?v=20260906a">
 <style>
 .grafo-marco{
   display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:stretch;
@@ -29,11 +29,14 @@
 }
 .nodo:hover circle,.nodo.apuntado circle{stroke:var(--tinta);filter:brightness(1.08)}
 .nodo.sel circle{stroke:var(--tinta);stroke-width:5}
+.nodo{cursor:pointer}
 .nodo text{
   font-family:var(--tipo);font-weight:700;fill:var(--tinta);
   paint-order:stroke;stroke:#F4F5F7;stroke-width:5px;stroke-linejoin:round;
   pointer-events:none;user-select:none;
 }
+/* La zona de click es transparente pero SÍ recibe eventos. */
+.nodo .zona{pointer-events:all}
 .nodo.raiz text{font-size:19px}
 .nodo.area text{font-size:16px}
 .nodo.puesto text{font-size:13.5px;font-weight:600}
@@ -120,12 +123,12 @@
   </div>
 </section>
 
-<script src="../js/config.js?v=20260904a"></script>
-<script src="../js/comun.js?v=20260904a"></script>
-<script src="../js/api.js?v=20260904a"></script>
-<script src="../js/editor.js?v=20260904a"></script>
-<script src="../datos/incumbencias.js?v=20260904a"></script>
-<script src="../datos/plan-estudios.js?v=20260904a"></script>
+<script src="../js/config.js?v=20260906a"></script>
+<script src="../js/comun.js?v=20260906a"></script>
+<script src="../js/api.js?v=20260906a"></script>
+<script src="../js/editor.js?v=20260906a"></script>
+<script src="../datos/incumbencias.js?v=20260906a"></script>
+<script src="../datos/plan-estudios.js?v=20260906a"></script>
 <script>
 /* ══════════════════════════════════════════════════════════════════
    Grafo de áreas e incumbencias — estilo explorador de Neo4j.
@@ -361,6 +364,17 @@ EXPO.alCargarDatos(function () {
       var g = crearSvg("g", { class: "nodo " + n.tipo, tabindex: "0", role: "button" });
       g.classList.add("accionable");
       g.setAttribute("aria-label", n.nombre);
+
+      /* Zona de click invisible que cubre el círculo Y la etiqueta.
+         Antes solo respondía el círculo: el texto lleva
+         pointer-events:none (si no, el cursor de selección se come el
+         click) y tocar el nombre no hacía nada. Con nodos chicos y
+         etiquetas largas, el área útil quedaba mínima. Este rect va
+         PRIMERO para quedar debajo de todo lo visible. */
+      var zona = crearSvg("rect", { class: "zona", fill: "transparent" });
+      g.appendChild(zona);
+      n._zona = zona;
+
       var c = crearSvg("circle", { r: n.r, fill: n.color });
       g.appendChild(c);
 
@@ -400,6 +414,12 @@ EXPO.alCargarDatos(function () {
       }
       n.anchoTexto = Math.max(anchoMax, n.r * 2);
       n.altoTexto = lineas.length * alto + 6;
+
+      var zw = n.anchoTexto + 16, zh = n.r * 2 + n.altoTexto + 22;
+      zona.setAttribute("x", -zw / 2);
+      zona.setAttribute("y", -n.r - 8);
+      zona.setAttribute("width", zw);
+      zona.setAttribute("height", zh);
 
       g.addEventListener("click", function () { tocar(n); });
       g.addEventListener("keydown", function (e) {
@@ -478,7 +498,12 @@ EXPO.alCargarDatos(function () {
   function seleccionar(n) {
     seleccionado = n;
     Object.keys(elemNodo).forEach(function (k) { elemNodo[k].classList.remove("sel"); });
-    if (elemNodo[n.id]) elemNodo[n.id].classList.add("sel");
+    if (elemNodo[n.id]) {
+      elemNodo[n.id].classList.add("sel");
+      /* Al frente: con las zonas de click ampliadas, dos nodos vecinos
+         pueden solaparse en los bordes y en SVG gana el último del DOM. */
+      gN.appendChild(elemNodo[n.id]);
+    }
     elemArista.forEach(function (p) {
       p.el.classList.toggle("viva", p.ar.a === n || p.ar.b === n);
     });
@@ -582,7 +607,7 @@ EXPO.alCargarDatos(function () {
   lienzo.addEventListener("pointerdown", function (ev) {
     var p = aCoordSvg(ev);
     var cerca = nodos.filter(function (n) { return n.visible; })
-      .filter(function (n) { return Math.hypot(n.x - p.x, n.y - p.y) < n.r + 8; })[0];
+      .filter(function (n) { return Math.hypot(n.x - p.x, n.y - p.y) < n.r + 10; })[0];
     if (!cerca || cerca.fijo) return;
     agarrado = cerca; lienzo.classList.add("arrastrando");
     lienzo.setPointerCapture(ev.pointerId);

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ingeniería en Sistemas de Información · Expo UTN 2026</title>
-<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/base.css?v=20260906a">
 <style>
 /* ── Estilos propios del index fachada ─────────────────────────────
    Este archivo es un ANDAMIO. Reemplazalo por tu landing real
@@ -50,18 +50,21 @@
 }
 .seccion h3{font-size:var(--t-lg);margin-bottom:6px}
 .seccion p{font-size:var(--t-sm);color:var(--apagado);max-width:32ch}
+/* Los rótulos de estado son una herramienta interna del equipo: el
+   visitante no tiene por qué enterarse de qué falta cargar.
+   OJO con la especificidad: la regla que los OCULTA tiene que ser al
+   menos tan específica como la que los pinta. Un `.estado{display:none}`
+   suelto pierde contra `.seccion .estado{display:inline-block}` y los
+   rótulos se siguen viendo — que es exactamente lo que pasaba. */
 .seccion .estado{
-  display:inline-block;margin-top:14px;font-size:var(--t-xs);font-weight:600;
+  display:none;margin-top:14px;font-size:var(--t-xs);font-weight:600;
   padding:4px 10px;border-radius:100px;
 }
+body.editando .seccion .estado,
+body.mostrar-pendientes .seccion .estado{display:inline-block}
 .estado.listo{background:#E6F4EF;color:#0A5B47}
 .estado.borrador{background:#FFF4E2;color:#7A5100}
 .estado.vacio{background:var(--gris);color:var(--apagado)}
-/* Los rótulos de estado son una herramienta interna del equipo:
-   el visitante no tiene por qué enterarse de qué falta cargar.
-   Se prenden solos al entrar en modo edición (editor.js). */
-.estado{display:none}
-body.editando .estado{display:inline-block}
 @media (max-width:820px){
   .hero{background:var(--papel);border-bottom:4px solid var(--rojo)}
 }
@@ -169,10 +172,10 @@ body.editando .estado{display:inline-block}
   </div>
 </section>
 
-<script src="js/config.js"></script>
-<script src="js/comun.js"></script>
-<script src="js/api.js"></script>
-<script src="js/editor.js"></script>
+<script src="js/config.js?v=20260906a"></script>
+<script src="js/comun.js?v=20260906a"></script>
+<script src="js/api.js?v=20260906a"></script>
+<script src="js/editor.js?v=20260906a"></script>
 <script>
 EXPO.pie("Versión de trabajo. Los estados de cada tarjeta indican qué falta cargar.");
 </script>
@@ -199,7 +202,7 @@ EXPO.pie("Versión de trabajo. Los estados de cada tarjeta indican qué falta ca
   Alternativa más brusca (si preferís no depender de config.js):
   comentá o borrá la línea de acá arriba que dice
 
-      <script src="js/editor.js"></script>
+      <script src="js/editor.js?v=20260906a"></script>
 
   ...pero acordate de hacer lo mismo en las 5 secciones que la cargan:
   investigacion-extension, plan-estudios, materias, salida-laboral y
