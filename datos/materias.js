@@ -21,6 +21,17 @@
    ══════════════════════════════════════════════════════════════════ */
 
 var DETALLE_MATERIAS = {
+  8: {
+    docentes: [],
+    fotos: [],
+    proyectos: [],
+    video: {
+      src: "../assets/video/sypdn-florencia.mp4",
+      poster: "../assets/video/sypdn-florencia-poster.jpg",
+      titulo: "La cátedra cuenta Sistemas y Procesos de Negocio",
+      pie: "Florencia · 2 min 6 s"
+    }
+  },
   16: {
     docentes: [],
     fotos: [],
@@ -29,21 +40,38 @@ var DETALLE_MATERIAS = {
     video: {
       src: "../assets/video/ads-adriana-martinez.mp4",
       poster: "../assets/video/ads-adriana-martinez-poster.jpg",
-      titulo: "Análisis de Sistemas contado por la cátedra",
-      pie: "Adriana Martínez · 2 min 11 s",
-      _pendiente: "Confirmar con Adriana Martínez que autoriza exhibir el video en el stand y en el sitio público."
+      titulo: "La cátedra cuenta Análisis de Sistemas",
+      pie: "Adriana Martínez · 2 min 11 s"
     }
   },
   23: {
     docentes: [],
     fotos: [],
     proyectos: [],
-    programa: "https://frba.utn.edu.ar/wp-content/uploads/2023/11/Diseno_de_sistemas_de_Informacion_23.pdf"
+    programa: "https://frba.utn.edu.ar/wp-content/uploads/2023/11/Diseno_de_sistemas_de_Informacion_23.pdf",
+    video: {
+      src: "../assets/video/ddsi-ezequiel.mp4",
+      poster: "../assets/video/ddsi-ezequiel-poster.jpg",
+      titulo: "La cátedra cuenta Diseño de Sistemas",
+      pie: "Ezequiel · 2 min 7 s"
+    }
   },
   15: {
     docentes: [],
     fotos: [],
     proyectos: [],
     programa: "https://frba.utn.edu.ar/wp-content/uploads/2025/03/Sistemas-Operativos_23.pdf"
+  },
+
+  36: {
+    docentes: [],
+    fotos: [],
+    proyectos: [],
+    video: {
+      src: "../assets/video/proyecto-final.mp4",
+      poster: "../assets/video/proyecto-final-poster.jpg",
+      titulo: "La cátedra cuenta Proyecto Final",
+      pie: "1 min 51 s"
+    }
   }
 };

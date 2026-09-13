@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vida y testimonios · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260913c">
+<link rel="stylesheet" href="../css/base.css?v=20260913d">
 <style>
 .testi{display:flex;flex-direction:column}
 .testi .cita{font-size:var(--t-lg);line-height:1.4;color:var(--tinta);margin:14px 0 18px}
@@ -118,16 +118,16 @@
   </div>
 </section>
 
-<script src="../js/config.js?v=20260913c"></script>
-<script src="../js/comun.js?v=20260913c"></script>
-<script src="../js/api.js?v=20260913c"></script>
-<script src="../js/editor.js?v=20260913c"></script>
-<script src="../datos/vida.js?v=20260913c"></script>
+<script src="../js/config.js?v=20260913d"></script>
+<script src="../js/comun.js?v=20260913d"></script>
+<script src="../js/api.js?v=20260913d"></script>
+<script src="../js/editor.js?v=20260913d"></script>
+<script src="../datos/vida.js?v=20260913d"></script>
 <script>
 EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
   EXPO.cabecera("Vida y testimonios");
-  EXPO.editor.registrar("datos/vida.js", { TESTIMONIOS: TESTIMONIOS, GRADUACIONES: GRADUACIONES, ESPACIOS: ESPACIOS, CONCURSOS: CONCURSOS, VIDEO_TESTIMONIOS: VIDEO_TESTIMONIOS },
+  EXPO.editor.registrar("datos/vida.js", { TESTIMONIOS: window.TESTIMONIOS, GRADUACIONES: window.GRADUACIONES, ESPACIOS: window.ESPACIOS, CONCURSOS: window.CONCURSOS, VIDEO_TESTIMONIOS: window.VIDEO_TESTIMONIOS },
     "Testimonios de LinkedIn, fotos de graduación y espacios de la Facultad.");
 
   /* ── Graduaciones ──────────────────────────────────────────────
@@ -252,9 +252,7 @@ EXPO.alCargarDatos(function () {
   EXPO.editor.carruselEditable(document.getElementById("espacios"), ESPACIOS, "ESPACIOS",
     function (c, l) { var d = EXPO.el("div"); c.appendChild(d); EXPO.carrusel(d, l); }, "aulas");
 
-  EXPO.pie(hayRed
-    ? "Las publicaciones se muestran embebidas porque hay conexión."
-    : "Sin conexión: las publicaciones se muestran como texto y QR.");
+  EXPO.pie();
 });
 </script>
 </body>

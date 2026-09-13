@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Incumbencias y áreas · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260913c">
+<link rel="stylesheet" href="../css/base.css?v=20260913d">
 <style>
 .grafo-marco{
   display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:stretch;
@@ -29,6 +29,10 @@
 }
 .nodo:hover circle,.nodo.apuntado circle{stroke:var(--tinta);filter:brightness(1.08)}
 .nodo.sel circle{stroke:var(--tinta);stroke-width:5}
+/* Un área abierta se reconoce por el anillo, no por un signo "+" que
+   además no se podía clickear (el texto lleva pointer-events:none). */
+.nodo.abierta circle{stroke:var(--tinta);stroke-width:4;stroke-dasharray:3 4}
+.nodo.sinhijos{opacity:.55}
 .nodo{cursor:pointer}
 .nodo text{
   font-family:var(--tipo);font-weight:700;fill:var(--tinta);
@@ -40,7 +44,6 @@
 .nodo.raiz text{font-size:19px}
 .nodo.area text{font-size:16px}
 .nodo.puesto text{font-size:13.5px;font-weight:600}
-.nodo .mas{font-size:22px;font-weight:700;fill:#fff;stroke:none;text-anchor:middle}
 
 .mandos-grafo{
   position:absolute;left:14px;bottom:14px;display:flex;gap:10px;flex-wrap:wrap;z-index:3;
@@ -104,7 +107,7 @@
     <div id="aviso-legal"></div>
     <div class="grafo-marco">
       <div class="lienzo" id="lienzo">
-        <p class="pista" id="pista">Tocá un área para abrirla</p>
+        <p class="pista" id="pista">Tocá cualquier área para abrirla</p>
         <svg id="svg" viewBox="0 0 1320 960" preserveAspectRatio="xMidYMid meet" role="img"
              aria-label="Grafo de áreas y puestos de la carrera">
           <g id="g-aristas"></g>
@@ -123,12 +126,12 @@
   </div>
 </section>
 
-<script src="../js/config.js?v=20260913c"></script>
-<script src="../js/comun.js?v=20260913c"></script>
-<script src="../js/api.js?v=20260913c"></script>
-<script src="../js/editor.js?v=20260913c"></script>
-<script src="../datos/incumbencias.js?v=20260913c"></script>
-<script src="../datos/plan-estudios.js?v=20260913c"></script>
+<script src="../js/config.js?v=20260913d"></script>
+<script src="../js/comun.js?v=20260913d"></script>
+<script src="../js/api.js?v=20260913d"></script>
+<script src="../js/editor.js?v=20260913d"></script>
+<script src="../datos/incumbencias.js?v=20260913d"></script>
+<script src="../datos/plan-estudios.js?v=20260913d"></script>
 <script>
 /* ══════════════════════════════════════════════════════════════════
    Grafo de áreas e incumbencias — estilo explorador de Neo4j.
@@ -239,7 +242,7 @@ EXPO.alCargarDatos(function () {
   function alBorde(n) {
     var mx = n.anchoTexto / 2 + 10;
     n.tx = Math.max(mx, Math.min(W - mx, n.tx));
-    n.ty = Math.max(n.r + 20, Math.min(H - n.r - n.altoTexto - 14, n.ty));
+    n.ty = Math.max(n.r + 34, Math.min(H - n.r - n.altoTexto - 26, n.ty));
   }
 
   function relajar(vis) {
@@ -378,13 +381,6 @@ EXPO.alCargarDatos(function () {
       var c = crearSvg("circle", { r: n.r, fill: n.color });
       g.appendChild(c);
 
-      if (n.tipo === "area" && (n.datos.puestos || []).length) {
-        var mas = crearSvg("text", { class: "mas", dy: "7" });
-        mas.textContent = "+";
-        g.appendChild(mas);
-        n._mas = mas;
-      }
-
       /* Etiquetas más cortas por línea: dos líneas angostas ocupan
          mucho menos ancho que una larga, y el ancho es lo que hacía
          que se encimaran. */
@@ -443,7 +439,10 @@ EXPO.alCargarDatos(function () {
       g.style.display = n.visible ? "" : "none";
       if (!n.visible) return;
       g.setAttribute("transform", "translate(" + n.x.toFixed(1) + "," + n.y.toFixed(1) + ")");
-      if (n._mas) n._mas.textContent = n.abierto ? "−" : "+";
+      if (n.tipo === "area") {
+        g.classList.toggle("abierta", !!n.abierto);
+        g.classList.toggle("sinhijos", !(n.datos.puestos || []).length);
+      }
     });
   }
 
@@ -456,6 +455,12 @@ EXPO.alCargarDatos(function () {
   var seleccionado = null;
 
   function tocar(n) {
+    if (n.tipo === "area" && !(n.datos.puestos || []).length) {
+      document.getElementById("pista").textContent =
+        "“" + n.nombre + "” todavía no tiene puestos cargados.";
+      seleccionar(n);
+      return;
+    }
     if (n.tipo === "area") alternarArea(n);
     seleccionar(n);
     animando = true;

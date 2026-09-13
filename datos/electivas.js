@@ -39,6 +39,14 @@ var BLOQUES = [
   },
 
   {
+    titulo: "El plan completo",
+    texto: "Programas, correlativas y el diseño curricular entero, en el sitio del Departamento.",
+    url: "https://frba.utn.edu.ar/carreras/ingenieria-en-sistemas-de-informacion/plan-de-estudios/",
+    qr: "plan-2023",
+    leyenda: "Plan 2023 — Ordenanza n° 1877."
+  },
+
+  {
     titulo: "Construcción de software",
     texto: "Para quien quiere programar mejor, no solo más.",
     items: [
@@ -108,13 +116,6 @@ var BLOQUES = [
     ]
   },
 
-  {
-    titulo: "El plan completo",
-    texto: "Programas, correlativas y el diseño curricular entero, en el sitio del Departamento.",
-    url: "https://frba.utn.edu.ar/carreras/ingenieria-en-sistemas-de-informacion/plan-de-estudios/",
-    qr: "plan-2023",
-    leyenda: "Plan 2023 — Ordenanza n° 1877."
-  },
 
   {
     titulo: "IA Generativa en Sistemas Agénticos",

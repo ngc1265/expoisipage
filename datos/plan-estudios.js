@@ -28,7 +28,7 @@ var MATERIAS = [
   { id: 5,  n: "Lógica y Estructuras Discretas", lv: 1, tr: 0, c: [], a: [], d: "Lógica proposicional, conjuntos, relaciones, grafos y recursión. Cómo piensa una computadora." },
   { id: 6,  n: "Algoritmos y Estructuras de Datos", lv: 1, tr: 0, c: [], a: [], d: "Tu primera materia de programación de verdad: listas, árboles, ordenamiento, búsqueda y costo de los algoritmos." },
   { id: 7,  n: "Arquitectura de Computadoras", lv: 1, tr: 0, c: [], a: [], d: "Qué hay adentro de la máquina: procesador, memoria, buses y lenguaje ensamblador." },
-  { id: 8,  n: "Sistemas y Procesos de Negocio", lv: 1, tr: 0, c: [], a: [], d: "Cómo funciona una organización por dentro y cómo se modelan sus procesos. La puerta de entrada al lado no técnico de la carrera." },
+  { id: 8,  n: "Sistemas y Procesos de Negocio", lv: 1, tr: 0, troncal: 1, c: [], a: [], d: "Cómo funciona una organización por dentro y cómo se modelan sus procesos. La puerta de entrada al lado no técnico de la carrera." },
 
   { id: 9,  n: "Análisis Matemático II", lv: 2, tr: 0, c: [1, 2], a: [], d: "Cálculo en varias variables, series y ecuaciones diferenciales." },
   { id: 10, n: "Física II", lv: 2, tr: 0, c: [1, 3], a: [], d: "Electricidad, magnetismo y ondas: el fundamento físico de las comunicaciones y del hardware." },
@@ -79,8 +79,7 @@ var DISCREPANCIAS = [
 /* ── Electivas ────────────────────────────────────────────────── */
 var ELECTIVAS = {
   texto: "Además de las 36 obligatorias, el plan incluye materias electivas que permiten armar un recorrido " +
-         "propio. Se eligen en los últimos niveles y son la forma de especializarse sin cambiar de carrera.",
-  _pendiente: "Cargar el listado real de electivas vigentes de la FRBA con carga horaria y requisitos."
+         "propio. Se eligen en los últimos niveles y son la forma de especializarse sin cambiar de carrera."
 };
 
 /* ── Tutorías ─────────────────────────────────────────────────── */
@@ -116,10 +115,7 @@ var APOYO = {
     { n: "Prácticas estudiantiles", d: "Desempeño académico, desarrollo de competencias genéricas y consultas de trayectoria." },
     { n: "Articulación con el nivel medio", d: "Acercamiento de la Facultad a estudiantes secundarios y espacios interniveles." },
     { n: "Salud y discapacidad", d: "Bienestar estudiantil, acompañamiento áulico, información y orientación a personas en situación de discapacidad." }
-  ],
-  _pendiente: "Confirmar con Secretaría Académica de la FRBA los nombres exactos de las áreas, quién las " +
-              "coordina y el canal de contacto. La estructura de arriba está tomada del modelo UTN general."
-};
+  ]};
 
 /* ── Laboratorios ─────────────────────────────────────────────── */
 var LABORATORIOS = [
@@ -127,7 +123,6 @@ var LABORATORIOS = [
     sede: "Campus",
     titulo: "Laboratorio de Sistemas · Campus",
     texto: "Espacio de práctica con equipamiento propio para las materias de programación, bases de datos y redes.",
-    _pendiente: "Completar: cantidad de aulas, equipamiento, horarios de uso libre, software instalado.",
     fotos: [
       { img: "../assets/fotos/laboratorios/laboratorio-pasillo-egresada.jpg", titulo: "El pasillo del laboratorio", pie: "Una egresada con docentes de la carrera, en la entrada del laboratorio" }
     ]
@@ -136,7 +131,6 @@ var LABORATORIOS = [
     sede: "Medrano",
     titulo: "Laboratorio de Sistemas · Sede Medrano",
     texto: "Varias aulas separadas y equipadas, cada una preparada para distintos tipos de práctica.",
-    _pendiente: "Completar: cuántas aulas, qué equipamiento tiene cada una, a qué materias sirve cada laboratorio.",
     fotos: []
   }
 ];

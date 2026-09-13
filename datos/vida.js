@@ -88,5 +88,68 @@ var GRADUACIONES = [
 var ESPACIOS = [
   { img: "../assets/fotos/aulas/aula-clase-teorica.jpg", titulo: "Clase teórica", pie: "Aula grande de la Facultad, en plena cursada" },
   { img: "../assets/fotos/aulas/aula-examen.jpg", titulo: "Día de parcial", pie: "Aula de comisión, evaluación en curso" },
-  { img: "../assets/fotos/institucional/evento-carpa.jpg", titulo: "Evento institucional", pie: "COMPLETAR: no pude identificar de qué acto es esta foto" }
+  { img: "../assets/fotos/institucional/evento-carpa.jpg", titulo: "Evento institucional", pie: "Acto en la Facultad" }
+];
+
+/* ── Testimonios en video ──────────────────────────────────────────
+   Ocho videos de la cátedra de Dirección Estratégica: uno del docente
+   y siete de estudiantes.
+
+   Los nombres están vacíos a propósito: no los inventé. Se completan
+   desde el modo edición, y hasta entonces la tarjeta muestra solo el
+   video. Un nombre equivocado abajo de la cara de alguien es peor que
+   ningún nombre.
+
+   El video 005 está filmado en vertical con un celular. El módulo lo
+   detecta y lo muestra con la proporción que le corresponde en vez de
+   recortarlo.                                                          */
+var VIDEO_TESTIMONIOS = {
+  titulo: "Lo cuentan ellos",
+  intro: "Ocho minutos de gente que ya cursó, hablando a cámara. " +
+         "Primero la cátedra, después los estudiantes.",
+  destacado: {
+    src: "../assets/video/direst-001.mp4",
+    poster: "../assets/video/direst-001-poster.jpg",
+    nombre: "",
+    rol: "Docente · Dirección Estratégica",
+    pie: "59 s"
+  },
+  videos: [
+    { src: "../assets/video/direst-002.mp4", poster: "../assets/video/direst-002-poster.jpg", nombre: "", rol: "Estudiante", pie: "53 s" },
+    { src: "../assets/video/direst-003.mp4", poster: "../assets/video/direst-003-poster.jpg", nombre: "", rol: "Estudiante", pie: "51 s" },
+    { src: "../assets/video/direst-004.mp4", poster: "../assets/video/direst-004-poster.jpg", nombre: "", rol: "Estudiante", pie: "40 s" },
+    { src: "../assets/video/direst-005.mp4", poster: "../assets/video/direst-005-poster.jpg", nombre: "", rol: "Estudiante", pie: "41 s", vertical: true },
+    { src: "../assets/video/direst-006.mp4", poster: "../assets/video/direst-006-poster.jpg", nombre: "", rol: "Estudiante", pie: "49 s" },
+    { src: "../assets/video/direst-007.mp4", poster: "../assets/video/direst-007-poster.jpg", nombre: "", rol: "Estudiante", pie: "56 s" },
+    { src: "../assets/video/direst-008.mp4", poster: "../assets/video/direst-008-poster.jpg", nombre: "", rol: "Estudiante", pie: "42 s" }
+  ]
+};
+
+/* ── Concursos y competencias ──────────────────────────────────────
+   Lo que pasa alrededor de la cursada: competencias donde se programa
+   contra reloj y en equipo. Es de las cosas que más engancha a un
+   ingresante y no aparece en ningún plan de estudios.
+
+   `alcance` distingue lo que organiza la comunidad del lenguaje Wollok
+   (usado en las materias de programación de los primeros años) de los
+   hackathons abiertos, que son de terceros y no dependen de la UTN.   */
+var CONCURSOS = [
+  {
+    nombre: "Concurso Wollok",
+    alcance: "Comunidad Wollok",
+    texto: "Wollok es el lenguaje con el que se aprende a programar con objetos en los primeros años. " +
+           "Su comunidad organiza un concurso donde los equipos resuelven un desafío de diseño y programación. " +
+           "Es la competencia más cercana a lo que ya estás cursando: no hace falta saber nada de afuera de la materia.",
+    url: "https://www.wollok.org/news/concurso2025/",
+    etiqueta: "Edición 2025"
+  },
+  {
+    nombre: "Hackathons",
+    alcance: "Abierto, organizadores externos",
+    texto: "Maratones de 24 a 48 horas donde un equipo arma algo que funcione, de cero, contra reloj. " +
+           "Se sale con un prototipo, con gente nueva conocida y con una idea bastante exacta de cómo es " +
+           "trabajar bajo presión. Muchos son gratuitos y aceptan estudiantes de cualquier año.",
+    url: "https://ar.allhackathons.com/",
+    etiqueta: "Calendario argentino"
+  }
 ];

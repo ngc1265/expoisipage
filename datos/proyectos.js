@@ -16,7 +16,7 @@
    qué se puede exhibir. Poné autorizado: true uno por uno.
 
    Campos: titulo, anio, comision, mini, full, resumen, autores,
-           autorizado, _pendiente
+           autorizado
    ══════════════════════════════════════════════════════════════════ */
 
 var PROYECTOS = [
@@ -28,8 +28,7 @@ var PROYECTOS = [
     full: "../assets/proyectos/full/proyecto-final-2026-jueves-k5153-grupo-456-poster-con-docent.webp",
     resumen: "",
     autores: "",
-    autorizado: false,
-    _pendiente: "FALTA: identificar el proyecto (el archivo solo dice comisión y grupo 456)"
+    autorizado: false
   },
   {
     titulo: "",
@@ -39,8 +38,7 @@ var PROYECTOS = [
     full: "../assets/proyectos/full/proyecto-final-2026-martes-k5051-poster-25-08-2026.webp",
     resumen: "",
     autores: "",
-    autorizado: false,
-    _pendiente: "FALTA: identificar el proyecto (el archivo solo dice comisión y fecha)"
+    autorizado: false
   },
   {
     titulo: "Ad Sight",
@@ -590,8 +588,7 @@ var PROYECTOS = [
     full: "../assets/proyectos/full/poster-5309-sin-profesores.webp",
     resumen: "",
     autores: "",
-    autorizado: false,
-    _pendiente: "FALTA: identificar el proyecto y el año"
+    autorizado: false
   },
   {
     titulo: "AgroLink",
@@ -601,8 +598,7 @@ var PROYECTOS = [
     full: "../assets/proyectos/full/poster-comercial-agrolink-integrantes.webp",
     resumen: "",
     autores: "",
-    autorizado: false,
-    _pendiente: "FALTA: confirmar el año de cursada"
+    autorizado: false
   },
   {
     titulo: "SafePlace",
@@ -612,8 +608,7 @@ var PROYECTOS = [
     full: "../assets/proyectos/full/poster-safeplace-5311-miercoles-alumnos.webp",
     resumen: "",
     autores: "",
-    autorizado: false,
-    _pendiente: "FALTA: confirmar el año de cursada"
+    autorizado: false
   }
 ]; 
 
@@ -622,6 +617,5 @@ var INTRO = {
   titulo: "Lo que se construye para recibirse",
   texto: "Proyecto Final es la última materia de la carrera: un año entero desarrollando un sistema real, en equipo, " +
          "con un cliente y una fecha de entrega. Estos son los pósters con los que se presentaron. " +
-         "Ninguno es un ejercicio de clase: todos resuelven un problema concreto de alguien.",
-  _pendiente: "Elegir 6 u 8 pósters destacados para poner primero. Con 59 en la grilla el visitante no sabe por dónde empezar."
+         "Ninguno es un ejercicio de clase: todos resuelven un problema concreto de alguien."
 };

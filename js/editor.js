@@ -263,11 +263,18 @@
     if (typeof EDICION_HABILITADA !== "undefined" && EDICION_HABILITADA === false) return;
     var m = E.q(".marca");
     if (!m) return;
-    var t = E.el("button", "marca-volver", "✎ Editar");
+
+    /* Se llama "Ingresar" y no "Editar": para el visitante, un botón
+       que dice Editar en un sitio institucional invita a tocarlo y
+       después a frustrarse con una clave. "Ingresar" se lee como algo
+       que no es para él y no rompe la lectura de la página.
+
+       Hace exactamente lo mismo que hacía ✎ Editar. Cuando haya
+       usuarios de verdad, el único cambio es qué pide abrirEdicion(). */
+    var t = E.el("button", "marca-ingresar", activo ? "Salir" : "Ingresar");
     t.id = "btn-editar";
-    t.style.marginLeft = "10px";
     t.onclick = function () {
-      if (activo) { alternar(false); return; }
+      if (activo) { alternar(false); t.textContent = "Ingresar"; return; }
       abrirEdicion();
     };
     m.appendChild(t);

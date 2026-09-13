@@ -20,13 +20,12 @@
    └────────────────────────────────────────────────────────────────┘
 
    Campos de área:   id, nombre, color, resumen, alcance
-   Campos de puesto: nombre, quehace, materias[], perfil, _pendiente
+   Campos de puesto: nombre, quehace, materias[], perfil
    ══════════════════════════════════════════════════════════════════ */
 
 var RAIZ = {
   nombre: "Ingeniería en Sistemas de Información",
-  resumen: "Un título, muchos caminos. Tocá un área para abrirla y después cualquier puesto para ver qué se hace ahí.",
-  _pendiente: ""
+  resumen: "Un título, muchos caminos. Tocá un área para abrirla y después cualquier puesto para ver qué se hace ahí."
 };
 
 var AREAS = [
@@ -55,7 +54,7 @@ var AREAS = [
       { nombre: "Data analyst", quehace: "Responde preguntas del negocio con los datos que hay. Mide, compara, arma tableros y explica qué está pasando y por qué.", materias: [17, 19, 32], perfil: "datos" },
       { nombre: "Data scientist", quehace: "Construye modelos que predicen o clasifican. Trabaja con estadística, experimentación y validación: la parte difícil no es entrenar, es saber si sirve.", materias: [17, 31, 32], perfil: "datos" },
       { nombre: "Machine learning engineer", quehace: "Lleva un modelo del cuaderno de laboratorio a producción, y lo mantiene funcionando cuando los datos cambian.", materias: [28, 31, 32], perfil: "datos" },
-      { nombre: "Especialista en IA aplicada", quehace: "Integra modelos de lenguaje y visión en productos existentes, y define hasta dónde se les puede confiar una decisión.", materias: [31, 32], perfil: "datos", _pendiente: "Confirmar qué electivas de la carrera cubren este puesto." }
+      { nombre: "Especialista en IA aplicada", quehace: "Integra modelos de lenguaje y visión en productos existentes, y define hasta dónde se les puede confiar una decisión.", materias: [31, 32], perfil: "datos" }
     ]
   },
   {
@@ -69,7 +68,7 @@ var AREAS = [
       { nombre: "Pentester (Red team)", quehace: "Ataca los sistemas propios, con autorización escrita, para encontrar los agujeros antes que otro. El permiso es lo que separa esto de un delito.", materias: [15, 26, 35], perfil: "ciberseguridad" },
       { nombre: "Perito informático", quehace: "Trabaja para la Justicia: recupera evidencia digital, la preserva sin alterarla y produce un informe que se sostiene en un juicio.", materias: [24, 35], perfil: "ciberseguridad" },
       { nombre: "Auditor de sistemas", quehace: "Revisa que los sistemas y los procesos cumplan lo que dicen cumplir: controles, normativa, trazabilidad.", materias: [16, 25, 30], perfil: "ciberseguridad" },
-      { nombre: "Especialista en gobierno de datos y privacidad", quehace: "Define quién puede ver qué, cómo se guarda y cuánto tiempo. Cruce de técnica, normativa y sentido común.", materias: [19, 24, 35], perfil: "ciberseguridad", _pendiente: "" }
+      { nombre: "Especialista en gobierno de datos y privacidad", quehace: "Define quién puede ver qué, cómo se guarda y cuánto tiempo. Cruce de técnica, normativa y sentido común.", materias: [19, 24, 35], perfil: "ciberseguridad" }
     ]
   },
   {
@@ -83,7 +82,7 @@ var AREAS = [
       { nombre: "Product owner", quehace: "Decide qué se construye y en qué orden. Es la persona que dice que no, con argumentos.", materias: [8, 16, 30], perfil: "gestion" },
       { nombre: "Scrum master / Agile coach", quehace: "Trabaja sobre cómo trabaja el equipo: destraba, mide, ajusta el proceso. No manda sobre el producto.", materias: [23, 30], perfil: "gestion" },
       { nombre: "Consultor de sistemas", quehace: "Entra a una organización que no conoce, entiende el problema rápido y propone qué hacer. Mucha entrevista, mucho diagnóstico.", materias: [8, 16, 33], perfil: "gestion" },
-      { nombre: "Emprendedor / fundador técnico", quehace: "Arma su propio producto. La carrera aporta lo que casi nadie tiene al empezar: saber estimar, diseñar y no quedarse pegado a una tecnología.", materias: [18, 30, 34], perfil: "gestion", _pendiente: "" }
+      { nombre: "Emprendedor / fundador técnico", quehace: "Arma su propio producto. La carrera aporta lo que casi nadie tiene al empezar: saber estimar, diseñar y no quedarse pegado a una tecnología.", materias: [18, 30, 34], perfil: "gestion" }
     ]
   },
   {
@@ -96,7 +95,7 @@ var AREAS = [
       { nombre: "Analista funcional", quehace: "Releva qué necesita la organización, lo modela y lo escribe de forma que el equipo técnico pueda construirlo sin adivinar.", materias: [8, 16, 23], perfil: "analista" },
       { nombre: "Analista de procesos (BPM)", quehace: "Mira cómo trabaja hoy la organización, encuentra dónde se pierde tiempo y rediseña el circuito. A veces la solución ni siquiera es un sistema.", materias: [8, 16, 33], perfil: "analista" },
       { nombre: "Business analyst", quehace: "Conecta la estrategia del negocio con lo que se puede construir. Justifica inversiones y mide si dieron resultado.", materias: [18, 30, 34], perfil: "analista" },
-      { nombre: "Especialista en transformación digital", quehace: "Acompaña a una organización que cambia su forma de trabajar. Lo difícil no es la tecnología: es la gente.", materias: [8, 30, 33], perfil: "analista", _pendiente: "" }
+      { nombre: "Especialista en transformación digital", quehace: "Acompaña a una organización que cambia su forma de trabajar. Lo difícil no es la tecnología: es la gente.", materias: [8, 30, 33], perfil: "analista" }
     ]
   },
   {
@@ -109,7 +108,7 @@ var AREAS = [
       { nombre: "QA analyst", quehace: "Diseña los casos de prueba, los ejecuta y define si el producto está listo para salir. Rompe cosas a propósito.", materias: [25], perfil: "qa" },
       { nombre: "QA automation engineer", quehace: "Escribe código cuyo único trabajo es probar otro código, y lo mete en el pipeline para que corra solo en cada cambio.", materias: [20, 25], perfil: "qa" },
       { nombre: "Ingeniero de performance", quehace: "Mide cuánto aguanta el sistema y dónde se rompe antes de que se rompa con usuarios reales adentro.", materias: [25, 28], perfil: "qa" },
-      { nombre: "Quality control / mejora de procesos", quehace: "Trabaja sobre el proceso de desarrollo, no sobre el producto: métricas, estándares, normas de calidad.", materias: [25, 30], perfil: "qa", _pendiente: "" }
+      { nombre: "Quality control / mejora de procesos", quehace: "Trabaja sobre el proceso de desarrollo, no sobre el producto: métricas, estándares, normas de calidad.", materias: [25, 30], perfil: "qa" }
     ]
   },
   {
@@ -122,7 +121,7 @@ var AREAS = [
       { nombre: "Arquitecto de software", quehace: "Toma las decisiones estructurales que después son carísimas de revertir: cómo se divide el sistema, cómo hablan las partes, qué se banca cada una.", materias: [20, 23, 30], perfil: "arquitecto" },
       { nombre: "Arquitecto de infraestructura / cloud", quehace: "Diseña dónde vive el sistema: servidores, nube, redes, costos. Equilibra disponibilidad contra presupuesto.", materias: [15, 26, 35], perfil: "arquitecto" },
       { nombre: "Administrador de redes", quehace: "Mantiene la red funcionando y segura: enrutamiento, segmentación, capacidad, diagnóstico cuando algo anda lento.", materias: [21, 26], perfil: "arquitecto" },
-      { nombre: "SRE (Site Reliability Engineer)", quehace: "Se ocupa de que el sistema siga en pie: monitoreo, guardias, análisis de incidentes y trabajo para que no se repitan.", materias: [15, 26], perfil: "arquitecto", _pendiente: "" }
+      { nombre: "SRE (Site Reliability Engineer)", quehace: "Se ocupa de que el sistema siga en pie: monitoreo, guardias, análisis de incidentes y trabajo para que no se repitan.", materias: [15, 26], perfil: "arquitecto" }
     ]
   },
   {
@@ -134,7 +133,7 @@ var AREAS = [
     puestos: [
       { nombre: "Diseñador UX", quehace: "Investiga cómo trabaja la gente, prueba prototipos con usuarios reales y corrige antes de que se escriba una línea de código.", materias: [8, 16, 23], perfil: "disenador" },
       { nombre: "Diseñador de interacción / UI", quehace: "Define el comportamiento y la forma de la interfaz: qué pasa cuando tocás cada cosa, y qué pasa cuando algo falla.", materias: [16, 23], perfil: "disenador" },
-      { nombre: "Especialista en accesibilidad", quehace: "Se asegura de que el sistema también funcione para quien no ve, no oye o no puede usar un mouse. Además de ser lo correcto, en muchos casos es obligación legal.", materias: [16, 23, 24], perfil: "disenador", _pendiente: "" }
+      { nombre: "Especialista en accesibilidad", quehace: "Se asegura de que el sistema también funcione para quien no ve, no oye o no puede usar un mouse. Además de ser lo correcto, en muchos casos es obligación legal.", materias: [16, 23, 24], perfil: "disenador" }
     ]
   },
   {
@@ -147,7 +146,7 @@ var AREAS = [
       { nombre: "Docente universitario", quehace: "Da clase, arma material, evalúa y forma parte de una cátedra. Se puede empezar como ayudante mientras se cursa.", materias: [23, 30], perfil: "docencia" },
       { nombre: "Investigador", quehace: "Trabaja en un grupo de I+D sobre un problema abierto, publica en congresos y revistas, y somete lo que hace a revisión de pares.", materias: [28, 36], perfil: "investigacion" },
       { nombre: "Tutor / apoyo académico", quehace: "Acompaña a estudiantes de los primeros años, que es donde se define si alguien sigue o abandona.", materias: [], perfil: "docencia" },
-      { nombre: "Extensión y transferencia", quehace: "Lleva lo que se produce en la Facultad a organizaciones, municipios y empresas que lo necesitan.", materias: [], perfil: "investigacion", _pendiente: "" }
+      { nombre: "Extensión y transferencia", quehace: "Lleva lo que se produce en la Facultad a organizaciones, municipios y empresas que lo necesitan.", materias: [], perfil: "investigacion" }
     ]
   }
 ];
@@ -161,6 +160,5 @@ var AREAS = [
 var NOTA_LEGAL = {
   titulo: "Sobre este mapa",
   texto: "Las áreas y los puestos son una guía de orientación, no una lista cerrada. " +
-         "Los alcances formales del título los fija la resolución ministerial correspondiente.",
-  _pendiente: "Traer el texto oficial de alcances/incumbencias del título (resolución ministerial) y reemplazar las paráfrasis de cada área."
+         "Los alcances formales del título los fija la resolución ministerial correspondiente."
 };

@@ -37,7 +37,6 @@ var BLOQUES = [
     texto: "Podés volver a recorrer todo lo del stand desde tu casa, con calma.",
     url: "https://expoisi.com.ar/",
     qr: "expoisi-sitio",
-    leyenda: "El sitio del stand, online.",
-    _pendiente: "Confirmar que el dominio expoisi.com.ar ya resuelve antes del 16/09. Si no llegó a propagar, sacar este bloque o cambiar la URL por la de *.web.app."
+    leyenda: "El sitio del stand, online."
   }
 ];

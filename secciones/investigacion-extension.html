@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Investigación y extensión · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260913c">
+<link rel="stylesheet" href="../css/base.css?v=20260913d">
 <style>
 .congreso{display:grid;grid-template-columns:180px 1fr;gap:32px;align-items:start}
 .congreso+.congreso{margin-top:16px}
@@ -118,11 +118,11 @@
   </div>
 </section>
 
-<script src="../js/config.js?v=20260913c"></script>
-<script src="../js/comun.js?v=20260913c"></script>
-<script src="../js/api.js?v=20260913c"></script>
-<script src="../js/editor.js?v=20260913c"></script>
-<script src="../datos/investigacion.js?v=20260913c"></script>
+<script src="../js/config.js?v=20260913d"></script>
+<script src="../js/comun.js?v=20260913d"></script>
+<script src="../js/api.js?v=20260913d"></script>
+<script src="../js/editor.js?v=20260913d"></script>
+<script src="../datos/investigacion.js?v=20260913d"></script>
 <script>
 EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc, lig = EXPO.ligar;
@@ -135,10 +135,10 @@ EXPO.alCargarDatos(function () {
   };
 
   EXPO.editor.registrar("datos/investigacion.js", {
-    PANORAMA: PANORAMA,
-    CONGRESOS: CONGRESOS, PONENCIAS: PONENCIAS, PUBLICACION: PUBLICACION,
-    ACTAS: ACTAS, GRADUADOS: GRADUADOS, COOPERACION: COOPERACION,
-    FOTOS_CONGRESOS: FOTOS_CONGRESOS
+    PANORAMA: window.PANORAMA,
+    CONGRESOS: window.CONGRESOS, PONENCIAS: window.PONENCIAS, PUBLICACION: window.PUBLICACION,
+    ACTAS: window.ACTAS, GRADUADOS: window.GRADUADOS, COOPERACION: window.COOPERACION,
+    FOTOS_CONGRESOS: window.FOTOS_CONGRESOS
   }, "Congresos, publicaciones, vinculación con graduados y cooperación internacional.");
 
   /* ── Panorama ──────────────────────────────────────────────── */
@@ -318,7 +318,7 @@ EXPO.alCargarDatos(function () {
   if (COOPERACION._pendiente) t2.appendChild(EXPO.pendiente("Falta confirmar", COOPERACION._pendiente));
   cc.appendChild(t2);
 
-  EXPO.pie("Datos de congresos tomados de los sitios oficiales de cada edición 2026.");
+  EXPO.pie();
 });
 </script>
 </body>
