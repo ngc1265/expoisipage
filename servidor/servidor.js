@@ -365,13 +365,46 @@ app.use("/medios", express.static(DIR_MEDIOS, {
   }
 }));
 
-/* Este proceso NO sirve el sitio. Si alguien entra a la raíz de la API
-   por error, que sepa dónde está parado en vez de comerse un 404 seco. */
-app.get("/", (_req, res) => res.json({
-  servicio: "API del stand de Sistemas · Expo UTN 2026",
-  sitio: ORIGENES[0] || null,
-  endpoints: ["/api/contenido", "/api/sesion", "/api/medios", "/salud"]
-}));
+/* ── Servir también el sitio (opcional) ─────────────────────────
+   Con SERVIR_SITIO=1 este proceso sirve además el sitio estático de la
+   carpeta de arriba. Deja de haber dos orígenes: se acaban el CORS y la
+   necesidad de que API_BASE coincida con ORIGENES_PERMITIDOS.
+
+   Cuándo conviene: si el certificado del CDN no se emite y hace falta
+   un único dominio que ya tenga TLS funcionando. Todo pasa a salir de
+   acá, así que el tráfico de los videos empieza a contar como egress
+   de Railway. Con el volumen de un stand eso son centavos, pero deja
+   de ser gratis.
+
+   Requiere Root Directory = repo (no `servidor`), para que exista
+   la carpeta de arriba dentro del contenedor.                          */
+const SERVIR_SITIO = process.env.SERVIR_SITIO === "1";
+const RAIZ = path.resolve(__dirname, "..");
+
+if (SERVIR_SITIO && fs.existsSync(path.join(RAIZ, "index.html"))) {
+  app.use(express.static(RAIZ, {
+    extensions: ["html"],
+    setHeaders(res, ruta) {
+      /* Los HTML sin caché porque cambian seguido. El resto lleva
+         ?v=... en la URL, así que se puede cachear con tranquilidad. */
+      if (ruta.endsWith(".html")) res.setHeader("Cache-Control", "no-cache");
+      else res.setHeader("Cache-Control", "public, max-age=604800");
+    }
+  }));
+  console.log("Sirviendo también el sitio desde " + RAIZ);
+} else {
+  if (SERVIR_SITIO) {
+    console.warn("SERVIR_SITIO=1 pero no encuentro index.html en " + RAIZ +
+                 ". ¿Root Directory quedó en 'servidor'? Tiene que apuntar al repo.");
+  }
+  /* Si alguien entra a la raíz de la API por error, que sepa dónde está
+     parado en vez de comerse un 404 seco. */
+  app.get("/", (_req, res) => res.json({
+    servicio: "API del stand de Sistemas · Expo UTN 2026",
+    sitio: ORIGENES[0] || null,
+    endpoints: ["/api/contenido", "/api/sesion", "/api/medios", "/salud"]
+  }));
+}
 
 app.get("/salud", async (_req, res) => {
   try { await pool.query("SELECT 1"); res.json({ ok: true }); }

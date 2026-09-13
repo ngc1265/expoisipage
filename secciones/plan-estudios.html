@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Plan de estudios · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260906a">
+<link rel="stylesheet" href="../css/base.css?v=20260913c">
 <style>
 /* ── Mapa de correlativas ─────────────────────────────────────── */
 #mapa{overflow-x:auto;padding-bottom:12px}
@@ -116,11 +116,11 @@
   </div>
 </section>
 
-<script src="../js/config.js?v=20260906a"></script>
-<script src="../js/comun.js?v=20260906a"></script>
-<script src="../js/api.js?v=20260906a"></script>
-<script src="../js/editor.js?v=20260906a"></script>
-<script src="../datos/plan-estudios.js?v=20260906a"></script>
+<script src="../js/config.js?v=20260913c"></script>
+<script src="../js/comun.js?v=20260913c"></script>
+<script src="../js/api.js?v=20260913c"></script>
+<script src="../js/editor.js?v=20260913c"></script>
+<script src="../datos/plan-estudios.js?v=20260913c"></script>
 <script>
 EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
@@ -137,6 +137,7 @@ EXPO.alCargarDatos(function () {
   MATERIAS.filter(function (m) { return m.tr; }).forEach(function (m) {
     var t = el("article", "tarjeta");
     t.innerHTML = '<span class="etiqueta roja">' + m.lv + ".º nivel</span>" +
+      (m.troncal ? '<span class="etiqueta troncal">Troncal</span>' : "") +
       "<h3 style='margin-top:12px'>" + esc(m.n) + "</h3>" +
       "<p class='nota' data-edit='MATERIAS." + MATERIAS.indexOf(m) + ".d'>" + esc(m.d) + "</p>";
     ci.appendChild(t);
@@ -200,12 +201,9 @@ EXPO.alCargarDatos(function () {
       "</div>";
   }
 
-  /* Aviso interno de verificación — sacar antes de la Expo. */
-  var av = EXPO.pendiente("Verificar correlativas antes del 16/09",
-    "Los dos roadmaps de origen difieren en " + DISCREPANCIAS.length +
-    " puntos. Se tomó como canónico el que cita los programas analíticos oficiales. " +
-    "Detalle en datos/plan-estudios.js → DISCREPANCIAS.");
-  document.getElementById("aviso-discrepancias").appendChild(av);
+  /* El aviso de discrepancias de correlativas salió del sitio. El
+     detalle sigue en datos/plan-estudios.js → DISCREPANCIAS y en
+     PENDIENTES.md: es información del equipo, no del visitante. */
 
   /* ── Electivas ─────────────────────────────────────────────── */
   var ce = document.getElementById("electivas");

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estado del despliegue · Expo UTN 2026</title>
+<style>
+:root{
+  --tinta:#15181D;--tinta-2:#3C424C;--apagado:#6B7280;--papel:#fff;
+  --gris:#F4F5F7;--gris-2:#E6E8EC;--borde:#DCDFE4;--rojo:#C8102E;
+  --verde:#0B8A3E;--ambar:#B26A00;
+  --tipo:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--tipo);color:var(--tinta);background:var(--gris);
+  line-height:1.5;font-size:16px}
+.env{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+h1{font-size:30px;margin:0 0 6px}
+.sub{color:var(--apagado);margin:0 0 26px;font-size:15px}
+#veredicto{padding:20px 24px;border-radius:12px;border:1px solid var(--borde);
+  background:var(--papel);margin-bottom:20px}
+#veredicto.bien{border-color:var(--verde);background:#EAF6EE}
+#veredicto.mal{border-color:var(--rojo);background:#FDECEC}
+#veredicto.medio{border-color:var(--ambar);background:#FFF6E8}
+#veredicto b{display:block;font-size:20px;margin-bottom:6px}
+.grupo{background:var(--papel);border:1px solid var(--borde);border-radius:12px;
+  margin-bottom:16px;overflow:hidden}
+.grupo>h2{font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--apagado);
+  margin:0;padding:14px 20px;background:var(--gris);border-bottom:1px solid var(--borde)}
+.p{display:grid;grid-template-columns:30px 1fr;gap:12px;padding:14px 20px;
+  border-bottom:1px solid var(--gris-2);align-items:start}
+.p:last-child{border-bottom:none}
+.m{font-size:19px;line-height:1.3;text-align:center;font-weight:700}
+.ok .m{color:var(--verde)} .mal .m{color:var(--rojo)}
+.duda .m{color:var(--ambar)} .esp .m{color:var(--apagado)}
+.t{font-weight:600;font-size:15px}
+.d{font-size:14px;color:var(--tinta-2);margin-top:3px}
+.fix{margin-top:9px;padding:11px 14px;background:var(--gris);border-left:3px solid var(--rojo);
+  border-radius:0 6px 6px 0;font-size:14px}
+code{background:var(--gris-2);padding:2px 6px;border-radius:4px;
+  font-family:"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;font-size:.9em;word-break:break-all}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 24px}
+button{min-height:50px;padding:13px 22px;border-radius:100px;cursor:pointer;font:inherit;
+  font-weight:600;font-size:14px;border:1px solid var(--borde);background:var(--papel)}
+button.pri{background:var(--rojo);border-color:var(--rojo);color:#fff}
+button:disabled{opacity:.5;cursor:default}
+.nota{font-size:13px;color:var(--apagado);margin-top:24px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="env">
+  <h1>Estado del despliegue</h1>
+  <p class="sub">Chequea la cadena entera: DNS, sitio, API y el puente entre los dos.
+  Funciona incluso abriendo este archivo con doble clic.</p>
+
+  <div id="veredicto">Chequeando…</div>
+  <div class="btns">
+    <button class="pri" id="b-repetir">Chequear de nuevo</button>
+    <button id="b-copiar">Copiar informe</button>
+  </div>
+  <div id="salida"></div>
+
+  <p class="nota">
+    Las consultas de DNS se hacen contra el resolver público de Google por HTTPS,
+    así que ven lo mismo que vería cualquier visitante — no lo que tenga cacheado
+    tu máquina. Si abrís este archivo con doble clic, los chequeos de API se hacen
+    a ciegas (el navegador no deja leer la respuesta desde <code>file://</code>):
+    detectan si el servidor contesta, pero no qué contesta.
+  </p>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   estado.html — chequeo de punta a punta del despliegue.
+
+   No depende de nada del sitio: ni comun.js, ni config.js, ni CSS
+   externo. Si algo de eso está roto, esta página tiene que seguir
+   funcionando para poder decírtelo. Por eso está todo acá adentro.
+   ══════════════════════════════════════════════════════════════════ */
+(function () {
+  var DOM = "expoisi.com.ar";
+  var API = "https://expoisipage-production.up.railway.app";
+  var PAGES = "https://ngc1265.github.io/expoisipage/";
+  var IPS_GH = ["185.199.108.153", "185.199.109.153", "185.199.110.153", "185.199.111.153"];
+
+  var salida = document.getElementById("salida");
+  var vered = document.getElementById("veredicto");
+  var informe = [];
+  var fallas = 0, avisos = 0;
+
+  function grupo(titulo) {
+    var g = document.createElement("div");
+    g.className = "grupo";
+    g.innerHTML = "<h2>" + titulo + "</h2>";
+    salida.appendChild(g);
+    informe.push("\n== " + titulo + " ==");
+    return g;
+  }
+  function fila(g, estado, t, d, fix) {
+    if (estado === "mal") fallas++;
+    if (estado === "duda") avisos++;
+    var marca = { ok: "\u2713", mal: "\u2715", duda: "!", esp: "\u00b7" }[estado];
+    var e = document.createElement("div");
+    e.className = "p " + estado;
+    e.innerHTML = '<div class="m">' + marca + '</div><div><div class="t">' + t + "</div>" +
+      (d ? '<div class="d">' + d + "</div>" : "") +
+      (fix ? '<div class="fix">' + fix + "</div>" : "") + "</div>";
+    g.appendChild(e);
+    informe.push(marca + " " + t + (d ? " — " + d.replace(/<[^>]+>/g, "") : ""));
+  }
+
+  function conTiempo(p, ms) {
+    return Promise.race([p, new Promise(function (_, r) {
+      setTimeout(function () { r(new Error("tardó más de " + (ms / 1000) + "s")); }, ms);
+    })]);
+  }
+
+  /* ── DNS por HTTPS ───────────────────────────────────────────────
+     Le preguntamos al resolver público de Google en vez de confiar en
+     el del sistema: así vemos lo que ve el mundo, no lo que tenga
+     cacheado esta máquina. Responde JSON y admite CORS. */
+  function dns(nombre, tipo) {
+    return conTiempo(
+      fetch("https://dns.google/resolve?name=" + encodeURIComponent(nombre) + "&type=" + tipo,
+            { mode: "cors" })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          return (j.Answer || []).filter(function (a) {
+            return a.type === ({ A: 1, NS: 2, CNAME: 5, TXT: 16 })[tipo];
+          }).map(function (a) { return String(a.data).replace(/\.$/, ""); });
+        }), 9000);
+  }
+
+  /* ── Chequeo de DNS ──────────────────────────────────────────── */
+  function chequeoDns() {
+    var g = grupo("1 · DNS del dominio");
+
+    return dns(DOM, "NS").then(function (ns) {
+      if (!ns.length) {
+        fila(g, "mal", "El dominio no está delegado",
+          "No hay servidores de nombres para <code>" + DOM + "</code>.",
+          "Falta cargar la delegación en NIC.ar: los cinco <code>nsX.he.net</code>, uno por vez, " +
+          "y después apretar <strong>Ejecutar cambios</strong>. Ese botón se saltea siempre.<br><br>" +
+          "Si ya lo hiciste, es propagación: tarda de 2 a 48 hs.");
+        return false;
+      }
+      var enHe = ns.filter(function (x) { return /he\.net$/i.test(x); });
+      if (enHe.length) {
+        fila(g, "ok", "Delegado a Hurricane Electric",
+          ns.sort().join(" · ") + (enHe.length < 2 ? " — conviene cargar los cinco" : ""));
+        return true;
+      }
+      fila(g, "duda", "Delegado, pero no a HE", ns.join(" · "),
+        "Los registros que cargaste en HE no se van a usar mientras el dominio apunte a otro lado.");
+      return true;
+    }).catch(function (e) {
+      fila(g, "duda", "No se pudo consultar el DNS", e.message,
+        "Puede ser tu conexión. Reintentá.");
+      return false;
+    }).then(function (delegado) {
+      if (!delegado) return false;
+
+      return dns(DOM, "A").then(function (ips) {
+        if (!ips.length) {
+          fila(g, "mal", "El dominio no resuelve a ninguna IP", "Sin registros A en el apex.",
+            "En HE, cuatro <strong>New A</strong> con Name <code>" + DOM + "</code>: " +
+            IPS_GH.join(" · "));
+          return;
+        }
+        var faltan = IPS_GH.filter(function (ip) { return ips.indexOf(ip) < 0; });
+        var sobran = ips.filter(function (ip) { return IPS_GH.indexOf(ip) < 0; });
+        if (!faltan.length && !sobran.length) {
+          fila(g, "ok", "Las cuatro IP de GitHub Pages están", ips.sort().join(" · "));
+        } else if (!faltan.length) {
+          fila(g, "duda", "Hay IPs de más", "Sobra: " + sobran.join(" · "),
+            "Borralas en HE: una IP ajena hace que una de cada N visitas falle.");
+        } else {
+          fila(g, "mal", "Faltan " + faltan.length + " de las 4 IP de GitHub Pages",
+            "Cargadas: " + (ips.join(" · ") || "ninguna"),
+            "Agregá en HE: <code>" + faltan.join("</code> <code>") + "</code><br><br>" +
+            "Con menos de cuatro, una parte de las visitas cae en una IP que no existe " +
+            "y el sitio “anda a veces”, que es peor que no andar.");
+        }
+      }).then(function () { return true; });
+    }).then(function (delegado) {
+      if (!delegado) {
+        fila(g, "esp", "Subdominios: sin chequear",
+          "Hasta que el dominio no esté delegado, preguntar por <code>www</code> o " +
+          "<code>api</code> no dice nada. Resolvé la delegación primero.");
+        return "corte";
+      }
+      return dns("www." + DOM, "CNAME").then(function (c) {
+        if (c.length && /github\.io$/i.test(c[0])) fila(g, "ok", "www apunta a GitHub Pages", c[0]);
+        else if (c.length) fila(g, "duda", "www apunta a otro lado", c[0]);
+        else fila(g, "duda", "www no está configurado", "No hay CNAME para <code>www." + DOM + "</code>.",
+          "Opcional, pero si alguien escribe www no le va a andar. " +
+          "<strong>New CNAME</strong> en HE: <code>www." + DOM + "</code> → <code>ngc1265.github.io</code>");
+      }).then(function () { return "sigue"; })
+        .catch(function () { return "sigue"; });
+    }).then(function (corte) {
+      if (corte === "corte") return;
+      return dns("api." + DOM, "CNAME").then(function (c) {
+        if (c.length) { fila(g, "ok", "api tiene su CNAME", c[0]); return; }
+        return dns("api." + DOM, "A").then(function (a) {
+          if (a.length) { fila(g, "ok", "api resuelve", a.join(" · ")); return; }
+          fila(g, "mal", "api." + DOM + " no existe",
+            "Sin CNAME ni A para el subdominio de la API.",
+            "Este es el que rompe todo en silencio: el sitio carga perfecto y nadie puede guardar nada.<br><br>" +
+            "1. Railway → Settings → Networking → Custom Domain → <code>api." + DOM + "</code><br>" +
+            "2. El hostname que te devuelva, cargalo en HE como <strong>New CNAME</strong> " +
+            "con Name <code>api." + DOM + "</code>");
+        });
+      }).catch(function () { });
+    });
+  }
+
+  /* ── Alcanzabilidad ──────────────────────────────────────────────
+     Desde file:// el navegador no deja leer respuestas de otro origen.
+     Con mode:"no-cors" la respuesta viene opaca: no podemos ver el
+     contenido, pero sí saber si el servidor contestó algo. Es menos
+     información, pero es honesta. */
+  function alcanza(url) {
+    return conTiempo(fetch(url, { mode: "no-cors", cache: "no-store" })
+      .then(function () { return true; }), 9000);
+  }
+
+  function chequeoSitio() {
+    var g = grupo("2 · El sitio");
+    var esFile = location.protocol === "file:";
+
+    return alcanza(PAGES).then(function () {
+      fila(g, "ok", "GitHub Pages contesta", PAGES);
+    }).catch(function (e) {
+      fila(g, "mal", "GitHub Pages no contesta", e.message,
+        "<strong>La causa más común es el archivo <code>CNAME</code> del repo.</strong> " +
+        "Cuando cargás el dominio en Settings → Pages, GitHub commitea un <code>CNAME</code> " +
+        "y desde ese momento <code>ngc1265.github.io</code> <strong>redirige</strong> al dominio " +
+        "propio. Si el dominio todavía no propagó, el sitio deja de estar disponible en las dos " +
+        "direcciones a la vez.<br><br>" +
+        "Solución mientras propaga: en Settings → Pages, <strong>vaciá el Custom domain</strong> " +
+        "y borrá el archivo <code>CNAME</code> del repo. Lo volvés a poner cuando el DNS resuelva.");
+    }).then(function () {
+      return alcanza("https://" + DOM + "/").then(function () {
+        fila(g, "ok", "El dominio propio sirve el sitio", "https://" + DOM + "/");
+      }).catch(function (e) {
+        fila(g, "duda", "El dominio propio todavía no sirve el sitio", e.message,
+          "Esperable si el DNS no propagó o si el certificado de GitHub no se emitió " +
+          "(hasta 24 hs). <strong>No marques “Enforce HTTPS” hasta que GitHub diga que el " +
+          "certificado está listo.</strong>");
+      });
+    }).then(function () {
+      if (esFile) {
+        fila(g, "duda", "Estás abriendo este archivo con doble clic",
+          "Los chequeos de arriba son a ciegas: detectan si hay respuesta, no cuál.",
+          "Para el chequeo completo, abrí esta página desde el sitio publicado.");
+      }
+    });
+  }
+
+  function chequeoApi() {
+    var g = grupo("3 · La API");
+    var puedeLeer = location.protocol !== "file:";
+
+    return conTiempo(fetch(API + "/salud", { mode: puedeLeer ? "cors" : "no-cors" }), 9000)
+      .then(function (r) {
+        if (!puedeLeer) { fila(g, "ok", "El backend contesta", "Respuesta opaca — no se puede leer desde file://."); return; }
+        return r.json().then(function (j) {
+          if (j.ok) fila(g, "ok", "Backend vivo y base conectada", "<code>/salud</code> → ok");
+          else fila(g, "mal", "El backend vive pero la base no contesta", "",
+            "Railway: ¿el servicio Postgres está corriendo? ¿<code>DATABASE_URL</code> está " +
+            "cargada como <strong>referencia</strong> al servicio y no copiada a mano?");
+        });
+      })
+      .catch(function (e) {
+        fila(g, "mal", "No se pudo llegar al backend", e.message,
+          "1. ¿El servicio está desplegado en Railway?<br>" +
+          "2. ¿Se acabaron los créditos? Los contenedores paran sin aviso.<br>" +
+          "3. Si esta página corre en un sitio publicado, puede ser CORS: revisá " +
+          "<code>ORIGENES_PERMITIDOS</code>.");
+      })
+      .then(function () {
+        if (!puedeLeer) return;
+        return conTiempo(fetch(API + "/api/contenido", { mode: "cors", cache: "no-store" }), 9000)
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            var k = Object.keys(j);
+            if (!k.length) fila(g, "mal", "La base está vacía", "Ninguna sección cargada.",
+              "Abrí <code>sembrar.html</code> desde el sitio publicado.");
+            else {
+              fila(g, "ok", k.length + " secciones en la base", k.join(" · "));
+              var viejas = k.filter(function (x) { return j[x].version === 1; });
+              if (viejas.length === k.length) {
+                fila(g, "duda", "Todo sigue en la versión 1",
+                  "Nadie guardó nada desde la siembra inicial.",
+                  "Si esperabas ver contenido nuevo (por ejemplo las electivas), entrá a esa " +
+                  "sección en modo edición y tocá <strong>☁ Guardar en el servidor</strong>: " +
+                  "la siembra no pisa lo que ya existe.");
+              }
+            }
+          })
+          .catch(function (e) {
+            fila(g, "mal", "No se pudo leer el contenido", e.message,
+              "Si <code>/salud</code> anduvo y esto no, es CORS: tu origen " +
+              "<code>" + location.origin + "</code> no está en <code>ORIGENES_PERMITIDOS</code>.");
+          });
+      })
+      .then(function () {
+        if (!puedeLeer) return;
+        return conTiempo(fetch(API + "/api/contenido/electivas", {
+          method: "PUT", mode: "cors",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer chequeo-de-estado" },
+          body: JSON.stringify({ datos: { BLOQUES: [] }, version: -1 })
+        }), 9000).then(function (r) {
+          if (r.status === 401) fila(g, "ok", "La escritura está protegida",
+            "Un <code>PUT</code> con token inválido devolvió 401, y el preflight con " +
+            "<code>Authorization</code> pasó. Es lo que tiene que pasar.");
+          else if (r.status === 403) fila(g, "mal", "El preflight CORS fue rechazado", "403 al OPTIONS.",
+            "Agregá <code>" + location.origin + "</code> a <code>ORIGENES_PERMITIDOS</code>, " +
+            "sin barra final.");
+          else if (r.status < 300) fila(g, "mal", "Un token inválido pudo escribir",
+            "Código " + r.status + ".", "<strong>Revisá <code>exigirSesion</code> antes de publicar.</strong>");
+          else fila(g, "duda", "Respuesta inesperada al escribir", "Código " + r.status + ".");
+        }).catch(function (e) {
+          fila(g, "mal", "El preflight de escritura no pasó", e.message,
+            "Es CORS. Revisá <code>ORIGENES_PERMITIDOS</code>.");
+        });
+      });
+  }
+
+  function correr() {
+    salida.innerHTML = ""; informe = []; fallas = 0; avisos = 0;
+    vered.className = ""; vered.textContent = "Chequeando…";
+    document.getElementById("b-repetir").disabled = true;
+
+    chequeoDns().then(chequeoSitio).then(chequeoApi).then(function () {
+      document.getElementById("b-repetir").disabled = false;
+      if (fallas) {
+        vered.className = "mal";
+        vered.innerHTML = "<b>" + fallas + (fallas === 1 ? " problema" : " problemas") + "</b>" +
+          "Cada uno tiene abajo el arreglo concreto. Resolvelos de arriba hacia abajo: " +
+          "el DNS condiciona todo lo demás.";
+      } else if (avisos) {
+        vered.className = "medio";
+        vered.innerHTML = "<b>Funciona, con reparos</b>" + avisos +
+          (avisos === 1 ? " cosa" : " cosas") + " para mirar.";
+      } else {
+        vered.className = "bien";
+        vered.innerHTML = "<b>Todo en orden</b>DNS, sitio y API funcionando. " +
+          "Última prueba: entrá a una sección, ✎ Editar, y confirmá que aparezca " +
+          "☁ Guardar en el servidor.";
+      }
+    });
+  }
+
+  document.getElementById("b-repetir").onclick = correr;
+  document.getElementById("b-copiar").onclick = function () {
+    var t = "Estado expoisi — " + new Date().toISOString() +
+            "\nOrigen: " + location.origin + "\n" + informe.join("\n");
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
+      .then(function () { alert("Copiado."); })
+      .catch(function () { prompt("Copiá esto:", t); });
+  };
+  correr();
+})();
+</script>
+</body>
+</html>

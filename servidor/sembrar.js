@@ -21,8 +21,8 @@ const SECCIONES = {
   "salida-laboral": ["NIVELES_DEV", "PERFILES"],
   "incumbencias":   ["RAIZ", "AREAS", "NOTA_LEGAL"],
   "proyectos":      ["PROYECTOS", "INTRO"],
-  "vida":           ["TESTIMONIOS", "GRADUACIONES", "ESPACIOS"],
-  "investigacion":  ["CONGRESOS", "PAPER", "GRADUADOS", "COOPERACION", "PUBLICACIONES"],
+  "vida":           ["TESTIMONIOS", "GRADUACIONES", "ESPACIOS", "CONCURSOS", "VIDEO_TESTIMONIOS"],
+  "investigacion":  ["PANORAMA", "CONGRESOS", "PONENCIAS", "PUBLICACION", "ACTAS", "GRADUADOS", "COOPERACION", "FOTOS_CONGRESOS"],
   "electivas":      ["BLOQUES"],
   "links-utiles":   ["BLOQUES"]
 };

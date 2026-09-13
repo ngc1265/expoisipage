@@ -157,6 +157,22 @@ h3{font-size:var(--t-lg);line-height:1.25;font-weight:600;margin-bottom:6px}
   background:var(--gris);color:var(--tinta-2);border:1px solid var(--borde);
 }
 .etiqueta.roja{background:var(--rojo-tenue);color:var(--rojo-oscuro);border-color:#F3C9CC}
+/* Troncal: se distingue de Integradora a propósito. La ordenanza no la
+   define como integradora, así que el color no debe sugerir que lo es. */
+.etiqueta.troncal{background:#EAF1FB;color:#1B4F9C;border-color:#C6D8F2}
+
+/* ── Logo institucional ─────────────────────────────────────────
+   El PNG tiene transparencia real (verificado: 0 píxeles blancos
+   opacos). Por eso se puede poner sobre cualquier fondo claro sin que
+   aparezca un recuadro. Para el pie, que es oscuro, hay una versión
+   invertida: el mismo archivo en negro no se vería. */
+.marca-img{
+  height:44px;width:auto;display:block;flex-shrink:0;
+}
+@media (max-width:820px){ .marca-img{height:34px} }
+.pie-logo{
+  height:38px;width:auto;display:block;margin-bottom:18px;opacity:.9;
+}
 .etiquetas{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 
 /* ── Carrusel ─────────────────────────────────────────────────── */
@@ -216,11 +232,10 @@ h3{font-size:var(--t-lg);line-height:1.25;font-weight:600;margin-bottom:6px}
 }
 
 /* ── Aviso de contenido pendiente ─────────────────────────────── */
-/* Los avisos de "falta cargar" son para el equipo, no para el visitante.
-   Se ocultan por CSS y no solo con el atributo hidden que pone comun.js:
-   así, aunque el JS falle, se cargue una versión vieja de cache o quede a
-   medias, el visitante NUNCA ve los huecos. El CSS no depende del orden
-   de ejecución; el atributo sí. */
+/* Los avisos de "falta cargar" salieron del sitio: los campos _pendiente
+   ya no están en datos/*.js y la lista de tareas del equipo vive en
+   PENDIENTES.md. Estas reglas quedan por si alguien vuelve a usar
+   EXPO.pendiente() en el futuro: nunca se muestran solas. */
 .pendiente{display:none}
 body.editando .pendiente,
 body.mostrar-pendientes .pendiente{

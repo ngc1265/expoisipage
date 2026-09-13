@@ -105,6 +105,10 @@
     return fila;
   }
 
+  /* Raíz del sitio según dónde esté la página: las secciones cuelgan
+     de /secciones/ y necesitan subir un nivel para los assets. */
+  var RAIZ_SITIO = /\/secciones\//.test(location.pathname) ? "../" : "";
+
   /* ── Aviso de dato faltante ─────────────────────────────────────
      REGLA: el visitante NO ve los huecos. Los avisos amarillos llevan
      la clase .solo-edicion y arrancan ocultos; editor.js los prende
@@ -133,8 +137,16 @@
      cambiás acá y cambia en los nueve HTML.                        */
   function cabecera(titulo, volverA) {
     var m = el("header", "marca");
+    /* Logo institucional en PNG con transparencia real. Si por lo que
+       sea no carga (ruta mal, archivo faltante), onerror deja el
+       logotipo tipográfico que estaba antes: la cabecera nunca queda
+       vacía ni con el ícono roto del navegador. */
+    var raiz = (volverA || "../index.html").replace(/index\.html$/, "");
     m.innerHTML =
-      '<div class="marca-logo">UTN<span>.BA</span></div>' +
+      '<img class="marca-img" src="' + raiz + 'assets/logos/utn-ba.png" ' +
+      'alt="UTN.BA — Universidad Tecnológica Nacional, Facultad Regional Buenos Aires" ' +
+      'onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),' +
+      '{className:\'marca-logo\',innerHTML:\'UTN<span>.BA</span>\'}))">' +
       '<div class="marca-sub">Universidad Tecnológica Nacional<br>Facultad Regional Buenos Aires</div>';
     var v = el("a", "marca-volver", "← Volver al inicio");
     v.href = volverA || "../index.html";
@@ -146,7 +158,11 @@
   function pie(texto) {
     var f = el("footer", "pie");
     var w = el("div", "envoltorio");
-    w.innerHTML = '<p>Expo UTN 2026 · Stand de Ingeniería en Sistemas de Información · ' +
+    /* En el pie el fondo es oscuro: va la versión invertida del logo.
+       El PNG negro sobre negro no se vería. */
+    w.innerHTML = '<img class="pie-logo" src="' + (RAIZ_SITIO || "") +
+      'assets/logos/utn-ba-claro.png" alt="UTN.BA" onerror="this.remove()">' +
+      '<p>Expo UTN 2026 · Stand de Ingeniería en Sistemas de Información · ' +
       'Miércoles 16 de septiembre de 2026 · Campus UTN.BA</p>' +
       (texto ? '<p class="nota" style="color:#8B929C;margin-top:8px">' + esc(texto) + "</p>" : "");
     f.appendChild(w);

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ingeniería en Sistemas de Información · Expo UTN 2026</title>
-<link rel="stylesheet" href="css/base.css?v=20260906a">
+<link rel="stylesheet" href="css/base.css?v=20260913c">
 <style>
 /* ── Estilos propios del index fachada ─────────────────────────────
    Este archivo es un ANDAMIO. Reemplazalo por tu landing real
@@ -50,21 +50,6 @@
 }
 .seccion h3{font-size:var(--t-lg);margin-bottom:6px}
 .seccion p{font-size:var(--t-sm);color:var(--apagado);max-width:32ch}
-/* Los rótulos de estado son una herramienta interna del equipo: el
-   visitante no tiene por qué enterarse de qué falta cargar.
-   OJO con la especificidad: la regla que los OCULTA tiene que ser al
-   menos tan específica como la que los pinta. Un `.estado{display:none}`
-   suelto pierde contra `.seccion .estado{display:inline-block}` y los
-   rótulos se siguen viendo — que es exactamente lo que pasaba. */
-.seccion .estado{
-  display:none;margin-top:14px;font-size:var(--t-xs);font-weight:600;
-  padding:4px 10px;border-radius:100px;
-}
-body.editando .seccion .estado,
-body.mostrar-pendientes .seccion .estado{display:inline-block}
-.estado.listo{background:#E6F4EF;color:#0A5B47}
-.estado.borrador{background:#FFF4E2;color:#7A5100}
-.estado.vacio{background:var(--gris);color:var(--apagado)}
 @media (max-width:820px){
   .hero{background:var(--papel);border-bottom:4px solid var(--rojo)}
 }
@@ -96,88 +81,74 @@ body.mostrar-pendientes .seccion .estado{display:inline-block}
   </div>
 </section>
 
-<section class="bloque">
+<section class="bloque" style="padding-top:56px">
   <div class="envoltorio">
-    <p class="epigrafe">Recorrido</p>
-    <h2>Nueve puertas de entrada a la carrera</h2>
-    <p class="bajada" style="margin-bottom:32px">Cada sección es una página independiente.
-      Se puede editar una sin tocar el resto.</p>
-
     <div class="secciones">
 
       <a class="seccion accionable" href="secciones/plan-estudios.html">
         <span class="num">01</span>
         <h3>Plan de estudios</h3>
         <p>El recorrido completo: mapa K23, correlativas, tutorías, apoyo y laboratorios.</p>
-        <span class="estado listo">Contenido cargado</span>
       </a>
 
       <a class="seccion accionable" href="secciones/materias.html">
         <span class="num">02</span>
         <h3>Materias</h3>
         <p>Las 36 obligatorias, año por año, con descripción y equipo docente.</p>
-        <span class="estado borrador">Falta equipo docente</span>
       </a>
 
       <a class="seccion accionable" href="secciones/salida-laboral.html">
         <span class="num">03</span>
         <h3>Salida laboral</h3>
         <p>Diez perfiles profesionales, qué hace cada uno y dónde se trabaja.</p>
-        <span class="estado listo">Contenido cargado</span>
       </a>
 
       <a class="seccion accionable" href="secciones/incumbencias.html">
         <span class="num">04</span>
         <h3>Incumbencias y áreas</h3>
         <p>Desarrollo, IA, datos, ciberseguridad, gestión, procesos y otros campos.</p>
-        <span class="estado vacio">Pendiente</span>
       </a>
 
       <a class="seccion accionable" href="secciones/proyectos.html">
         <span class="num">05</span>
         <h3>Proyectos</h3>
         <p>Proyectos finales y trabajos destacados, con autores, imágenes y QR.</p>
-        <span class="estado vacio">Pendiente</span>
       </a>
 
       <a class="seccion accionable" href="secciones/vida-testimonios.html">
         <span class="num">06</span>
         <h3>Vida y testimonios</h3>
         <p>Cómo es cursar acá, en palabras de estudiantes, docentes y graduados.</p>
-        <span class="estado borrador">Falta autorización de fotos</span>
       </a>
 
       <a class="seccion accionable" href="secciones/investigacion-extension.html">
         <span class="num">07</span>
         <h3>Investigación y extensión</h3>
         <p>Congresos, publicaciones, graduados y cooperación internacional.</p>
-        <span class="estado listo">Contenido cargado</span>
       </a>
 
       <a class="seccion accionable" href="secciones/electivas.html">
         <span class="num">08</span>
         <h3>Electivas</h3>
         <p>Qué son, cómo funcionan y qué especializaciones habilitan.</p>
-        <span class="estado vacio">Pendiente</span>
       </a>
 
       <a class="seccion accionable" href="secciones/links-utiles.html">
         <span class="num">09</span>
         <h3>Links útiles</h3>
         <p>Ingreso, plan, calendario, Departamento, becas y recursos oficiales.</p>
-        <span class="estado vacio">Pendiente</span>
       </a>
 
     </div>
   </div>
 </section>
 
-<script src="js/config.js?v=20260906a"></script>
-<script src="js/comun.js?v=20260906a"></script>
-<script src="js/api.js?v=20260906a"></script>
-<script src="js/editor.js?v=20260906a"></script>
+<script src="js/config.js?v=20260913c"></script>
+<script src="js/comun.js?v=20260913c"></script>
+<script src="js/api.js?v=20260913c"></script>
+<script src="js/editor.js?v=20260913c"></script>
 <script>
-EXPO.pie("Versión de trabajo. Los estados de cada tarjeta indican qué falta cargar.");
+EXPO.pie();
 </script>
 
 <!--
@@ -202,7 +173,7 @@ EXPO.pie("Versión de trabajo. Los estados de cada tarjeta indican qué falta ca
   Alternativa más brusca (si preferís no depender de config.js):
   comentá o borrá la línea de acá arriba que dice
 
-      <script src="js/editor.js?v=20260906a"></script>
+      <script src="js/editor.js?v=20260913c"></script>
 
   ...pero acordate de hacer lo mismo en las 5 secciones que la cargan:
   investigacion-extension, plan-estudios, materias, salida-laboral y

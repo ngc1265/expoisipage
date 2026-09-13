@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vida y testimonios · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260906a">
+<link rel="stylesheet" href="../css/base.css?v=20260913c">
 <style>
 .testi{display:flex;flex-direction:column}
 .testi .cita{font-size:var(--t-lg);line-height:1.4;color:var(--tinta);margin:14px 0 18px}
@@ -18,6 +18,46 @@
   border:1px dashed var(--a3);background:#FFF9EF;border-radius:8px;
   padding:22px;font-size:var(--t-sm);color:#7A5100;
 }
+
+.concursos{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:26px}
+.concurso{
+  background:var(--papel);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:26px 26px 28px;display:flex;flex-direction:column;
+}
+.concurso h3{font-size:var(--t-lg);margin:0 0 4px}
+.concurso .alcance{
+  font-size:var(--t-xs);font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--apagado);margin:0 0 12px;
+}
+.concurso p.txt{font-size:var(--t-md);color:var(--tinta-2);line-height:1.55;margin:0;flex:1}
+.concurso .ir{
+  align-self:flex-start;margin-top:20px;min-height:56px;padding:15px 24px;
+  background:var(--rojo);color:#fff;text-decoration:none;border-radius:100px;
+  font-weight:600;font-size:var(--t-sm);
+}
+.concurso .ir:hover{background:var(--rojo-oscuro)}
+
+.vt-destacado{
+  margin-top:26px;background:var(--papel);border:1px solid var(--borde);
+  border-radius:var(--radio);overflow:hidden;
+}
+.vt-destacado video{width:100%;display:block;background:#000;aspect-ratio:16/9}
+.vt-destacado .meta{padding:18px 24px 22px}
+.vt-grilla{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:18px;margin-top:20px;
+}
+.vt-card{
+  background:var(--papel);border:1px solid var(--borde);border-radius:var(--radio);
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.vt-card video{width:100%;display:block;background:#000;aspect-ratio:16/9;object-fit:cover}
+.vt-card.vertical video{aspect-ratio:9/16}
+.vt-card .meta{padding:13px 16px 16px}
+.vt-nombre{font-weight:700;font-size:var(--t-base);margin:0}
+.vt-rol{font-size:var(--t-xs);color:var(--apagado);font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;margin:4px 0 0}
+.vt-pie{font-size:var(--t-xs);color:var(--apagado);margin:6px 0 0}
 </style>
 </head>
 <body>
@@ -58,16 +98,36 @@
   </div>
 </section>
 
-<script src="../js/config.js?v=20260906a"></script>
-<script src="../js/comun.js?v=20260906a"></script>
-<script src="../js/api.js?v=20260906a"></script>
-<script src="../js/editor.js?v=20260906a"></script>
-<script src="../datos/vida.js?v=20260906a"></script>
+<section class="bloque">
+  <div class="envoltorio">
+    <p class="epigrafe">A cámara</p>
+    <h2 id="vt-titulo"></h2>
+    <p class="bajada" id="vt-intro"></p>
+    <div id="vt-destacado"></div>
+    <div class="vt-grilla" id="vt-grilla"></div>
+  </div>
+</section>
+
+<section class="bloque">
+  <div class="envoltorio">
+    <p class="epigrafe">Fuera del aula</p>
+    <h2>Concursos y competencias</h2>
+    <p class="bajada">Programar contra reloj, en equipo y con gente que no conocés.
+      Nada de esto figura en el plan de estudios, y es de lo que más se acuerda la gente después.</p>
+    <div class="concursos" id="concursos"></div>
+  </div>
+</section>
+
+<script src="../js/config.js?v=20260913c"></script>
+<script src="../js/comun.js?v=20260913c"></script>
+<script src="../js/api.js?v=20260913c"></script>
+<script src="../js/editor.js?v=20260913c"></script>
+<script src="../datos/vida.js?v=20260913c"></script>
 <script>
 EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
   EXPO.cabecera("Vida y testimonios");
-  EXPO.editor.registrar("datos/vida.js", { TESTIMONIOS: TESTIMONIOS, GRADUACIONES: GRADUACIONES, ESPACIOS: ESPACIOS },
+  EXPO.editor.registrar("datos/vida.js", { TESTIMONIOS: TESTIMONIOS, GRADUACIONES: GRADUACIONES, ESPACIOS: ESPACIOS, CONCURSOS: CONCURSOS, VIDEO_TESTIMONIOS: VIDEO_TESTIMONIOS },
     "Testimonios de LinkedIn, fotos de graduación y espacios de la Facultad.");
 
   /* ── Graduaciones ──────────────────────────────────────────────
@@ -126,6 +186,66 @@ EXPO.alCargarDatos(function () {
 
     if (t.autorizado) card.appendChild(EXPO.filaQr(t.qr, t.url, "Publicación original."));
     ct.appendChild(card);
+  });
+
+  /* ── Testimonios en video ──────────────────────────────────────
+     preload="none" en todos: son ocho videos en la misma página y si
+     cada uno se adelanta, la página arranca bajando megas que nadie
+     pidió. El poster alcanza para decidir cuál mirar.                */
+  var VT = window.VIDEO_TESTIMONIOS;
+  if (VT) {
+    var lg = EXPO.ligar || function (e) { return e; };
+
+    var hv = document.getElementById("vt-titulo");
+    hv.textContent = VT.titulo || "";
+    lg(hv, "VIDEO_TESTIMONIOS.titulo");
+    var pv = document.getElementById("vt-intro");
+    pv.textContent = VT.intro || "";
+    lg(pv, "VIDEO_TESTIMONIOS.intro", { multilinea: true });
+
+    function bloqueVideo(v, ruta, clase) {
+      var caja = EXPO.el("div", clase);
+      if (v.vertical) caja.classList.add("vertical");
+      var vd = document.createElement("video");
+      vd.src = v.src;
+      if (v.poster) vd.poster = v.poster;
+      vd.controls = true; vd.preload = "none"; vd.playsInline = true;
+      caja.appendChild(vd);
+      var m = EXPO.el("div", "meta");
+      /* El nombre solo aparece si está cargado: una tarjeta sin nombre
+         se lee mejor que una que dice "sin nombre". */
+      if (v.nombre) m.appendChild(lg(EXPO.el("p", "vt-nombre", v.nombre), ruta + ".nombre"));
+      if (v.rol) m.appendChild(lg(EXPO.el("p", "vt-rol", v.rol), ruta + ".rol"));
+      if (v.pie) m.appendChild(EXPO.el("p", "vt-pie", v.pie));
+      caja.appendChild(m);
+      return caja;
+    }
+
+    if (VT.destacado && VT.destacado.src) {
+      document.getElementById("vt-destacado")
+        .appendChild(bloqueVideo(VT.destacado, "VIDEO_TESTIMONIOS.destacado", "vt-destacado"));
+    }
+    var gv = document.getElementById("vt-grilla");
+    (VT.videos || []).forEach(function (v, i) {
+      gv.appendChild(bloqueVideo(v, "VIDEO_TESTIMONIOS.videos." + i, "vt-card"));
+    });
+  }
+
+  /* ── Concursos ─────────────────────────────────────────────── */
+  var cc = document.getElementById("concursos");
+  (window.CONCURSOS || []).forEach(function (c, i) {
+    var b = "CONCURSOS." + i + ".";
+    var lg = EXPO.ligar || function (e) { return e; };
+    var t = EXPO.el("article", "concurso");
+    t.appendChild(lg(EXPO.el("h3", null, c.nombre), b + "nombre"));
+    t.appendChild(lg(EXPO.el("p", "alcance", c.alcance || ""), b + "alcance"));
+    t.appendChild(lg(EXPO.el("p", "txt", c.texto || ""), b + "texto", { multilinea: true }));
+    if (c.url) {
+      var a = EXPO.el("a", "ir accionable", c.etiqueta || "Ver más");
+      a.href = c.url; a.target = "_blank"; a.rel = "noopener";
+      t.appendChild(a);
+    }
+    cc.appendChild(t);
   });
 
   /* ── Espacios ──────────────────────────────────────────────── */

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Investigación y extensión · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260906a">
+<link rel="stylesheet" href="../css/base.css?v=20260913c">
 <style>
 .congreso{display:grid;grid-template-columns:180px 1fr;gap:32px;align-items:start}
 .congreso+.congreso{margin-top:16px}
@@ -27,6 +27,22 @@
   .congreso,.ponencia,.grad-bloque,.actas{grid-template-columns:1fr}
   .sigla{position:static}
 }
+
+.vias{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:26px}
+.via{background:var(--papel);border:1px solid var(--borde);border-radius:var(--radio);padding:22px 24px}
+.via h3{font-size:var(--t-base);margin:0 0 6px}
+.via p{font-size:var(--t-sm);color:var(--tinta-2);line-height:1.55;margin:0}
+.referente{
+  margin-top:22px;background:var(--papel);border:1px solid var(--borde);
+  border-left:4px solid var(--rojo);border-radius:var(--radio);padding:26px 28px 28px;
+}
+.referente .sigla{
+  font-size:var(--t-xs);font-weight:700;letter-spacing:.1em;color:var(--rojo);
+  text-transform:uppercase;margin:0 0 4px;
+}
+.referente h3{font-size:var(--t-lg);margin:0 0 10px}
+.referente p.txt{font-size:var(--t-md);color:var(--tinta-2);line-height:1.6;margin:0}
+.referente p.nota{margin-top:12px}
 </style>
 </head>
 <body>
@@ -36,6 +52,17 @@
     <p class="epigrafe">07 · Investigación y extensión</p>
     <h1 data-edit="TEXTOS.titulo">La carrera también produce conocimiento</h1>
     <p class="bajada" data-edit="TEXTOS.bajada" data-edit-multilinea="1">Estudiantes y docentes de Sistemas presentan trabajos en congresos nacionales, publican en actas académicas con ISSN y participan de proyectos de investigación, extensión y cooperación internacional.</p>
+  </div>
+</section>
+
+<section class="bloque">
+  <div class="envoltorio">
+    <p class="epigrafe" id="pan-epi"></p>
+    <h2 id="pan-titulo"></h2>
+    <p class="bajada" id="pan-intro"></p>
+    <div class="vias" id="pan-vias"></div>
+    <article class="referente" id="pan-referente"></article>
+    <p class="nota" id="pan-cierre" style="margin-top:22px"></p>
   </div>
 </section>
 
@@ -91,11 +118,11 @@
   </div>
 </section>
 
-<script src="../js/config.js?v=20260906a"></script>
-<script src="../js/comun.js?v=20260906a"></script>
-<script src="../js/api.js?v=20260906a"></script>
-<script src="../js/editor.js?v=20260906a"></script>
-<script src="../datos/investigacion.js?v=20260906a"></script>
+<script src="../js/config.js?v=20260913c"></script>
+<script src="../js/comun.js?v=20260913c"></script>
+<script src="../js/api.js?v=20260913c"></script>
+<script src="../js/editor.js?v=20260913c"></script>
+<script src="../datos/investigacion.js?v=20260913c"></script>
 <script>
 EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc, lig = EXPO.ligar;
@@ -108,10 +135,37 @@ EXPO.alCargarDatos(function () {
   };
 
   EXPO.editor.registrar("datos/investigacion.js", {
+    PANORAMA: PANORAMA,
     CONGRESOS: CONGRESOS, PONENCIAS: PONENCIAS, PUBLICACION: PUBLICACION,
     ACTAS: ACTAS, GRADUADOS: GRADUADOS, COOPERACION: COOPERACION,
     FOTOS_CONGRESOS: FOTOS_CONGRESOS
   }, "Congresos, publicaciones, vinculación con graduados y cooperación internacional.");
+
+  /* ── Panorama ──────────────────────────────────────────────── */
+  var P = window.PANORAMA;
+  if (P) {
+    lig(document.getElementById("pan-epi"), "PANORAMA.epigrafe").textContent = P.epigrafe;
+    lig(document.getElementById("pan-titulo"), "PANORAMA.titulo").textContent = P.titulo;
+    lig(document.getElementById("pan-intro"), "PANORAMA.intro", { multilinea: true }).textContent = P.intro;
+
+    var cv = document.getElementById("pan-vias");
+    (P.vias || []).forEach(function (v, i) {
+      var b = "PANORAMA.vias." + i + ".";
+      var d = el("div", "via");
+      d.appendChild(lig(el("h3", null, v.titulo), b + "titulo"));
+      d.appendChild(lig(el("p", null, v.texto), b + "texto", { multilinea: true }));
+      cv.appendChild(d);
+    });
+
+    var r = P.referente || {};
+    var cr = document.getElementById("pan-referente");
+    if (r.sigla) cr.appendChild(lig(el("p", "sigla", r.sigla), "PANORAMA.referente.sigla"));
+    if (r.nombre) cr.appendChild(lig(el("h3", null, r.nombre), "PANORAMA.referente.nombre"));
+    if (r.texto) cr.appendChild(lig(el("p", "txt", r.texto), "PANORAMA.referente.texto", { multilinea: true }));
+    if (r.nota) cr.appendChild(lig(el("p", "nota", r.nota), "PANORAMA.referente.nota"));
+
+    lig(document.getElementById("pan-cierre"), "PANORAMA.cierre", { multilinea: true }).textContent = P.cierre;
+  }
 
   /* ── Congresos ─────────────────────────────────────────────── */
   var cont = document.getElementById("congresos");

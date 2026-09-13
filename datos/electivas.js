@@ -1,9 +1,18 @@
 /* ══════════════════════════════════════════════════════════════════
    datos/electivas.js — sección "Electivas"
 
-   Fuente: Diseño curricular Ingeniería en Sistemas de Información
-   Plan 2023, Ordenanza n° 1877 (sitio del Departamento, UTN.BA).
-   Las 19 electivas de la oferta, todas de 3° / 4° nivel.
+   Fuentes: (1) Diseño curricular ISI Plan 2023, Ordenanza n° 1877,
+   del sitio del Departamento; (2) correcciones del Departamento de
+   septiembre de 2026.
+
+   ⚠ El PDF publicado está DESACTUALIZADO respecto de lo que se dicta:
+   lista todas las electivas como 3° / 4° nivel y no incluye las de
+   5° nivel. Las diferencias conocidas:
+     · "Seguridad Defensiva" reemplaza a "Ciberseguridad" (3° nivel)
+     · "IA Generativa en Sistemas Agénticos" — 5° nivel, no figura
+     · "Gestión de las Arquitecturas de Implementación Tecnológica"
+       — 5° nivel, no figura
+   Si aparece otra diferencia, gana lo que diga el Departamento.
 
    ⚠ Lo que SÍ está confirmado: los nombres y el nivel, que salen del
    listado oficial.
@@ -12,7 +21,7 @@
    programa de cada cátedra antes de darla por buena. Tampoco están
    la carga horaria ni el período de dictado.
 
-   Campos: titulo, texto, items[], url+qr, video{}, _pendiente
+   Campos: titulo, texto, items[], url+qr, video{}
    ══════════════════════════════════════════════════════════════════ */
 
 var BLOQUES = [
@@ -24,7 +33,8 @@ var BLOQUES = [
     items: [
       "El título que sale es el mismo: lo que cambia es tu perfil.",
       "Se pueden combinar con prácticas, becas de investigación o proyectos de cátedra.",
-      "La oferta se publica cada cuatrimestre: no siempre se dictan todas."
+      "La oferta se publica cada cuatrimestre: no siempre se dictan todas.",
+      "Las electivas de 5.º nivel del Plan 2008 se homologan al Plan 2023."
     ]
   },
 
@@ -32,6 +42,7 @@ var BLOQUES = [
     titulo: "Construcción de software",
     texto: "Para quien quiere programar mejor, no solo más.",
     items: [
+      "Gestión de las Arquitecturas de Implementación Tecnológica (5.º nivel)",
       "Técnicas Avanzadas de Programación",
       "Tecnologías Avanzadas en la Construcción de Software",
       "Patrones Algorítmicos",
@@ -43,18 +54,17 @@ var BLOQUES = [
     titulo: "Datos, IA y cómputo",
     texto: "El campo que más creció en la última década, y donde la carrera tiene base fuerte.",
     items: [
+      "IA Generativa en Sistemas Agénticos (5.º nivel)",
       "Procesamiento del Lenguaje Natural",
-      "Técnicas de Gráficos por Computadora",
-      "Química Ambiental"
-    ],
-    _pendiente: "Química Ambiental no encaja en este grupo. Revisar en qué bloque va, o si conviene un bloque aparte de ambiente y sostenibilidad."
+      "Técnicas de Gráficos por Computadora"
+    ]
   },
 
   {
     titulo: "Seguridad",
     texto: "Dos electivas que se complementan: una mira el sistema entero, la otra la matemática que lo sostiene.",
     items: [
-      "Ciberseguridad",
+      "Seguridad Defensiva (3.º nivel) — reemplaza a Ciberseguridad",
       "Criptografía"
     ]
   },
@@ -83,6 +93,14 @@ var BLOQUES = [
   },
 
   {
+    titulo: "Ambiente y sostenibilidad",
+    texto: "El impacto ambiental de la tecnología dejó de ser un tema de otra carrera.",
+    items: [
+      "Química Ambiental"
+    ]
+  },
+
+  {
     titulo: "Investigación",
     texto: "La puerta de entrada a los grupos de I+D de la Facultad y a la carrera académica.",
     items: [
@@ -95,14 +113,26 @@ var BLOQUES = [
     texto: "Programas, correlativas y el diseño curricular entero, en el sitio del Departamento.",
     url: "https://frba.utn.edu.ar/carreras/ingenieria-en-sistemas-de-informacion/plan-de-estudios/",
     qr: "plan-2023",
-    leyenda: "Plan 2023 — Ordenanza n° 1877.",
-    _pendiente: "Verificar que la URL sea la definitiva del Departamento antes de imprimir el QR."
+    leyenda: "Plan 2023 — Ordenanza n° 1877."
   },
 
   {
-    titulo: "Videos de las cátedras",
-    texto: "",
-    items: [],
-    _pendiente: "La carpeta Videos/Electivas del ZIP llegó vacía. Pedir a los docentes un video corto por electiva: 60-90 s, horizontal, mp4."
+    titulo: "IA Generativa en Sistemas Agénticos",
+    texto: "Electiva de 5.º nivel. La cátedra presenta la asignatura en dos minutos y medio.",
+    video: {
+      src: "../assets/video/ia-generativa.mp4",
+      poster: "../assets/video/ia-generativa-poster.jpg",
+      pie: "Presentación de la asignatura · 2 min 40 s"
+    }
+  },
+
+  {
+    titulo: "TASD",
+    texto: "Presentación de la asignatura, grabada en septiembre de 2026.",
+    video: {
+      src: "../assets/video/tasd.mp4",
+      poster: "../assets/video/tasd-poster.jpg",
+      pie: "Presentación de la asignatura · 1 min 9 s"
+    }
   }
 ];

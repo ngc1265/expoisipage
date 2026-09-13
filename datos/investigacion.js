@@ -2,6 +2,56 @@
    Congresos, publicaciones, vinculación con graduados y cooperación internacional.
    Documentación de los campos: datos/LEEME-datos.md */
 
+/* ── Panorama general ──────────────────────────────────────────────
+   Va primero en la sección, antes de los congresos y las ponencias.
+
+   Razón: lo que está cargado abajo es, casi todo, lo que relevó una
+   sola cátedra. Presentarlo sin contexto da la impresión de que eso ES
+   la investigación de la carrera, y no lo es ni por asomo. Este bloque
+   ordena la expectativa: explica cómo funciona el sistema, nombra a
+   GEMIS como grupo de referencia, y deja claro que lo de abajo es una
+   muestra y no un inventario.                                          */
+var PANORAMA = {
+  epigrafe: "Cómo funciona",
+  titulo: "Investigar y extender desde la Facultad",
+  intro: "En la UTN la investigación no es una carrera aparte: se hace dentro de la Facultad, " +
+         "en grupos y centros donde conviven docentes, graduados y estudiantes. " +
+         "Se entra antes de recibirse, y muchas veces empieza por una materia.",
+  vias: [
+    {
+      titulo: "Grupos y centros de I+D",
+      texto: "Equipos estables con líneas de trabajo propias y proyectos acreditados. " +
+             "Es el camino más común: entrás como becario o como estudiante en formación."
+    },
+    {
+      titulo: "Becas y proyectos acreditados",
+      texto: "Los proyectos se presentan y se evalúan, y muchos incluyen becas para estudiantes. " +
+             "Se cobra, se publica y suma a la trayectoria."
+    },
+    {
+      titulo: "Desde las cátedras",
+      texto: "Varias materias producen trabajos que terminan en congresos. " +
+             "Es la puerta de entrada más corta: ya estás cursando."
+    },
+    {
+      titulo: "Extensión",
+      texto: "Llevar lo que se produce a municipios, escuelas, ONG y empresas. " +
+             "No es investigación, pero se hace desde los mismos equipos."
+    }
+  ],
+  referente: {
+    sigla: "GEMIS",
+    nombre: "Grupo de Estudio de Metodologías para Ingeniería en Sistemas",
+    texto: "El grupo de referencia del Departamento en investigación aplicada. Trabaja en " +
+           "metodologías, procesos e ingeniería de software, con proyectos acreditados y " +
+           "participación de estudiantes y graduados. Si te interesa investigar, es el primer " +
+           "lugar donde preguntar.",
+    nota: "Hay más grupos y proyectos en el Departamento de los que entran en este stand."
+  },
+  cierre: "Lo que sigue abajo es una muestra: los congresos donde se presenta la carrera y " +
+          "algunos trabajos recientes. No es el inventario completo de lo que se investiga acá."
+};
+
 var CONGRESOS = [
   {
     sigla: "CICE",
@@ -147,8 +197,7 @@ var COOPERACION = {
     { n: "ILAN · Israel Innovation Network", d: "Red de innovación con vinculación académica y empresarial.", url: "https://www.ilan.lat/" },
     { n: "PetroBowl Competition", d: "Competencia internacional de la Society of Petroleum Engineers para equipos universitarios.", url: "https://www.spe.org/en/students/petrobowl/" },
     { n: "Intercambio con el Tecnológico Nacional de México", d: "El CIIDET presentó su Modelo Dinámico de Aprendizaje Activo (MoDAA) en el CICE, en sesión híbrida con las regionales argentinas.", url: "" }
-  ],
-  _pendiente: "Sumar los convenios propios de la FRBA: universidades socias, programas de intercambio y doble titulación. Pedir listado a Relaciones Institucionales."
+  ]
 };
 
 var FOTOS_CONGRESOS = [
