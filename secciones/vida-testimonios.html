@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vida y testimonios · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260913d">
+<link rel="stylesheet" href="../css/base.css?v=20260913f">
 <style>
 .testi{display:flex;flex-direction:column}
 .testi .cita{font-size:var(--t-lg);line-height:1.4;color:var(--tinta);margin:14px 0 18px}
@@ -14,7 +14,13 @@
   padding:18px 20px;font-size:var(--t-sm);color:var(--tinta-2);
 }
 .sin-conexion strong{display:block;margin-bottom:4px;color:var(--tinta)}
-.bloqueado{
+/* Avisos internos de autorización: nunca para el visitante.
+   Se ocultan por CSS y no solo con el atributo hidden — misma trampa
+   de especificidad que teníamos con los rótulos de estado del index. */
+.bloqueado{display:none}
+body.editando .bloqueado,
+body.mostrar-pendientes .bloqueado{
+  display:block;                       /* sin esto gana el display:none de arriba */
   border:1px dashed var(--a3);background:#FFF9EF;border-radius:8px;
   padding:22px;font-size:var(--t-sm);color:#7A5100;
 }
@@ -118,11 +124,11 @@
   </div>
 </section>
 
-<script src="../js/config.js?v=20260913d"></script>
-<script src="../js/comun.js?v=20260913d"></script>
-<script src="../js/api.js?v=20260913d"></script>
-<script src="../js/editor.js?v=20260913d"></script>
-<script src="../datos/vida.js?v=20260913d"></script>
+<script src="../js/config.js?v=20260913f"></script>
+<script src="../js/comun.js?v=20260913f"></script>
+<script src="../js/api.js?v=20260913f"></script>
+<script src="../js/editor.js?v=20260913f"></script>
+<script src="../datos/vida.js?v=20260913f"></script>
 <script>
 EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
@@ -141,11 +147,15 @@ EXPO.alCargarDatos(function () {
     var d = EXPO.el("div"); c.appendChild(d);
     if (vis.length) EXPO.carrusel(d, vis);
   }, "graduacion");
+  /* Si no hay ninguna foto autorizada, el visitante no ve un cartel:
+     ve que el bloque no está y listo. El aviso con la instrucción de
+     código es para el equipo, y por eso lleva .solo-edicion: nombrar
+     un archivo del repositorio en la cara del visitante no tiene
+     ningún sentido para él. */
   if (!okGrad.length) {
     var b = el("div", "bloqueado");
-    b.innerHTML = "<strong>" + GRADUACIONES.length + " fotos de graduación esperando autorización.</strong>" +
-      "Los archivos ya están en /assets/fotos/graduacion/. Se muestran cuando cada persona " +
-      "dé su OK: poné <code>autorizado: true</code> en datos/vida.js.";
+    b.innerHTML = "<strong>" + GRADUACIONES.length + " fotos de graduación sin autorizar.</strong>" +
+      "Poné autorizado: true en datos/vida.js cuando cada persona dé su OK.";
     cg.appendChild(b);
   }
 
@@ -155,18 +165,26 @@ EXPO.alCargarDatos(function () {
   var hayRed = navigator.onLine;
   var ct = document.getElementById("testimonios");
 
-  TESTIMONIOS.forEach(function (t) {
+  /* Un testimonio sin autorizar NO se dibuja. Antes salía la tarjeta con
+     nombre y cita más un cartel de "pendiente de autorización": eso es
+     estado interno del equipo, y encima publicaba el nombre de la
+     persona junto al aviso de que no había dado permiso. */
+  var testiVisibles = TESTIMONIOS.filter(function (t) { return t.autorizado; });
+  if (!testiVisibles.length) {
+    var avt = el("div", "bloqueado");
+    avt.innerHTML = "<strong>" + TESTIMONIOS.length + " testimonios sin autorizar.</strong>" +
+      "No se publica ninguno hasta tener el OK de cada persona.";
+    document.getElementById("testimonios").appendChild(avt);
+  }
+
+  testiVisibles.forEach(function (t) {
     var card = el("article", "tarjeta testi");
     var b = "TESTIMONIOS." + TESTIMONIOS.indexOf(t) + ".";
     card.appendChild(EXPO.ligar(el("h3", null, t.persona), b + "persona"));
     card.appendChild(EXPO.ligar(el("span", "etiqueta", t.rol), b + "rol"));
     card.appendChild(EXPO.ligar(el("p", "cita", t.respaldo), b + "respaldo", { multilinea: true }));
 
-    if (!t.autorizado) {
-      var b = el("div", "bloqueado");
-      b.innerHTML = "<strong>Pendiente de autorización.</strong>No se publica hasta tener el OK de la persona.";
-      card.appendChild(b);
-    } else if (hayRed) {
+    if (hayRed) {
       var f = document.createElement("iframe");
       f.src = "https://www.linkedin.com/embed/feed/update/" + t.urn;
       f.title = "Publicación de " + t.persona;
@@ -184,7 +202,7 @@ EXPO.alCargarDatos(function () {
       card.appendChild(s);
     }
 
-    if (t.autorizado) card.appendChild(EXPO.filaQr(t.qr, t.url, "Publicación original."));
+    card.appendChild(EXPO.filaQr(t.qr, t.url, "Publicación original."));
     ct.appendChild(card);
   });
 
