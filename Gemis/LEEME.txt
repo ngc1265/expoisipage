@@ -1,0 +1,36 @@
+GRUPO GEMIS · INVESTIGACIÓN
+Copia local preparada el 13 de septiembre de 2026.
+
+CÓMO ABRIR
+1. Si recibiste un ZIP, descomprimilo primero.
+2. Abrí index.html con doble clic en Chrome, Edge, Firefox o Safari.
+3. Usá el menú para recorrer el contenido. No hace falta instalar nada ni iniciar un servidor.
+
+CÓMO COMPARTIR
+Enviá el ZIP completo o la carpeta Gemis-investigacion-local completa.
+Los HTML necesitan conservar la carpeta assets a su lado.
+
+CONTENIDO
+• Inicio y las cinco novedades (el botón Ver más abre la galería completa).
+• Investigación: proyectos, líneas de trabajo, trayectoria, eventos y participación en medios.
+• Publicaciones: 28 fichas con sus descripciones y referencias.
+• Transferencia tecnológica: cinco casos con sus detalles.
+• Equipo: perfiles de integrantes actuales, colaboradores e integrantes anteriores.
+
+SIN CONEXIÓN
+Las páginas, los textos, las imágenes incluidas, las fuentes y las fichas funcionan sin Internet.
+Los videos, redes sociales, documentos completos alojados en sitios externos y enlaces a fuentes originales requieren conexión. Se identifican en las páginas.
+Esta es una copia fija del contenido disponible localmente al prepararla; no se actualiza automáticamente.
+
+EDICIÓN
+Se pueden editar los archivos HTML y CSS con un editor de texto.
+Los datos que usa la copia están en assets/js/data.js; los JSON de assets/data se incluyen como referencia legible.
+
+IMÁGENES
+Algunas imágenes externas ya no estaban disponibles. Se utilizó una portada institucional conservando el texto de la novedad.
+Imagen original no disponible: Emiliano Giannoni presentó su Trabajo Final sobre Inteligencia Artificial Explicable
+Imagen original no disponible: Nuevos especialistas en Ingeniería en Sistemas de Información
+
+ACTUALIZACIÓN
+Sincronizada con la rama main del repositorio Grupo-Gemis/sitio-web.
+Versión de origen: 56d00c14d4fa9c0be5b14d5c4932597112cc2bb0

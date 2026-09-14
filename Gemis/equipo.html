@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; frame-src 'none'; media-src 'self'; object-src 'none'; base-uri 'none'"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="assets/img/favicon.ico" sizes="any">
+  <title>Equipo | Grupo Gemis</title>
+  <meta name="description" content="Conocé al equipo de investigación de Grupo Gemis, sus integrantes y sus trayectorias.">
+  <link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/fonts.css"><link rel="stylesheet" href="assets/css/local.css"></head>
+<body>
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="index.html" aria-label="Grupo Gemis"><img class="brand-logo" src="assets/img/logo-gemis.png" alt="Grupo Gemis" data-logo><span class="brand-fallback"><span class="brand-mark">G</span><span>gemis</span></span></a>
+      <nav class="nav-links" data-nav-links aria-label="Navegación principal"><a href="index.html">Inicio</a><div class="nav-dropdown"><a href="investigacion.html">Investigación</a><div class="nav-submenu"><a href="publicaciones.html">Publicaciones</a><a href="transferencia.html">Transferencia tecnológica</a></div></div><a class="active" href="equipo.html">Equipo</a></nav>
+      <button class="nav-toggle" type="button" aria-label="Abrir navegación" aria-expanded="false" data-nav-toggle><span></span><span></span><span></span></button>
+      <a href="index.html#novedades" class="button primary nav-action">Ver novedades</a></div>
+  </header>
+
+  <main>
+    <section class="hero team-directory-hero">
+      <div class="shell team-directory-hero-grid">
+        <div class="team-directory-hero-content" data-reveal>
+          <span class="eyebrow">Equipo de investigación</span>
+          <h1>Un equipo, múltiples perspectivas.</h1>
+          <p class="hero-copy">Investigadores, tesistas y profesionales colaboradores que desarrollan conocimiento desde distintas especialidades y perspectivas.</p>
+        </div>
+        <figure class="visual-card team-hero-visual" data-reveal>
+          <img src="assets/img/team-hero-realistic.webp" alt="Ilustración de profesionales colaborando alrededor de una mesa y un cubo de inteligencia artificial" width="1254" height="1254">
+        </figure>
+      </div>
+    </section>
+
+    <section class="section compact" id="integrantes">
+      <div class="shell">
+        <div class="team-directory-sections" id="teamDirectoryGrid" aria-live="polite"></div>
+
+        <section class="team-directory-former" data-reveal aria-labelledby="teamDirectoryFormerTitle">
+          <div class="team-directory-former-header">
+            <span class="eyebrow">Trayectorias compartidas</span>
+            <h2 id="teamDirectoryFormerTitle">Profesionales que formaron parte de los equipos de investigación de Gemis</h2>
+          </div>
+          <div class="team-directory-former-carousel">
+            <button class="team-directory-former-control" id="teamDirectoryFormerPrevious" type="button" aria-label="Ver profesionales anteriores" aria-controls="teamDirectoryFormer">←</button>
+            <div class="team-directory-former-viewport" aria-label="Lista de profesionales que formaron parte de los equipos de investigación de Gemis">
+              <ul class="member-list" id="teamDirectoryFormer" aria-live="polite" aria-atomic="true"></ul>
+            </div>
+            <button class="team-directory-former-control" id="teamDirectoryFormerNext" type="button" aria-label="Ver más profesionales" aria-controls="teamDirectoryFormer">→</button>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="shell footer-inner"><div class="footer-copy"><p>© 2026 Grupo Gemis. Investigación en inteligencia artificial, ingeniería de software, gestión del conocimiento y educación.</p><p class="offline-edition">Edición local · 13 de septiembre de 2026. Los enlaces externos requieren conexión a Internet.</p></div><div class="footer-actions"><p class="footer-follow">Seguinos en</p><div class="footer-social" role="group" aria-label="Redes sociales de Grupo Gemis"><a class="social-link" href="https://www.linkedin.com/company/grupogemis/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Grupo Gemis" title="LinkedIn de Grupo Gemis"><img src="assets/img/linkedin-official.png" width="635" height="540" alt="" aria-hidden="true"></a><a class="social-link" href="https://www.youtube.com/@grupogemis" target="_blank" rel="noopener noreferrer" aria-label="YouTube de Grupo Gemis" title="YouTube de Grupo Gemis"><img class="social-icon-youtube" src="assets/img/youtube-official.png" width="1255" height="1075" alt="" aria-hidden="true"></a></div></div></div></footer>
+
+  <div class="modal" id="teamDirectoryModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-team-directory-modal></div>
+    <div class="modal-dialog team-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="teamDirectoryModalName">
+      <div class="team-modal-toolbar">
+        <div class="team-modal-identity">
+          <h2 id="teamDirectoryModalName"></h2>
+          <div class="team-modal-socials" id="teamDirectoryModalActions"></div>
+        </div>
+        <button class="team-modal-close" type="button" data-close-team-directory-modal aria-label="Cerrar perfil"><span class="team-modal-close-label">Cerrar</span><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="team-modal-layout" tabindex="0" role="region" aria-label="Información del perfil">
+        <div class="team-modal-photo" id="teamDirectoryModalPhoto"></div>
+        <section class="modal-section team-modal-profile" aria-labelledby="teamDirectoryModalProfileLabel">
+          <h3 class="modal-label" id="teamDirectoryModalProfileLabel">Investigador</h3>
+          <p class="modal-description" id="teamDirectoryModalDescription"></p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/data.js"></script><script src="assets/js/main.js"></script></body>
+</html>

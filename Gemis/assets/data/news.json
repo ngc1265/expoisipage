@@ -1,0 +1,81 @@
+[
+  {
+    "type": "Video",
+    "date": "Enero 2025",
+    "title": "La IA que busca revolucionar el diagnóstico médico",
+    "description": "Entrevista a María Florencia Pollo-Cattaneo sobre inteligencia artificial aplicada al diagnóstico médico.",
+    "url": "https://youtu.be/lbX6y0a8lgo",
+    "cta": "Ver video",
+    "images": [
+      {
+        "url": "assets/img/video-poster-default.webp",
+        "alt": "Portada institucional de Grupo Gemis"
+      }
+    ],
+    "offlineMediaNote": "Video disponible en Internet"
+  },
+  {
+    "type": "Presentación",
+    "date": "Julio 2026",
+    "title": "Emiliano Giannoni presentó su Trabajo Final sobre Inteligencia Artificial Explicable",
+    "description": "Emiliano Abel Giannoni presentó su Trabajo Final Integrador, una revisión sistemática sobre las métricas cuantitativas utilizadas para evaluar métodos de Inteligencia Artificial Explicable (XAI). El trabajo, desarrollado bajo las directrices PRISMA y en el marco de las líneas de investigación del Grupo GEMIS, contribuye al desarrollo de sistemas de IA más transparentes, confiables y responsables.",
+    "url": "https://www.linkedin.com/posts/florencia-pollo_utnfrba-grupogemis-inteligenciaartificial-activity-7477822851966943233-ppg8?utm_source=share&utm_medium=member_desktop&rcm=ACoAACej1isBU1rhDIYzrbyRa7zJKhSSIPuyrxQ",
+    "images": [
+      {
+        "url": "assets/img/video-poster-default.webp",
+        "alt": "Portada institucional de Grupo Gemis"
+      }
+    ],
+    "cta": "Ver presentación",
+    "offlineMediaNote": "Fuente disponible en Internet"
+  },
+  {
+    "type": "Presentación",
+    "date": "Julio 2026",
+    "title": "Fernando M. defendió su tesis de Maestría en UTN Buenos Aires",
+    "description": "Celebramos la defensa de tesis de Fernando M., resultado de una trayectoria que integra formación de grado y posgrado, investigación y docencia en UTN Buenos Aires. La tesis fue dirigida por María Florencia Pollo-Cattaneo y Hernán Astudillo.",
+    "url": "https://www.linkedin.com/posts/florencia-pollo_ayer-defend%C3%AD-mi-tesis-de-maestr%C3%ADa-en-ingenier%C3%ADa-activity-7473186968978481152-cYVK?utm_source=share&utm_medium=member_desktop&rcm=ACoAACej1isBU1rhDIYzrbyRa7zJKhSSIPuyrxQ",
+    "videoCover": "gemis",
+    "videoCoverVariant": "formation",
+    "cta": "Ver defensa",
+    "images": [
+      {
+        "url": "assets/img/video-poster-formation.webp",
+        "alt": "Portada institucional de Grupo Gemis"
+      }
+    ],
+    "offlineMediaNote": "Video disponible en Internet"
+  },
+  {
+    "type": "Institucional",
+    "date": "Julio 2026",
+    "title": "Nuevos especialistas en Ingeniería en Sistemas de Información",
+    "description": "María de los Ángeles Chiang, Mariel Ojeda, Federico Nicolás Brest y Nicolás Simoncini recibieron sus títulos de Especialistas en Ingeniería en Sistemas de Información en UTN Buenos Aires. Durante su formación participaron en proyectos de investigación, congresos y publicaciones científicas vinculadas al Grupo GEMIS, y tres de ellos continúan actualmente sus estudios de Maestría.",
+    "url": "https://www.linkedin.com/posts/florencia-pollo_utnfrba-especializaciaejn-grupogemis-activity-7477361640275976192-4L9V?utm_source=share&utm_medium=member_desktop&rcm=ACoAACej1isBU1rhDIYzrbyRa7zJKhSSIPuyrxQ",
+    "images": [
+      {
+        "url": "assets/img/video-poster-default.webp",
+        "alt": "Portada institucional de Grupo Gemis"
+      }
+    ],
+    "cta": "Ver publicación",
+    "offlineMediaNote": "Fuente disponible en Internet"
+  },
+  {
+    "type": "Presentación",
+    "date": "Agosto 2026",
+    "title": "Alonzo Nunez presentó su Trabajo Final sobre modelos de madurez para LLMOps",
+    "description": "Alonzo Nunez presentó su Trabajo Final de Especialización, titulado “Modelos de Madurez para LLMOps en Entornos Productivos: Una revisión Multivocal de la Literatura”. El trabajo analiza los desafíos asociados a la operación, evaluación, monitoreo, gobernanza y evolución de los Large Language Models en sistemas productivos, proponiendo avanzar en la sistematización de LLMOps y en modelos que permitan evaluar su nivel de madurez.",
+    "url": "https://lnkd.in/p/d_tuWz56",
+    "videoCover": "gemis",
+    "videoCoverVariant": "research",
+    "cta": "Ver publicación",
+    "images": [
+      {
+        "url": "assets/img/video-poster-research.webp",
+        "alt": "Portada institucional de Grupo Gemis"
+      }
+    ],
+    "offlineMediaNote": "Video disponible en Internet"
+  }
+]

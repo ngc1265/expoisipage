@@ -1,0 +1,1386 @@
+{
+  "current": {
+    "investigators": [
+      {
+        "name": "María Florencia Pollo Cattaneo",
+        "modalEnabled": true,
+        "academicTitle": "Dra.",
+        "groupRole": "Directora del Grupo GEMIS",
+        "displayFirstName": "María Florencia",
+        "displayLastName": "Pollo Cattaneo",
+        "initials": "MF",
+        "leader": true,
+        "displayOrder": 1,
+        "role": "Investigadora",
+        "sectors": [
+          "Investigación"
+        ],
+        "description": "Doctora en Ciencias Informáticas por la Facultad de Informática de la Universidad Nacional de La Plata. Magíster en Ingeniería en Software, con doble titulación de la Universidad Politécnica de Madrid y el Instituto Tecnológico de Buenos Aires. Especialista en Construcción de Sistemas Expertos por el ITBA e Ingeniera en Sistemas de Información por la Universidad Tecnológica Nacional, Facultad Regional Buenos Aires.",
+        "image": "assets/img/profiles/FlorenciaPolloCattaneo.jpg",
+        "linkedin": "https://ar.linkedin.com/in/florencia-pollo-7bb16719b",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Inés Casanovas",
+        "modalEnabled": true,
+        "academicTitle": "Dra.",
+        "groupRole": "Investigador",
+        "initials": "IC",
+        "role": "Investigadora",
+        "sectors": [
+          "Investigación"
+        ],
+        "description": "Doctora en Informática, Magíster en Docencia Universitaria y Magíster en Informática. Investigadora del Grupo GEMIS.",
+        "image": "assets/img/profiles/ines-casanovas.jpg",
+        "linkedin": "https://www.linkedin.com/in/ines-casanovas-9023a919",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Parag Chatterjee",
+        "modalEnabled": true,
+        "academicTitle": "Dr.",
+        "groupRole": "Líder de investigación",
+        "displayFirstName": "Parag",
+        "displayLastName": "Chatterjee",
+        "initials": "PC",
+        "leader": true,
+        "role": "Investigador",
+        "sectors": [
+          "Investigación"
+        ],
+        "description": "Licenciado en Ciencias de la Computación y Magíster en Ciencias de la Computación por la Universidad de Calcuta, India. Doctor en Ingeniería por la Universidad Tecnológica Nacional, Facultad Regional Buenos Aires.",
+        "image": "assets/img/profiles/Parag.jpg",
+        "linkedin": "https://www.linkedin.com/in/paragchat/",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Luciano Straccia",
+        "modalEnabled": true,
+        "academicTitle": "Mg.",
+        "groupRole": "Líder de investigación",
+        "displayFirstName": "Luciano",
+        "displayLastName": "Straccia",
+        "initials": "LS",
+        "leader": true,
+        "role": "Investigador",
+        "sectors": [
+          "Investigación"
+        ],
+        "description": "Ingeniero en Sistemas de Información por la Universidad Tecnológica Nacional, Facultad Regional Buenos Aires. Magíster en Educación con orientación en Gestión Educativa y Especialista en Educación con orientación en Gestión Educativa por la Universidad de San Andrés. Doctorando en Ingeniería en Sistemas de Información por la Universidad Tecnológica Nacional.",
+        "image": "assets/img/profiles/LucianoStraccia.jpg",
+        "linkedin": "https://ar.linkedin.com/in/luciano-straccia",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Cinthia Vegega",
+        "modalEnabled": true,
+        "academicTitle": "Mg.",
+        "groupRole": "Líder de investigación",
+        "displayFirstName": "Cinthia",
+        "displayLastName": "Vegega",
+        "initials": "CV",
+        "leader": true,
+        "role": "Investigadora",
+        "sectors": [
+          "Investigación"
+        ],
+        "description": "Ingeniera en Sistemas de Información, Especialista en Ingeniería en Sistemas de Información y Magíster en Ingeniería en Sistemas de Información por la Universidad Tecnológica Nacional, Facultad Regional Buenos Aires. Doctorando en Ciencias Informáticas por la Universidad Nacional de La Plata.",
+        "image": "assets/img/profiles/CinthiaVegega.png",
+        "linkedin": "https://www.linkedin.com/in/cinthia-vegega",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Martín Di Felice",
+        "modalEnabled": true,
+        "academicTitle": "Mg.",
+        "groupRole": "Investigador en formación",
+        "initials": "MF",
+        "role": "Investigador",
+        "description": "Magíster e Investigador en formación del Grupo GEMIS.",
+        "image": "assets/img/profiles/martin-di-felice.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Pablo Pytel",
+        "modalEnabled": true,
+        "academicTitle": "Dr.",
+        "groupRole": "Líder de investigación",
+        "displayFirstName": "Pablo",
+        "displayLastName": "Pytel",
+        "initials": "PP",
+        "leader": true,
+        "role": "Director de Proyectos",
+        "sectors": [
+          "Investigación"
+        ],
+        "description": "Doctor en Ciencias Informáticas por la Facultad de Informática de la Universidad Nacional de La Plata. Magíster en Ingeniería en Software, con doble titulación de la Universidad Politécnica de Madrid y el Instituto Tecnológico de Buenos Aires. Especialista en Construcción de Sistemas Expertos por el ITBA e Ingeniero en Sistemas de Información por la Universidad Tecnológica Nacional, Facultad Regional Buenos Aires.",
+        "image": "assets/img/profiles/Pablo-Pytel.jpg",
+        "linkedin": "https://www.linkedin.com/in/pytel/",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Ariel Deroche",
+        "modalEnabled": true,
+        "academicTitle": "Ing.",
+        "groupRole": "Investigador en formación",
+        "initials": "AD",
+        "role": "Investigador",
+        "description": "Ingeniero en Sistemas de Información e Investigador en formación del Grupo GEMIS.",
+        "image": "assets/img/profiles/ariel-deroche.jpg",
+        "linkedin": "https://www.linkedin.com/in/ariel-deroche/",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Santiago Ferreiros",
+        "modalEnabled": true,
+        "academicTitle": "Mg.",
+        "groupRole": "Líder de investigación",
+        "displayFirstName": "Santiago",
+        "displayLastName": "Ferreiros",
+        "initials": "SF",
+        "leader": true,
+        "role": "Investigador",
+        "sectors": [
+          "Investigación"
+        ],
+        "description": "Ingeniero en Sistemas de Información por la Universidad Tecnológica Nacional, Facultad Regional Buenos Aires. Máster en Ciencias, Tecnologías y Salud, con formación en Ingeniería de Sistemas Complejos, Optimización y Seguridad de Sistemas, por la Université de Technologie de Troyes (UTT), Francia. Máster en Inteligencia Artificial por el Centro Europeo de Posgrado y Empresa (CEUPE).",
+        "image": "assets/img/profiles/SantiagoFerreiros.jpeg",
+        "linkedin": "https://www.linkedin.com/in/santiagoferreiros/?locale=es",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Fidel Ibire",
+        "modalEnabled": true,
+        "groupRole": "Becario",
+        "initials": "FI",
+        "role": "Integrante",
+        "description": "Becario del Grupo GEMIS.",
+        "image": "assets/img/profiles/fidel-iribe.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      }
+    ],
+    "thesisResearchers": [
+      {
+        "name": "Patricia Raquel Cristaldo",
+        "modalEnabled": true,
+        "academicTitle": "Dra.",
+        "initials": "PC",
+        "role": "Tesista",
+        "accompanying": true,
+        "description": "Investigadora tesista vinculada al grupo GEMIS mediante el desarrollo de una tesis doctoral en curso.",
+        "image": "",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Marcelo Lopez Nocera",
+        "modalEnabled": true,
+        "academicTitle": "Dr.",
+        "initials": "MN",
+        "role": "Tesista",
+        "accompanying": true,
+        "description": "Investigador tesista vinculado al grupo GEMIS mediante el desarrollo de una tesis doctoral entregada, actualmente en instancia de defensa.",
+        "image": "",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Fernando Muraca",
+        "modalEnabled": true,
+        "academicTitle": "Mg.",
+        "initials": "FM",
+        "role": "Tesista",
+        "groupRole": "Investigador en formación",
+        "accompanying": false,
+        "description": "Investigador tesista vinculado al grupo GEMIS mediante el desarrollo de una tesis de maestría en curso.",
+        "image": "assets/img/profiles/fernando-muraca.png",
+        "linkedin": "https://www.linkedin.com/in/muracafernando/",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Luciano Straccia",
+        "modalEnabled": true,
+        "initials": "LS",
+        "role": "Tesista",
+        "description": "Tesista vinculado/a al grupo GEMIS mediante tesis doctoral (en curso). Observación de la fuente: también se menciona dirección de proyecto.",
+        "image": "",
+        "linkedin": "https://ar.linkedin.com/in/luciano-straccia",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Cinthia Vegega",
+        "modalEnabled": true,
+        "academicTitle": "Mg.",
+        "initials": "CV",
+        "role": "Tesista",
+        "description": "Tesista vinculado/a al grupo GEMIS mediante tesis doctoral (en curso).",
+        "image": "",
+        "linkedin": "https://www.linkedin.com/in/cinthia-vegega",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Martín Di Felice",
+        "modalEnabled": true,
+        "academicTitle": "Mg.",
+        "initials": "MF",
+        "role": "Tesista",
+        "description": "Magíster e Investigador en formación del Grupo GEMIS.",
+        "image": "assets/img/profiles/martin-di-felice.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "María de los Ángeles Chiang",
+        "modalEnabled": true,
+        "academicTitle": "Esp.",
+        "initials": "MC",
+        "role": "Tesista",
+        "groupRole": "Tesista",
+        "accompanying": false,
+        "description": "Tesista vinculado/a al grupo GEMIS mediante tesis de maestría.",
+        "image": "assets/img/profiles/maria-de-los-angeles-chiang.jpg",
+        "linkedin": "https://www.linkedin.com/in/maria-de-los-angeles-chiang/",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Lautaro Ignacio Ferrer",
+        "modalEnabled": true,
+        "academicTitle": "Esp.",
+        "initials": "LF",
+        "role": "Tesista",
+        "groupRole": "Tesista",
+        "accompanying": false,
+        "description": "Tesista vinculado/a al grupo GEMIS mediante tesis de maestría.",
+        "image": "assets/img/profiles/lautaro-ferrer.png",
+        "linkedin": "https://www.linkedin.com/in/lautaro-ignacio-ferrer-10740aa3/",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Rocío Leguizamon",
+        "modalEnabled": true,
+        "groupRole": "Tesista",
+        "academicTitle": "Ing.",
+        "initials": "RL",
+        "role": "Tesista",
+        "description": "Ingeniera en Sistemas de Información y Tesista del Grupo GEMIS.",
+        "image": "assets/img/profiles/rocio-leguizamon.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Florencia Nocenti",
+        "modalEnabled": true,
+        "initials": "FN",
+        "role": "Tesista",
+        "description": "Tesista vinculado/a al grupo GEMIS mediante tesis de maestría (en desarrollo).",
+        "image": "assets/img/profiles/florencia-nocenti.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "María Eugenia Ansalas",
+        "modalEnabled": true,
+        "academicTitle": "Lic.",
+        "initials": "MA",
+        "role": "Tesista",
+        "description": "Tesista vinculado/a al grupo GEMIS mediante tesis de maestría (en desarrollo).",
+        "image": "assets/img/profiles/maria-eugenia-ansalas.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Anabella Muñoz Holman",
+        "modalEnabled": true,
+        "academicTitle": "Esp.",
+        "initials": "AH",
+        "role": "Tesista",
+        "groupRole": "Tesista",
+        "accompanying": false,
+        "description": "Tesista vinculado/a al grupo GEMIS mediante trabajo final de especialización (en desarrollo).",
+        "image": "assets/img/profiles/anabella-munoz.png",
+        "linkedin": "https://www.linkedin.com/in/anabella-m-holman/",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Gabriela Diaz",
+        "modalEnabled": true,
+        "academicTitle": "Esp.",
+        "initials": "GD",
+        "role": "Tesista",
+        "accompanying": true,
+        "description": "Tesista vinculado/a al grupo GEMIS mediante trabajo final de especialización (en desarrollo). Observación de la fuente: actualmente figura como tesista de maestría.",
+        "image": "",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Camila Berro",
+        "modalEnabled": true,
+        "groupRole": "Tesista",
+        "academicTitle": "Ing.",
+        "initials": "CB",
+        "role": "Tesista",
+        "description": "Ingeniera en Sistemas de Información y Tesista del Grupo GEMIS.",
+        "image": "assets/img/profiles/camila-berro.jpg",
+        "linkedin": "https://ar.linkedin.com/in/camila-andrea-berro-7923b0264",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Guido Martinéz",
+        "modalEnabled": true,
+        "groupRole": "Tesista",
+        "academicTitle": "Ing.",
+        "initials": "GM",
+        "role": "Tesista",
+        "description": "Ingeniero en Sistemas de Información y Tesista del Grupo GEMIS.",
+        "image": "assets/img/profiles/guido-martinez.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Chabela Lamas",
+        "modalEnabled": true,
+        "groupRole": "Tesista",
+        "academicTitle": "Ing.",
+        "initials": "CL",
+        "role": "Tesista",
+        "description": "Ingeniera en Sistemas de Información y Tesista del Grupo GEMIS.",
+        "image": "assets/img/profiles/chabela-lamas.jpg",
+        "linkedin": "https://www.linkedin.com/in/chabela-lamas",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Hernan Navas",
+        "modalEnabled": true,
+        "academicTitle": "Dr.",
+        "initials": "HN",
+        "role": "Tesista",
+        "groupRole": "Tesista",
+        "accompanying": false,
+        "description": "Tesista vinculado al grupo GEMIS.",
+        "image": "assets/img/profiles/hernan-navas.jpg",
+        "linkedin": "https://www.linkedin.com/in/hernanjosenavas/",
+        "orcid": "",
+        "scholar": ""
+      }
+    ],
+    "researchersInTraining": [
+      {
+        "name": "Brenda Baruzzini",
+        "modalEnabled": true,
+        "groupRole": "Becario",
+        "initials": "BB",
+        "role": "Investigadora en Formación",
+        "description": "Becaria del Grupo GEMIS.",
+        "image": "assets/img/profiles/brenda-baruzzini.jpg",
+        "linkedin": "https://ar.linkedin.com/in/brenda-baruzzini",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Abril Caruso",
+        "modalEnabled": true,
+        "groupRole": "Investigador en formación",
+        "academicTitle": "Ing.",
+        "initials": "AC",
+        "role": "Investigadora en Formación",
+        "description": "Ingeniera en Sistemas de Información e Investigadora en formación del Grupo GEMIS.",
+        "image": "assets/img/profiles/abril-caruso.jpg",
+        "linkedin": "https://ar.linkedin.com/in/abril-caruso-74a61b251",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Franco Cortínez",
+        "modalEnabled": true,
+        "groupRole": "Becario y Personal de Apoyo",
+        "initials": "FC",
+        "role": "Personal de Apoyo",
+        "description": "Becario y personal de apoyo del Grupo GEMIS.",
+        "image": "assets/img/profiles/franco-cortinez.webp",
+        "linkedin": "https://www.linkedin.com/in/francocortinez",
+        "orcid": "https://orcid.org/0000-0002-1110-5989",
+        "scholar": ""
+      },
+      {
+        "name": "Hugo Ramón",
+        "modalEnabled": true,
+        "groupRole": "Investigador en formación",
+        "academicTitle": "Ing.",
+        "initials": "HR",
+        "role": "Investigador en Formación",
+        "description": "Ingeniero en Sistemas de Información e Investigador en formación del Grupo GEMIS.",
+        "image": "assets/img/profiles/hugo-ramon.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Ilan Trupking",
+        "modalEnabled": true,
+        "groupRole": "Becario",
+        "academicTitle": "Ing.",
+        "initials": "IT",
+        "role": "Investigador en Formación",
+        "description": "Ingeniero en Sistemas de Información y Becario del Grupo GEMIS.",
+        "image": "assets/img/profiles/illan-martin-trupkin.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Lautaro Moyano",
+        "modalEnabled": true,
+        "groupRole": "Becario",
+        "academicTitle": "Ing.",
+        "initials": "LM",
+        "role": "Becario",
+        "description": "Ingeniero en Sistemas de Información y Becario del Grupo GEMIS.",
+        "image": "assets/img/profiles/lautaro-moyano.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Maximiliano Moyano",
+        "modalEnabled": true,
+        "academicTitle": "Ing.",
+        "groupRole": "Becario",
+        "initials": "MM",
+        "role": "Becario",
+        "description": "Ingeniero en Sistemas de Información por la Universidad Tecnológica Nacional, Facultad Regional Buenos Aires. Becario del Grupo GEMIS.",
+        "image": "assets/img/profiles/maximiliano-moyano.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Matías Vidaurre",
+        "modalEnabled": true,
+        "groupRole": "Becario",
+        "initials": "MV",
+        "role": "Becario",
+        "description": "Becario del Grupo GEMIS.",
+        "image": "assets/img/profiles/matias-vidaurre.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Juan Ignacio Solé Gagliano",
+        "modalEnabled": true,
+        "groupRole": "Becario",
+        "initials": "JS",
+        "role": "Integrante",
+        "description": "Becario del Grupo GEMIS.",
+        "image": "assets/img/profiles/juan-ignacio-sole-gagliano.webp",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Alonzo Nuñez",
+        "modalEnabled": true,
+        "academicTitle": "Esp.",
+        "groupRole": "Tesista",
+        "initials": "AN",
+        "role": "Tesista",
+        "description": "Especialista y Tesista del Grupo GEMIS.",
+        "image": "assets/img/profiles/alonzo-nunez.jpg",
+        "linkedin": "https://www.linkedin.com/in/ramnu/",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Emiliano A. Giannoni",
+        "modalEnabled": true,
+        "academicTitle": "Esp.",
+        "groupRole": "Tesista",
+        "initials": "EG",
+        "role": "Tesista",
+        "description": "Especialista y Tesista del Grupo GEMIS.",
+        "image": "assets/img/profiles/emiliano-giannoni.png",
+        "linkedin": "https://www.linkedin.com/in/emiliano-abel-giannoni-446b41100/",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Matías Ignacio Almad",
+        "modalEnabled": true,
+        "initials": "MA",
+        "role": "Colaborador",
+        "accompanying": true,
+        "description": "Colaborador del Grupo GEMIS.",
+        "image": "",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Federico Ilán Maleh",
+        "modalEnabled": true,
+        "academicTitle": "Ing.",
+        "initials": "FM",
+        "role": "Colaborador",
+        "accompanying": true,
+        "description": "Ingeniero en Sistemas de Información y colaborador del Grupo GEMIS.",
+        "image": "",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Nicolás Simoncini",
+        "modalEnabled": true,
+        "academicTitle": "Esp.",
+        "initials": "NS",
+        "role": "Colaborador",
+        "accompanying": true,
+        "description": "Especialista y colaborador del Grupo GEMIS.",
+        "image": "",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      },
+      {
+        "name": "Federico Brest",
+        "modalEnabled": true,
+        "academicTitle": "Esp.",
+        "initials": "FB",
+        "role": "Colaborador",
+        "accompanying": true,
+        "description": "Especialista y colaborador del Grupo GEMIS.",
+        "image": "",
+        "linkedin": "",
+        "orcid": "",
+        "scholar": ""
+      }
+    ]
+  },
+  "former": [
+    {
+      "name": "Martín Moro",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Vanina Giselle Aranda",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Cristian Matias Giorda",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Celeste Fernández Challen",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "María Gracia Bongiorno",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Juan Dellagnolo",
+      "academicTitle": "Ing.",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Gustavo Juhal",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Edgar Schmit",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Alex Soler Trias",
+      "academicTitle": "Ing.",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Juan Cristian Miguel",
+      "academicTitle": "Esp.",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Brayan Julian Barbosa Sierra",
+      "academicTitle": "Esp.",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Juana Noemí Acosta Llugdar",
+      "academicTitle": "Esp.",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Florencia Nahir Sanchez",
+      "academicTitle": "Esp.",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Diego Basso",
+      "academicTitle": "Mg.",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Noemí Medina",
+      "academicTitle": "Esp.",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Diana Carolina Ariza Marin",
+      "academicTitle": "Esp.",
+      "year": "",
+      "role": "Tesista",
+      "project": ""
+    },
+    {
+      "name": "Martha Orozco",
+      "year": "2020",
+      "role": "Tesista",
+      "project": "Tesis desarrollada en el marco de GEMIS"
+    },
+    {
+      "name": "María Isabella Innocente",
+      "year": "2023",
+      "role": "Becario",
+      "project": "Proyecto Creación de un observatorio tecnológico de la gestión del conocimiento en CABA"
+    },
+    {
+      "name": "Ian Ruiz Depetris",
+      "year": "2023",
+      "role": "Becario",
+      "project": "Proyecto Creación de un observatorio tecnológico de la gestión del conocimiento en CABA"
+    },
+    {
+      "name": "Benjamin Alegre",
+      "year": "2023",
+      "role": "Becario",
+      "project": "Proyecto Creación de un observatorio tecnológico de la gestión del conocimiento en CABA"
+    },
+    {
+      "name": "Lucila Salmerón",
+      "year": "2023",
+      "role": "Becario",
+      "project": "Proyecto Arquitectura tecnológica para la Gestión del Conocimiento"
+    },
+    {
+      "name": "Vanina Aranda",
+      "year": "2022",
+      "role": "Becario",
+      "project": "Proyecto Arquitectura tecnológica para la Gestión del Conocimiento"
+    },
+    {
+      "name": "Matías Giorda",
+      "year": "2022",
+      "role": "Becario",
+      "project": "Proyecto Arquitectura tecnológica para la Gestión del Conocimiento"
+    },
+    {
+      "name": "María G. Bongiorno",
+      "year": "2021",
+      "role": "Becario",
+      "project": "Proyecto Arquitectura tecnológica para la Gestión del Conocimiento"
+    },
+    {
+      "name": "Cecilia Ramacciotti",
+      "year": "2020",
+      "role": "Becario",
+      "project": "Proyecto La GC en pequeñas y medianas fábricas de software en AMBA"
+    },
+    {
+      "name": "Luciano Perez",
+      "year": "2018",
+      "role": "Becario",
+      "project": "Proyecto La GC en pequeñas y medianas fábricas de software en AMBA"
+    },
+    {
+      "name": "Patricia A. Gerlero",
+      "year": "2024",
+      "role": "Tesista",
+      "project": "Tesis de Maestría y Trabajo Final de Especialidad finalizados en el marco de GEMIS"
+    },
+    {
+      "name": "Agustín Sabelli",
+      "year": "2024",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada en el marco de GEMIS"
+    },
+    {
+      "name": "Osvaldo German Fernandez",
+      "year": "2022",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada en el marco de GEMIS"
+    },
+    {
+      "name": "Gerardo Luis Santoriello",
+      "year": "2021",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada en el marco de GEMIS"
+    },
+    {
+      "name": "Adriana Maulini Buño",
+      "year": "2026",
+      "role": "Tesista",
+      "image": "assets/img/profiles/adriana-maulini-buno.jpg",
+      "project": "Tesis de Maestría y Trabajo Final de Especialidad finalizados en el marco de GEMIS"
+    },
+    {
+      "name": "Juan Cruz Gonzalez Allonca",
+      "year": "2018",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada en el marco de GEMIS"
+    },
+    {
+      "name": "Ana Keravenant",
+      "year": "2017",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada en el marco de GEMIS"
+    },
+    {
+      "name": "Pablo Cigliuti",
+      "year": "2016",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada en el marco de GEMIS"
+    },
+    {
+      "name": "Leonardo Montesano",
+      "year": "2014",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada en el marco de GEMIS"
+    },
+    {
+      "name": "Darío Rodríguez",
+      "year": "2013",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada en el marco de GEMIS"
+    },
+    {
+      "name": "Hernan Navas",
+      "year": "2025",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "María de los Ángeles Chiang",
+      "year": "2025",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Mariel Liliana Ojeda",
+      "year": "2025",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Lautaro Ignacio Ferrer",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Salvador Soto",
+      "year": "2023",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Yamila Zakhem",
+      "year": "2020",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Fernando Petrone",
+      "year": "2020",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Julio Villagarcía",
+      "year": "2020",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Daniel Wilson",
+      "year": "2019",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Jesús Iván Farfán Quispe",
+      "year": "2018",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Carolina Nieto Claros",
+      "year": "2018",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Sebastián Lopreto",
+      "year": "2017",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Gabriela Velazquez",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Rodrigo Pampin",
+      "year": "2016",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Eduardo Iberti",
+      "year": "2015",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialidad finalizado en el marco de GEMIS"
+    },
+    {
+      "name": "Mauricio Rozo Rodriguez",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Formación de investigadores en el marco de GEMIS"
+    },
+    {
+      "name": "Diego Hernán Feresin",
+      "year": "2025",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Martín Di Felice",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Gabriela Velazquez",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Patricia A. Gerlero",
+      "year": "2024",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Patricia A. Gerlero",
+      "year": "2024",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Agustín Sabelli",
+      "year": "2024",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Agustín Sabelli",
+      "year": "2024",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Osvaldo German Fernandez",
+      "year": "2022",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Osvaldo German Fernandez",
+      "year": "2022",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Gerardo Luis Santoriello",
+      "year": "2021",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Adriana Maulini Buño",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Cinthia Vegega",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Juan Cruz Gonzalez Allonca",
+      "year": "2018",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Ana Keravenant",
+      "year": "2017",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Pablo Cigliuti",
+      "year": "2016",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Leonardo Montesano",
+      "year": "2014",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Darío Rodríguez",
+      "year": "2013",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Pablo Pytel",
+      "year": "2025",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Pablo Pytel",
+      "year": "2025",
+      "role": "Tesista",
+      "project": "Tesis doctoral finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Hernan Navas",
+      "year": "2025",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "María de los Ángeles Chiang",
+      "year": "2025",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Mariel Liliana Ojeda",
+      "year": "2025",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Lautaro Ignacio Ferrer",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Fernando Muraca",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Salvador Soto",
+      "year": "2023",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Yamila Zakhem",
+      "year": "2020",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Fernando Petrone",
+      "year": "2020",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Julio Villagarcía",
+      "year": "2020",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Daniel Wilson",
+      "year": "2019",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Jesús Iván Farfán Quispe",
+      "year": "2018",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Carolina Nieto Claros",
+      "year": "2018",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Sebastián Lopreto",
+      "year": "2017",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Adriana Maulini Buño",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Rodrigo Pampin",
+      "year": "2016",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Cinthia Vegega",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Eduardo Iberti",
+      "year": "2015",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Jorge Norscini",
+      "year": "2026",
+      "role": "Investigador",
+      "project": "Formación de investigadores en el marco de GEMIS"
+    },
+    {
+      "name": "Mauricio Rozo Rodriguez",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Tesis de Maestría finalizada o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Micaela Agüero",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Lautaro Agustín Melchiori Callegher",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Ilan Trupking",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Juan Francisco Paoli",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Milena Lebedinsky",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Natalia Graciela Giménez Pizzio",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Salvador Castro",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Matías Ignacio Almad",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Matías Ignacio Almad",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Bruno Esteban Jaime",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Gabriel Montenegro Aguilar",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Natalia Perez",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Lucila Salmeron",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Marcos Infantino",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Federico Ilán Maleh",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Rocío Leguizamon",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Santiago Corbalan",
+      "year": "2022",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Julieta Rocío Prado Walsh",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Maximiliano Ezequiel Afonso",
+      "year": "2022",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Mauricio Rozo Rodriguez",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Cecilia Andrea Ramacciotti",
+      "year": "2021",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Luciano Panizza",
+      "year": "2021",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Luciano Perez",
+      "year": "2020",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Sebastián Plawner",
+      "year": "2018",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Flor Angela Lisseth Soto Pascacio",
+      "year": "2017",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Verónica Fabbro",
+      "year": "2019",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Jonathan Castro",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Luciano Bernal Tomadoni",
+      "year": "2022",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Ariel Deroche",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "José Galarza",
+      "year": "2012",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Giovanni Daián Róttoli",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Nicolás Raus",
+      "year": "2014",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Facundo Luján",
+      "year": "2014",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Maximiliano Tomasello",
+      "year": "2014",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Ariel Bachetti",
+      "year": "2014",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Nicolás Corrizo",
+      "year": "2007",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Javier Goilenberg",
+      "year": "2007",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Federico Brest",
+      "year": "2026",
+      "role": "Tesista",
+      "project": "Trabajo Final de Especialización finalizado o anterior en el marco de GEMIS"
+    },
+    {
+      "name": "Camila Berro",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Guido Martinéz",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    },
+    {
+      "name": "Matías Giorda",
+      "year": "2026",
+      "role": "Becario",
+      "project": "Beca en el marco de GEMIS"
+    }
+  ]
+}

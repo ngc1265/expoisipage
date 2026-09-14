@@ -1,0 +1,65 @@
+[
+  {
+    "title": "Metodología para el desarrollo de Chatbots, Alex",
+    "image": "assets/img/transfer-alex-chatbot.webp",
+    "imageAlt": "Paciente utilizando un asistente conversacional conectado con turnos y servicios de una clínica",
+    "period": "",
+    "organization": "DAEVA S.A.",
+    "description": "Innovación desarrollada en dos etapas: primero, una metodología y marco de trabajo para el desarrollo de chatbots en el ámbito universitario latinoamericano; luego, su aplicación en Alex, un chatbot que funciona como asistente digital para confirmar turnos y guiar a pacientes sobre pautas de seguridad en tratamientos médicos.",
+    "details": "El modelo de procesos surge de la tesis de Marta Orozco. Alex funciona sobre SMS y se enfoca en reforzar medidas de seguridad y mejorar la adherencia a turnos programados. El proyecto fue realizado en DAEVA S.A. con asistencia para proyectos de I+D presentados en el marco de la Ley del Régimen de Promoción de la Economía del Conocimiento, Ley 27.506.",
+    "publications": [
+      "Orozco, M.; Pytel, P; Pollo-Cattaneo, M.F. (2020). Metodología de Implementación de un ChatBot como Tutor Virtual en el Ámbito Educativo para Universidades en Latinoamérica. En Desarrollo e Innovación en Ingeniería, Quinta Edición.",
+      "Pytel P.; Vegega, C.; Panizza, L.; Deluchi, P.; Orozco-González, M.; Straccia, L.; Pollo-Cattaneo, M.F. (2018). Generación de Preguntas para Exámenes mediante la aplicación de Redes Neuronales de Aprendizaje Profundo. CONAIISI 2018."
+    ],
+    "sourceUrl": "https://grupogemis.com.ar/gemiswp/transferencia-tecnologica/"
+  },
+  {
+    "title": "GuardIA",
+    "image": "assets/img/transfer-guardia.webp",
+    "imageAlt": "Equipo médico coordinando guardias mediante un calendario optimizado con inteligencia artificial",
+    "period": "Mayo - Julio 2019",
+    "organization": "DAEVA S.A.",
+    "description": "Software propuesto para centros médicos con servicios de guardia, orientado a automatizar el armado de esquemas de guardia para distintos roles dentro de equipos médicos mediante tecnología de Inteligencia Artificial.",
+    "details": "El software fue desarrollado en el marco del Régimen de Promoción de la Industria del Software, Ley 25.922. Utiliza algoritmos genéticos y toma resultados de trabajos de investigación asociados a frameworks para algoritmos genéticos.",
+    "publications": [],
+    "sourceUrl": "https://grupogemis.com.ar/gemiswp/transferencia-tecnologica/"
+  },
+  {
+    "title": "CUERPOHUMATHNO",
+    "image": "assets/img/transfer-cuerpohumathno.webp",
+    "imageAlt": "Investigadores trabajando con un modelo digital del cuerpo humano para simulación biomédica",
+    "period": "Octubre 2018 - Septiembre 2019",
+    "organization": "DAEVA S.A.",
+    "description": "Proyecto de I+D orientado al desarrollo de software de simulación para educación e investigación en biomedicina, integrando los verticales de Educación y Salud.",
+    "details": "La propuesta busca resolver limitaciones de simuladores físicos de alta y baja fidelidad mediante un proceso innovador que especifica requisitos de simulación expresados por ecuaciones diferenciales, modela conocimiento del dominio con SysML y UML, y mantiene trazabilidad entre modelos.",
+    "publications": [
+      "Castro, M.S.; Redelico, F.; Garbarini, R.; Osuna, G.; Pollo-Cattaneo, Ma. F. (2019). Una propuesta de documentación para el desarrollo de software de simulación continua. CONAIISI 2019."
+    ],
+    "sourceUrl": "https://grupogemis.com.ar/gemiswp/transferencia-tecnologica/"
+  },
+  {
+    "title": "Puntos Verdes Inteligentes Interactivos",
+    "image": "assets/img/transfer-puntos-verdes.webp",
+    "imageAlt": "Ciudadanos utilizando estaciones inteligentes de separación de residuos conectadas a una plataforma",
+    "period": "Informe anual 2016",
+    "organization": "DAEVA S.A.",
+    "description": "Prototipo de cesto inteligente y plataforma para promover la separación de residuos, integrando soluciones para la gestión y segregación de residuos y recursos de educación ambiental.",
+    "details": "La plataforma incluye identificación de usuarios mediante código QR, consulta de puntos en cesto inteligente y dispositivo móvil, administración de concursos, juegos didácticos y localización de cestos inteligentes. El trabajo fue articulado con proyectos de investigación y desarrollo de GEMIS.",
+    "publications": [
+      "Garbarini, R.; Gaspes, E.; Macri, M.; Osuna, G.; Cigliuti, P.; Saavedra-Martínez, P.; Pollo-Cattaneo, M. F. (2015). Propuesta de Sistema de Composteras Inteligentes como instrumentos de educación ambiental. WICC 2015.",
+      "Garbarini, R.; Gaspes, E.; Osuna, G.; Cigliuti, P.; Saavedra Martínez, P.; Pollo-Cattaneo, M.F. Construcción de un Sistema Composteras Inteligentes como instrumentos de educación ambiental. CONAIISI 2015."
+    ],
+    "sourceUrl": "https://grupogemis.com.ar/gemiswp/transferencia-tecnologica/"
+  },
+  {
+    "title": "Solución de armado de formaciones móviles",
+    "image": "assets/img/transfer-formaciones-ferroviarias.webp",
+    "imageAlt": "Formaciones ferroviarias organizadas mediante un sistema de optimización de movimientos",
+    "period": "Octubre 2019 - Septiembre 2020",
+    "organization": "DAEVA S.A. / Trenes Argentinos",
+    "description": "Prueba de concepto basada en Inteligencia Artificial para resolver de forma óptima el armado de formaciones de trenes bajo requerimientos específicos en una plaza determinada.",
+    "details": "El proyecto fue presentado como I+D para el cumplimiento del Régimen de Promoción de la Industria del Software, Ley 25.922, y del Régimen de Promoción de la Economía del Conocimiento, Ley 27.506. El módulo optimiza automáticamente movimientos, reduciendo tiempo y recurso humano, e implementa el framework desarrollado por el proyecto Framework para Algoritmos Genéticos.",
+    "publications": [],
+    "sourceUrl": "https://grupogemis.com.ar/gemiswp/transferencia-tecnologica/"
+  }
+]

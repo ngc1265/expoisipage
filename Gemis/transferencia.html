@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; frame-src 'none'; media-src 'self'; object-src 'none'; base-uri 'none'"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/img/favicon.ico" sizes="any">
+    <title>Transferencia tecnológica | Gemis Research</title>
+    <meta name="description" content="Transferencia tecnológica del Grupo Gemis: chatbots, inteligencia artificial aplicada, simulación, soluciones ambientales y proyectos I+D con empresas.">
+    <link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="assets/css/fonts.css"><link rel="stylesheet" href="assets/css/local.css"></head>
+
+<body class="transfer-page">
+    <header class="site-header">
+        <div class="shell nav">
+            <a class="brand" href="index.html">
+                <img class="brand-logo" src="assets/img/logo-gemis.png" alt="Grupo Gemis" data-logo>
+                <span class="brand-fallback">
+                    <span class="brand-mark">G</span>
+                    <span>gemis</span>
+                </span>
+            </a>
+
+            <nav class="nav-links" data-nav-links aria-label="Navegación principal">
+                <a href="index.html">Inicio</a>
+                <div class="nav-dropdown">
+                    <a class="active" href="investigacion.html">Investigación</a>
+                    <div class="nav-submenu">
+                        <a href="publicaciones.html">Publicaciones</a>
+                        <a class="active" href="transferencia.html">Transferencia tecnológica</a>
+                    </div>
+                </div>
+                <a href="equipo.html">Equipo</a>
+                </nav>
+
+            <button class="nav-toggle" type="button" aria-label="Abrir navegación" aria-expanded="false" data-nav-toggle>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <a href="index.html#novedades" class="button primary nav-action">Ver novedades</a></div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="shell hero-grid">
+                <div data-reveal>
+                    <span class="eyebrow">Transferencia tecnológica · Gemis Research</span>
+                    <h1>Transferencia tecnológica aplicada a desafíos reales.</h1>
+                    <p class="hero-copy">
+                        Proyectos, prototipos y desarrollos donde Gemis articula investigación, conocimiento
+                        metodológico e Inteligencia Artificial con organizaciones, empresas e instituciones.
+                    </p>
+                </div>
+
+                <figure class="visual-card subpage-hero-visual" data-reveal>
+                    <img src="assets/img/transfer-hero.webp" alt="Equipo interdisciplinario conectando investigación con aplicaciones en salud, educación, ambiente e industria" width="1200" height="1200" decoding="async" fetchpriority="high">
+                </figure>
+            </div>
+        </section>
+
+        <section class="section" id="desarrollos">
+            <div class="shell">
+                <div class="section-head transfer-section-head" data-reveal>
+                    <h2 class="section-title">Desarrollos y Proyectos.</h2>
+                    <p class="section-copy">
+                        Casos donde los resultados de investigación se transforman en metodologías, software,
+                        prototipos y pruebas de concepto para dominios educativos, médicos, ambientales y operativos.
+                    </p>
+                </div>
+
+                <div class="papers-list transfer-list" id="technology-transfer-list" data-reveal></div>
+            </div>
+        </section>
+
+        <section class="section compact">
+            <div class="shell cta" data-reveal>
+                <h2>Del conocimiento a soluciones que generan impacto.</h2>
+                <p>
+                    Articulamos investigación, capacidades técnicas y organizaciones para transformar resultados
+                    científicos en metodologías, prototipos y soluciones digitales aplicables.
+                </p>
+                <div class="actions">
+                    <a class="button secondary" href="investigacion.html">Explorar investigación</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="transferModal" aria-hidden="true">
+        <div class="modal-backdrop" data-close-transfer-modal></div>
+
+        <div class="modal-dialog paper-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTransferTitle">
+            <button class="modal-close" type="button" data-close-transfer-modal aria-label="Cerrar">×</button>
+
+            <div class="modal-header">
+                <span class="modal-kicker">Transferencia tecnológica</span>
+                <h2 id="modalTransferTitle"></h2>
+                <p class="modal-description" id="modalTransferDescription"></p>
+            </div>
+
+            <div class="modal-content">
+                <section class="modal-section" id="modalTransferMetaSection">
+                    <span class="modal-label">Datos del proyecto</span>
+                    <div class="modal-lines" id="modalTransferMeta"></div>
+                </section>
+
+                <section class="modal-section">
+                    <span class="modal-label">Detalle</span>
+                    <div class="modal-lines" id="modalTransferDetails"></div>
+                </section>
+
+                <section class="modal-section" id="modalTransferPublicationsSection">
+                    <span class="modal-label">Publicaciones asociadas</span>
+                    <ul class="modal-team-list" id="modalTransferPublications"></ul>
+                </section>
+            </div>
+
+            <div class="modal-actions" id="modalTransferActions"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="shell footer-inner">
+            <div class="footer-copy"><p>© 2026 Grupo Gemis. Investigación en inteligencia artificial, ingeniería de software, gestión del conocimiento y educación.</p><p class="offline-edition">Edición local · 13 de septiembre de 2026. Los enlaces externos requieren conexión a Internet.</p></div>
+            <div class="footer-actions"><p class="footer-follow">Seguinos en</p>
+                <div class="footer-social" role="group" aria-label="Redes sociales de Grupo Gemis">
+                    <a class="social-link" href="https://www.linkedin.com/company/grupogemis/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Grupo Gemis" title="LinkedIn de Grupo Gemis"><img src="assets/img/linkedin-official.png" width="635" height="540" alt="" aria-hidden="true"></a>
+                    <a class="social-link" href="https://www.youtube.com/@grupogemis" target="_blank" rel="noopener noreferrer" aria-label="YouTube de Grupo Gemis" title="YouTube de Grupo Gemis"><img class="social-icon-youtube" src="assets/img/youtube-official.png" width="1255" height="1075" alt="" aria-hidden="true"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/data.js"></script><script src="assets/js/main.js"></script></body>
+
+</html>
