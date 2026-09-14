@@ -109,6 +109,20 @@
      de /secciones/ y necesitan subir un nivel para los assets. */
   var RAIZ_SITIO = /\/secciones\//.test(location.pathname) ? "../" : "";
 
+  /* ── Filtro de autorización ─────────────────────────────────────
+     Regla única para todo el sitio: lo que tiene cara, nombre o voz de
+     alguien no se publica sin `autorizado: true` explícito.
+
+     Es a prueba de olvidos a propósito: un item nuevo, sin el campo,
+     NO sale. El error posible es que falte algo en pantalla, que se
+     nota y se arregla; el error contrario —publicar a alguien que no
+     dio permiso— no se nota hasta que se queja.                        */
+  function autorizados(lista) {
+    if (!lista || !lista.length) return [];
+    return lista.filter(function (x) { return x && x.autorizado === true; });
+  }
+  function autorizado(x) { return !!(x && x.autorizado === true); }
+
   /* ── Aviso de dato faltante ─────────────────────────────────────
      REGLA: el visitante NO ve los huecos. Los avisos amarillos llevan
      la clase .solo-edicion y arrancan ocultos; editor.js los prende
@@ -203,6 +217,7 @@
   EXPO.el = el; EXPO.q = q; EXPO.qa = qa; EXPO.esc = esc;
   EXPO.carrusel = carrusel; EXPO.qr = qr; EXPO.filaQr = filaQr;
   EXPO.pendiente = pendiente; EXPO.verPendientes = verPendientes;
+  EXPO.autorizados = autorizados; EXPO.autorizado = autorizado;
   EXPO.cabecera = cabecera; EXPO.pie = pie;
   EXPO.dwell = dwell;
   window.EXPO = EXPO;

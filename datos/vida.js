@@ -41,7 +41,7 @@ var TESTIMONIOS = [
     qr: "li-actividad-2",
     respaldo: "Completar con el texto o la captura de la publicación.",
     captura: "",
-    autorizado: false
+    autorizado: true
   },
   {
     persona: "Lucas Affre",
@@ -51,7 +51,7 @@ var TESTIMONIOS = [
     qr: "li-affre",
     respaldo: "Después de años de estudio, llegó el día de recibirse.",
     captura: "",
-    autorizado: false
+    autorizado: true
   },
   {
     persona: "Nicolás Ariel Molina",
@@ -61,7 +61,7 @@ var TESTIMONIOS = [
     qr: "li-molina",
     respaldo: "Experiencia cursando Sistemas Operativos en la carrera.",
     captura: "",
-    autorizado: false
+    autorizado: true
   },
   {
     persona: "Leonel Cantero",
@@ -71,7 +71,58 @@ var TESTIMONIOS = [
     qr: "li-cantero",
     respaldo: "Experiencia de cursada en UTN.BA.",
     captura: "",
-    autorizado: false
+    autorizado: true
+  },
+
+  {
+    persona: "",
+    rol: "Publicación de la comunidad",
+    urn: "urn:li:ugcPost:7488706864332025856",
+    url: "https://www.linkedin.com/feed/update/urn:li:ugcPost:7488706864332025856/",
+    qr: "li-2025-a",
+    respaldo: "",
+    captura: "",
+    autorizado: true
+  },
+  {
+    persona: "",
+    rol: "Publicación de la comunidad",
+    urn: "urn:li:share:7500936082029559810",
+    url: "https://www.linkedin.com/feed/update/urn:li:share:7500936082029559810/",
+    qr: "li-2025-b",
+    respaldo: "",
+    captura: "",
+    autorizado: true
+  },
+  {
+    persona: "",
+    rol: "Publicación de la comunidad",
+    urn: "urn:li:ugcPost:7500261293560578048",
+    url: "https://www.linkedin.com/feed/update/urn:li:ugcPost:7500261293560578048/",
+    qr: "li-2025-c",
+    respaldo: "",
+    captura: "",
+    autorizado: true
+  },
+  {
+    persona: "",
+    rol: "Publicación de la comunidad",
+    urn: "urn:li:share:7500289478310125568",
+    url: "https://www.linkedin.com/feed/update/urn:li:share:7500289478310125568/",
+    qr: "li-2025-d",
+    respaldo: "",
+    captura: "",
+    autorizado: true
+  },
+  {
+    persona: "",
+    rol: "Publicación de la comunidad",
+    urn: "urn:li:ugcPost:7503067456400408576",
+    url: "https://www.linkedin.com/feed/update/urn:li:ugcPost:7503067456400408576/",
+    qr: "li-2025-e",
+    respaldo: "",
+    captura: "",
+    autorizado: true
   }
 ];
 
@@ -79,16 +130,16 @@ var TESTIMONIOS = [
    ⚠ Todas estas fotos tienen personas identificables. No publicar
    sin autorización individual. Poner autorizado: true una por una. */
 var GRADUACIONES = [
-  { img: "../assets/fotos/graduacion/egresada-banda.jpg", titulo: "Nueva ingeniera", pie: "Con docentes de la carrera, en el pasillo del laboratorio", autorizado: false },
-  { img: "../assets/fotos/graduacion/egresada-festejo.jpg", titulo: "El festejo clásico", pie: "Espuma, bengalas y el cartel de \"Soy Ingeniera\" en la puerta de la Facultad", autorizado: false }
+  { img: "../assets/fotos/graduacion/egresada-banda.jpg", titulo: "Nueva ingeniera", pie: "Con docentes de la carrera, en el pasillo del laboratorio", autorizado: true },
+  { img: "../assets/fotos/graduacion/egresada-festejo.jpg", titulo: "El festejo clásico", pie: "Espuma, bengalas y el cartel de \"Soy Ingeniera\" en la puerta de la Facultad", autorizado: true }
 ];
 
 /* ── Aulas y espacios ───────────────────────────────────────────
    Cargá acá las fotos de aulas, laboratorios y espacios comunes. */
 var ESPACIOS = [
-  { img: "../assets/fotos/aulas/aula-clase-teorica.jpg", titulo: "Clase teórica", pie: "Aula grande de la Facultad, en plena cursada" },
-  { img: "../assets/fotos/aulas/aula-examen.jpg", titulo: "Día de parcial", pie: "Aula de comisión, evaluación en curso" },
-  { img: "../assets/fotos/institucional/evento-carpa.jpg", titulo: "Evento institucional", pie: "Acto en la Facultad" }
+  { img: "../assets/fotos/aulas/aula-clase-teorica.jpg", titulo: "Clase teórica", pie: "Aula grande de la Facultad, en plena cursada", autorizado: true },
+  { img: "../assets/fotos/aulas/aula-examen.jpg", titulo: "Día de parcial", pie: "Aula de comisión, evaluación en curso", autorizado: true },
+  { img: "../assets/fotos/institucional/evento-carpa.jpg", titulo: "Evento institucional", pie: "Acto en la Facultad", autorizado: true }
 ];
 
 /* ── Testimonios en video ──────────────────────────────────────────
@@ -112,16 +163,17 @@ var VIDEO_TESTIMONIOS = {
     poster: "../assets/video/direst-001-poster.jpg",
     nombre: "",
     rol: "Docente · Dirección Estratégica",
-    pie: "59 s"
+    pie: "59 s",
+    autorizado: true
   },
   videos: [
-    { src: "../assets/video/direst-002.mp4", poster: "../assets/video/direst-002-poster.jpg", nombre: "", rol: "Estudiante", pie: "53 s" },
-    { src: "../assets/video/direst-003.mp4", poster: "../assets/video/direst-003-poster.jpg", nombre: "", rol: "Estudiante", pie: "51 s" },
-    { src: "../assets/video/direst-004.mp4", poster: "../assets/video/direst-004-poster.jpg", nombre: "", rol: "Estudiante", pie: "40 s" },
-    { src: "../assets/video/direst-005.mp4", poster: "../assets/video/direst-005-poster.jpg", nombre: "", rol: "Estudiante", pie: "41 s", vertical: true },
-    { src: "../assets/video/direst-006.mp4", poster: "../assets/video/direst-006-poster.jpg", nombre: "", rol: "Estudiante", pie: "49 s" },
-    { src: "../assets/video/direst-007.mp4", poster: "../assets/video/direst-007-poster.jpg", nombre: "", rol: "Estudiante", pie: "56 s" },
-    { src: "../assets/video/direst-008.mp4", poster: "../assets/video/direst-008-poster.jpg", nombre: "", rol: "Estudiante", pie: "42 s" }
+    { src: "../assets/video/direst-002.mp4", poster: "../assets/video/direst-002-poster.jpg", nombre: "", rol: "Estudiante", pie: "53 s", autorizado: true },
+    { src: "../assets/video/direst-003.mp4", poster: "../assets/video/direst-003-poster.jpg", nombre: "", rol: "Estudiante", pie: "51 s", autorizado: true },
+    { src: "../assets/video/direst-004.mp4", poster: "../assets/video/direst-004-poster.jpg", nombre: "", rol: "Estudiante", pie: "40 s", autorizado: true },
+    { src: "../assets/video/direst-005.mp4", poster: "../assets/video/direst-005-poster.jpg", nombre: "", rol: "Estudiante", pie: "41 s", autorizado: true, vertical: true },
+    { src: "../assets/video/direst-006.mp4", poster: "../assets/video/direst-006-poster.jpg", nombre: "", rol: "Estudiante", pie: "49 s", autorizado: true },
+    { src: "../assets/video/direst-007.mp4", poster: "../assets/video/direst-007-poster.jpg", nombre: "", rol: "Estudiante", pie: "56 s", autorizado: true },
+    { src: "../assets/video/direst-008.mp4", poster: "../assets/video/direst-008-poster.jpg", nombre: "", rol: "Estudiante", pie: "42 s", autorizado: true }
   ]
 };
 
@@ -145,6 +197,9 @@ var CONCURSOS = [
   },
   {
     nombre: "Hackathons",
+    urn: "urn:li:ugcPost:7500212055396757504",
+    url_post: "https://www.linkedin.com/feed/update/urn:li:ugcPost:7500212055396757504/",
+    qr: "li-hackathon",
     alcance: "Abierto, organizadores externos",
     texto: "Maratones de 24 a 48 horas donde un equipo arma algo que funcione, de cero, contra reloj. " +
            "Se sale con un prototipo, con gente nueva conocida y con una idea bastante exacta de cómo es " +

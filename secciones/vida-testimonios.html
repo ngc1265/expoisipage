@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vida y testimonios · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260913f">
+<link rel="stylesheet" href="../css/base.css?v=20260913i">
 <style>
 .testi{display:flex;flex-direction:column}
 .testi .cita{font-size:var(--t-lg);line-height:1.4;color:var(--tinta);margin:14px 0 18px}
@@ -124,11 +124,11 @@ body.mostrar-pendientes .bloqueado{
   </div>
 </section>
 
-<script src="../js/config.js?v=20260913f"></script>
-<script src="../js/comun.js?v=20260913f"></script>
-<script src="../js/api.js?v=20260913f"></script>
-<script src="../js/editor.js?v=20260913f"></script>
-<script src="../datos/vida.js?v=20260913f"></script>
+<script src="../js/config.js?v=20260913i"></script>
+<script src="../js/comun.js?v=20260913i"></script>
+<script src="../js/api.js?v=20260913i"></script>
+<script src="../js/editor.js?v=20260913i"></script>
+<script src="../datos/vida.js?v=20260913i"></script>
 <script>
 EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
@@ -239,12 +239,13 @@ EXPO.alCargarDatos(function () {
       return caja;
     }
 
-    if (VT.destacado && VT.destacado.src) {
+    if (VT.destacado && VT.destacado.src && EXPO.autorizado(VT.destacado)) {
       document.getElementById("vt-destacado")
         .appendChild(bloqueVideo(VT.destacado, "VIDEO_TESTIMONIOS.destacado", "vt-destacado"));
     }
     var gv = document.getElementById("vt-grilla");
     (VT.videos || []).forEach(function (v, i) {
+      if (!EXPO.autorizado(v)) return;
       gv.appendChild(bloqueVideo(v, "VIDEO_TESTIMONIOS.videos." + i, "vt-card"));
     });
   }
@@ -263,12 +264,25 @@ EXPO.alCargarDatos(function () {
       a.href = c.url; a.target = "_blank"; a.rel = "noopener";
       t.appendChild(a);
     }
+    /* Publicación de LinkedIn asociada al concurso. Con conexión se
+       embebe; sin conexión queda el QR, igual que en los testimonios. */
+    if (c.urn && hayRed) {
+      var ifr = document.createElement("iframe");
+      ifr.src = "https://www.linkedin.com/embed/feed/update/" + c.urn + "?collapsed=1";
+      ifr.width = "100%"; ifr.height = "560"; ifr.frameBorder = "0";
+      ifr.title = "Publicación de " + c.nombre;
+      ifr.loading = "lazy"; ifr.allowFullscreen = true;
+      ifr.style.cssText = "margin-top:18px;border-radius:8px;max-width:504px";
+      t.appendChild(ifr);
+    } else if (c.qr && c.url_post) {
+      t.appendChild(EXPO.filaQr(c.qr, c.url_post, "Publicación original."));
+    }
     cc.appendChild(t);
   });
 
   /* ── Espacios ──────────────────────────────────────────────── */
   EXPO.editor.carruselEditable(document.getElementById("espacios"), ESPACIOS, "ESPACIOS",
-    function (c, l) { var d = EXPO.el("div"); c.appendChild(d); EXPO.carrusel(d, l); }, "aulas");
+    function (c, l) { var d = EXPO.el("div"); c.appendChild(d); EXPO.carrusel(d, EXPO.autorizados(l)); }, "aulas");
 
   EXPO.pie();
 });

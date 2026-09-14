@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Materias · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260913d">
+<link rel="stylesheet" href="../css/base.css?v=20260913i">
 <style>
 .mat-card{position:relative}
 .mat-card .cab{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
@@ -38,12 +38,12 @@
   </div>
 </section>
 
-<script src="../js/config.js?v=20260913d"></script>
-<script src="../js/comun.js?v=20260913d"></script>
-<script src="../js/api.js?v=20260913d"></script>
-<script src="../js/editor.js?v=20260913d"></script>
-<script src="../datos/plan-estudios.js?v=20260913d"></script>
-<script src="../datos/materias.js?v=20260913d"></script>
+<script src="../js/config.js?v=20260913i"></script>
+<script src="../js/comun.js?v=20260913i"></script>
+<script src="../js/api.js?v=20260913i"></script>
+<script src="../js/editor.js?v=20260913i"></script>
+<script src="../datos/plan-estudios.js?v=20260913i"></script>
+<script src="../datos/materias.js?v=20260913i"></script>
 <script>
 EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc;
@@ -122,7 +122,7 @@ EXPO.alCargarDatos(function () {
       if (doc.childNodes.length > 1) t.appendChild(doc);
 
       /* Video de la cátedra, si lo hay */
-      if (d.video && d.video.src) {
+      if (d.video && d.video.src && EXPO.autorizado(d.video)) {
         var vb = el("div", "docentes");
         vb.appendChild(el("h4", null, d.video.titulo || "Video de la cátedra"));
         var v = document.createElement("video");

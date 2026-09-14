@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Investigación y extensión · Expo UTN 2026</title>
-<link rel="stylesheet" href="../css/base.css?v=20260913d">
+<link rel="stylesheet" href="../css/base.css?v=20260913i">
 <style>
 .congreso{display:grid;grid-template-columns:180px 1fr;gap:32px;align-items:start}
 .congreso+.congreso{margin-top:16px}
@@ -43,6 +43,25 @@
 .referente h3{font-size:var(--t-lg);margin:0 0 10px}
 .referente p.txt{font-size:var(--t-md);color:var(--tinta-2);line-height:1.6;margin:0}
 .referente p.nota{margin-top:12px}
+
+.numeros{display:flex;flex-wrap:wrap;gap:14px;margin:26px 0 6px}
+.numero{
+  background:var(--papel);border:1px solid var(--borde);border-radius:var(--radio);
+  padding:18px 22px;min-width:150px;flex:1 1 150px;
+}
+.numero b{display:block;font-size:34px;line-height:1;color:var(--rojo)}
+.numero span{display:block;margin-top:6px;font-size:var(--t-sm);color:var(--apagado)}
+.gemis-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;margin-top:30px}
+.rot{font-size:var(--t-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--apagado);margin:0 0 12px}
+.linea-g{border-left:3px solid var(--borde);padding:2px 0 2px 14px;margin-bottom:16px}
+.linea-g h4{font-size:var(--t-base);margin:0 0 3px}
+.linea-g p{font-size:var(--t-sm);color:var(--tinta-2);margin:0;line-height:1.5}
+#gemis-proyectos li,#gemis-tt li{
+  font-size:var(--t-sm);color:var(--tinta-2);line-height:1.5;
+  padding:9px 0;border-bottom:1px solid var(--gris-2);
+}
+#gemis-proyectos li b,#gemis-tt li b{display:block;color:var(--tinta);font-weight:600}
 </style>
 </head>
 <body>
@@ -63,6 +82,28 @@
     <div class="vias" id="pan-vias"></div>
     <article class="referente" id="pan-referente"></article>
     <p class="nota" id="pan-cierre" style="margin-top:22px"></p>
+  </div>
+</section>
+
+<section class="bloque" id="gemis-sec" hidden>
+  <div class="envoltorio">
+    <p class="epigrafe">El grupo</p>
+    <h2 id="gemis-nombre"></h2>
+    <p class="bajada" id="gemis-intro"></p>
+    <div class="numeros" id="gemis-numeros"></div>
+    <div class="gemis-cols">
+      <div>
+        <p class="rot">Líneas de trabajo</p>
+        <div id="gemis-lineas"></div>
+      </div>
+      <div>
+        <p class="rot">Proyectos en curso</p>
+        <ul class="lista-limpia" id="gemis-proyectos"></ul>
+        <p class="rot" style="margin-top:24px">Transferencia a empresas</p>
+        <ul class="lista-limpia" id="gemis-tt"></ul>
+      </div>
+    </div>
+    <div id="gemis-qr"></div>
   </div>
 </section>
 
@@ -118,11 +159,11 @@
   </div>
 </section>
 
-<script src="../js/config.js?v=20260913d"></script>
-<script src="../js/comun.js?v=20260913d"></script>
-<script src="../js/api.js?v=20260913d"></script>
-<script src="../js/editor.js?v=20260913d"></script>
-<script src="../datos/investigacion.js?v=20260913d"></script>
+<script src="../js/config.js?v=20260913i"></script>
+<script src="../js/comun.js?v=20260913i"></script>
+<script src="../js/api.js?v=20260913i"></script>
+<script src="../js/editor.js?v=20260913i"></script>
+<script src="../datos/investigacion.js?v=20260913i"></script>
 <script>
 EXPO.alCargarDatos(function () {
   var el = EXPO.el, esc = EXPO.esc, lig = EXPO.ligar;
@@ -135,7 +176,7 @@ EXPO.alCargarDatos(function () {
   };
 
   EXPO.editor.registrar("datos/investigacion.js", {
-    PANORAMA: window.PANORAMA,
+    PANORAMA: window.PANORAMA, GEMIS: window.GEMIS,
     CONGRESOS: window.CONGRESOS, PONENCIAS: window.PONENCIAS, PUBLICACION: window.PUBLICACION,
     ACTAS: window.ACTAS, GRADUADOS: window.GRADUADOS, COOPERACION: window.COOPERACION,
     FOTOS_CONGRESOS: window.FOTOS_CONGRESOS
@@ -165,6 +206,53 @@ EXPO.alCargarDatos(function () {
     if (r.nota) cr.appendChild(lig(el("p", "nota", r.nota), "PANORAMA.referente.nota"));
 
     lig(document.getElementById("pan-cierre"), "PANORAMA.cierre", { multilinea: true }).textContent = P.cierre;
+  }
+
+  /* ── GEMIS ─────────────────────────────────────────────────── */
+  var G = window.GEMIS;
+  if (G) {
+    document.getElementById("gemis-sec").hidden = false;
+    lig(document.getElementById("gemis-nombre"), "GEMIS.nombre").textContent = G.nombre;
+    lig(document.getElementById("gemis-intro"), "GEMIS.intro", { multilinea: true }).textContent = G.intro;
+
+    var cn = document.getElementById("gemis-numeros");
+    (G.numeros || []).forEach(function (x, i) {
+      var d = el("div", "numero");
+      d.appendChild(lig(el("b", null, x.n), "GEMIS.numeros." + i + ".n"));
+      d.appendChild(lig(el("span", null, x.que), "GEMIS.numeros." + i + ".que"));
+      cn.appendChild(d);
+    });
+
+    var cl2 = document.getElementById("gemis-lineas");
+    (G.lineas || []).forEach(function (x, i) {
+      var b = "GEMIS.lineas." + i + ".";
+      var d = el("div", "linea-g");
+      d.appendChild(lig(el("h4", null, x.titulo), b + "titulo"));
+      d.appendChild(lig(el("p", null, x.texto), b + "texto", { multilinea: true }));
+      cl2.appendChild(d);
+    });
+
+    var cpr = document.getElementById("gemis-proyectos");
+    (G.proyectos || []).forEach(function (x, i) {
+      var li = el("li");
+      li.appendChild(lig(el("b", null, x.titulo), "GEMIS.proyectos." + i + ".titulo"));
+      li.appendChild(document.createTextNode(x.periodo || ""));
+      cpr.appendChild(li);
+    });
+
+    var ctt = document.getElementById("gemis-tt");
+    (G.transferencia || []).forEach(function (x, i) {
+      var li = el("li");
+      li.appendChild(lig(el("b", null, x.titulo), "GEMIS.transferencia." + i + ".titulo"));
+      li.appendChild(document.createTextNode(
+        [x.organizacion, x.periodo].filter(Boolean).join(" · ")));
+      ctt.appendChild(li);
+    });
+
+    if (G.qr && G.url) {
+      document.getElementById("gemis-qr")
+        .appendChild(EXPO.filaQr(G.qr, G.url, G.nota || ""));
+    }
   }
 
   /* ── Congresos ─────────────────────────────────────────────── */
@@ -197,7 +285,8 @@ EXPO.alCargarDatos(function () {
 
   /* ── Ponencias ─────────────────────────────────────────────── */
   var cp = document.getElementById("ponencias");
-  PONENCIAS.forEach(function (p, i) {
+  EXPO.autorizados(PONENCIAS).forEach(function (p) {
+    var i = PONENCIAS.indexOf(p);
     var b = "PONENCIAS." + i + ".";
     var t = el("article", "tarjeta");
     var g = el("div", "ponencia");
@@ -251,7 +340,7 @@ EXPO.alCargarDatos(function () {
   /* ── Fotos ─────────────────────────────────────────────────── */
   EXPO.editor.carruselEditable(
     document.getElementById("fotos-congresos"), FOTOS_CONGRESOS, "FOTOS_CONGRESOS",
-    function (c, lista) { var d = el("div"); c.appendChild(d); EXPO.carrusel(d, lista); },
+    function (c, lista) { var d = el("div"); c.appendChild(d); EXPO.carrusel(d, EXPO.autorizados(lista)); },
     "congresos"
   );
 

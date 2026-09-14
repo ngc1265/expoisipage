@@ -52,6 +52,57 @@ var PANORAMA = {
           "algunos trabajos recientes. No es el inventario completo de lo que se investiga acá."
 };
 
+/* ── GEMIS ─────────────────────────────────────────────────────────
+   Grupo de Estudio de Metodologías para Ingeniería en Sistemas.
+
+   Los números y los casos salen de la copia del sitio del grupo
+   (assets/data/*.json, sincronizada el 13/09/2026). Son un RESUMEN
+   para el stand, no un espejo: el sitio del grupo es la fuente y se
+   actualiza sola, esta ficha no.
+
+   Por eso el enlace al sitio propio va bien visible: si algún dato
+   de acá queda viejo, el visitante tiene dónde ver el actual.        */
+var GEMIS = {
+  sigla: "GEMIS",
+  nombre: "Grupo de Estudio de Metodologías para Ingeniería en Sistemas",
+  intro: "El grupo de investigación del Departamento. Trabaja en metodologías, " +
+         "gestión del conocimiento e inteligencia artificial aplicada, con proyectos " +
+         "acreditados, transferencia a empresas y estudiantes participando desde el grado.",
+  numeros: [
+    { n: "10", que: "investigadores" },
+    { n: "17", que: "tesistas" },
+    { n: "15", que: "investigadores en formación" },
+    { n: "131", que: "integrantes pasaron por el grupo" }
+  ],
+  lineas: [
+    { titulo: "IA y Sistemas Inteligentes", texto: "Aprendizaje automático y sistemas inteligentes aplicados a problemas reales." },
+    { titulo: "Gestión del Conocimiento", texto: "Cómo una organización captura, ordena y reutiliza lo que sabe." },
+    { titulo: "Educación y TIC", texto: "Tecnología aplicada a la enseñanza y al aprendizaje." },
+    { titulo: "Ingeniería de Software", texto: "Métodos y procesos para construir software que se pueda sostener." }
+  ],
+  proyectos: [
+    { titulo: "Modelo integral de gestión del conocimiento para pymes argentinas", periodo: "2025-2027" },
+    { titulo: "Observatorio tecnológico de Gestión del Conocimiento en CABA", periodo: "2023-2025" },
+    { titulo: "IA para análisis predictivo en salud mental", periodo: "2023-2025" }
+  ],
+  transferencia: [
+    { titulo: "Metodología para el desarrollo de Chatbots, Alex", organizacion: "DAEVA S.A.", periodo: "" },
+    { titulo: "GuardIA", organizacion: "DAEVA S.A.", periodo: "Mayo - Julio 2019" },
+    { titulo: "CUERPOHUMATHNO", organizacion: "DAEVA S.A.", periodo: "Octubre 2018 - Septiembre 2019" },
+    { titulo: "Puntos Verdes Inteligentes Interactivos", organizacion: "DAEVA S.A.", periodo: "Informe anual 2016" },
+    { titulo: "Solución de armado de formaciones móviles", organizacion: "DAEVA S.A. / Trenes Argentinos", periodo: "Octubre 2019 - Septiembre 2020" }
+  ],
+  eventos: [
+    "International Workshop on Knowledge Management, Innovation and Technologies",
+    "International Workshop on Applied Artificial Intelligence"
+  ],
+  publicaciones: "28 publicaciones con referencia completa en el sitio del grupo.",
+  url: "https://www.grupogemis.com/",
+  qr: "gemis",
+  cta: "Ver el sitio del grupo",
+  nota: "Resumen preparado para el stand. La fuente actualizada es el sitio del grupo."
+};
+
 var CONGRESOS = [
   {
     sigla: "CICE",
@@ -99,7 +150,7 @@ var PONENCIAS = [
     resumen: "Estudio longitudinal sobre trayectorias, deserción y posibilidades pedagógicas. Se analizaron 306 entregas del ejercicio de Design Thinking de la materia Experiencia de Usuario y Accesibilidad en 9 cohortes (2022-2026). Identificó 29 casos que documentan la escasez y desorganización del tiempo como obstáculo central de la trayectoria, y describe la \"deserción silenciosa\": una categoría real que el sistema de gestión académica no captura y que requiere indicadores de alerta temprana.",
     foto: "../assets/fotos/congresos/cice2026-poster-pobreza-tiempo.jpg",
     audio: "https://ddsi.com.ar/cice26/tiempo/",
-    qr: "poster-tiempo"
+    qr: "poster-tiempo", autorizado: true
   },
   {
     titulo: "Neurodiversidad y accesibilidad en la educación híbrida",
@@ -108,7 +159,7 @@ var PONENCIAS = [
     resumen: "Estudio piloto sobre la presencia de estudiantes neurodivergentes en modalidad híbrida y propuesta de un marco escalable de estrategias inclusivas en la cátedra de Diseño de Sistemas de la UTN-FRBA.",
     foto: "../assets/fotos/congresos/cice2026-poster-neurodiversidad.jpg",
     audio: "https://ddsi.com.ar/cice26/neuro/",
-    qr: "poster-neuro"
+    qr: "poster-neuro", autorizado: true
   }
 ];
 
@@ -201,25 +252,25 @@ var COOPERACION = {
 };
 
 var FOTOS_CONGRESOS = [
-  { img: "../assets/fotos/congresos/cice2026-plenaria-auditorio.jpg", titulo: "CICE 2026 · Plenaria", pie: "Auditorio de la Facultad Regional Bahía Blanca durante una sesión plenaria" },
-  { img: "../assets/fotos/congresos/cice2026-delegacion-frba.jpg", titulo: "CICE 2026 · Delegación de la FRBA", pie: "Docentes y estudiantes de Buenos Aires acreditados en el congreso" },
-  { img: "../assets/fotos/congresos/cice2026-poster-pobreza-tiempo.jpg", titulo: "CICE 2026 · Póster de la FRBA", pie: "\"Pobreza del tiempo en estudiantes universitarios de ingeniería\" — estudio longitudinal sobre trayectorias y deserción" },
-  { img: "../assets/fotos/congresos/cice2026-poster-neurodiversidad.jpg", titulo: "CICE 2026 · Póster de la FRBA", pie: "Neurodiversidad y accesibilidad en la educación híbrida, presentado en la sesión de pósteres" },
-  { img: "../assets/fotos/congresos/cice2026-mesa-ia-en-la-utn.jpg", titulo: "CICE 2026 · Mesa institucional", pie: "La IA en la UTN: potenciar la enseñanza en nuevos escenarios educativos" },
-  { img: "../assets/fotos/congresos/cice2026-arquitectura-cognitiva.jpg", titulo: "CICE 2026 · Arquitectura cognitiva", pie: "Sistema tutor inteligente con mentor por IA y tutoría entre pares" },
-  { img: "../assets/fotos/congresos/cice2026-pipeline-biologico.jpg", titulo: "CICE 2026 · El pipeline del aprendizaje", pie: "De la percepción a la acción, con la metacognición monitoreando el proceso" },
-  { img: "../assets/fotos/congresos/cice2026-problema-dos-sigma.jpg", titulo: "CICE 2026 · El problema Dos Sigma", pie: "La brecha del 98% entre la clase estándar y la tutoría uno a uno" },
-  { img: "../assets/fotos/congresos/cice2026-tutores-estudiantiles.jpg", titulo: "CICE 2026 · Tutoras y tutores estudiantiles", pie: "Experiencias de construcción de comunidad y sentido de pertenencia" },
-  { img: "../assets/fotos/congresos/cice2026-relato-reiniciando-sistema.jpg", titulo: "CICE 2026 · Relato estudiantil", pie: "\"Reiniciando el sistema\": el valor de una trayectoria universitaria no lineal" },
-  { img: "../assets/fotos/congresos/cice2026-grupo-bahia-blanca.jpg", titulo: "CICE 2026 · La delegación completa", pie: "Participantes de distintas regionales, en el puerto de Bahía Blanca" },
-  { img: "../assets/fotos/congresos/cice2025-apertura-la-plata.jpg", titulo: "CICE 2025 · Apertura", pie: "Acto inaugural en la Facultad Regional La Plata, sede de la 4.ª edición" },
-  { img: "../assets/fotos/congresos/cice2025-poster-laboratorio-remoto.jpg", titulo: "CICE 2025 · Laboratorio remoto de automatización", pie: "Práctica de automatización industrial a distancia: aprender haciendo desde cualquier parte del mundo" },
-  { img: "../assets/fotos/congresos/cice2025-aula-participantes.jpg", titulo: "CICE 2025 · Sesión de trabajo", pie: "Modalidad híbrida: participantes en el aula y en pantalla al mismo tiempo" },
-  { img: "../assets/fotos/congresos/cice2025-actas-ajea.jpg", titulo: "CICE 2025 · Libro de actas", pie: "Publicado en AJEA, el repositorio de actas académicas de la UTN" },
-  { img: "../assets/fotos/congresos/cice2024-delegacion-chubut.jpg", titulo: "CICE 2024 · Facultad Regional Chubut", pie: "Equipo presentador en la 3.ª edición del congreso" },
-  { img: "../assets/fotos/congresos/cice2024-modaa-mexico.jpg", titulo: "CICE 2024 · Intercambio con México", pie: "Modelo Dinámico de Aprendizaje Activo, del CIIDET · Tecnológico Nacional de México" },
-  { img: "../assets/fotos/congresos/cice2024-taller-cinco-mentes.jpg", titulo: "CICE 2024 · Taller magistral", pie: "\"Enseñar para las 5 mentes del futuro\", para docentes y estudiantes con vocación docente" },
-  { img: "../assets/fotos/congresos/cice2024-taller-prompting.jpg", titulo: "CICE 2024 · Taller de prompting", pie: "Potenciando el uso de la IA generativa en la enseñanza" },
-  { img: "../assets/fotos/congresos/cice2024-equipos-multifuncionales.jpg", titulo: "CICE 2024 · Equipos multifuncionales", pie: "Presentación sobre prácticas ágiles y distribución de habilidades en equipos" },
-  { img: "../assets/fotos/congresos/cice2024-ponencia-matematica.jpg", titulo: "CICE 2024 · Ponencia", pie: "Experiencia de aula sobre ecuaciones, inecuaciones y valor absoluto" }
+  { img: "../assets/fotos/congresos/cice2026-plenaria-auditorio.jpg", titulo: "CICE 2026 · Plenaria", pie: "Auditorio de la Facultad Regional Bahía Blanca durante una sesión plenaria", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2026-delegacion-frba.jpg", titulo: "CICE 2026 · Delegación de la FRBA", pie: "Docentes y estudiantes de Buenos Aires acreditados en el congreso", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2026-poster-pobreza-tiempo.jpg", titulo: "CICE 2026 · Póster de la FRBA", pie: "\"Pobreza del tiempo en estudiantes universitarios de ingeniería\" — estudio longitudinal sobre trayectorias y deserción", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2026-poster-neurodiversidad.jpg", titulo: "CICE 2026 · Póster de la FRBA", pie: "Neurodiversidad y accesibilidad en la educación híbrida, presentado en la sesión de pósteres", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2026-mesa-ia-en-la-utn.jpg", titulo: "CICE 2026 · Mesa institucional", pie: "La IA en la UTN: potenciar la enseñanza en nuevos escenarios educativos", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2026-arquitectura-cognitiva.jpg", titulo: "CICE 2026 · Arquitectura cognitiva", pie: "Sistema tutor inteligente con mentor por IA y tutoría entre pares", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2026-pipeline-biologico.jpg", titulo: "CICE 2026 · El pipeline del aprendizaje", pie: "De la percepción a la acción, con la metacognición monitoreando el proceso", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2026-problema-dos-sigma.jpg", titulo: "CICE 2026 · El problema Dos Sigma", pie: "La brecha del 98% entre la clase estándar y la tutoría uno a uno", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2026-tutores-estudiantiles.jpg", titulo: "CICE 2026 · Tutoras y tutores estudiantiles", pie: "Experiencias de construcción de comunidad y sentido de pertenencia", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2026-relato-reiniciando-sistema.jpg", titulo: "CICE 2026 · Relato estudiantil", pie: "\"Reiniciando el sistema\": el valor de una trayectoria universitaria no lineal", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2026-grupo-bahia-blanca.jpg", titulo: "CICE 2026 · La delegación completa", pie: "Participantes de distintas regionales, en el puerto de Bahía Blanca", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2025-apertura-la-plata.jpg", titulo: "CICE 2025 · Apertura", pie: "Acto inaugural en la Facultad Regional La Plata, sede de la 4.ª edición", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2025-poster-laboratorio-remoto.jpg", titulo: "CICE 2025 · Laboratorio remoto de automatización", pie: "Práctica de automatización industrial a distancia: aprender haciendo desde cualquier parte del mundo", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2025-aula-participantes.jpg", titulo: "CICE 2025 · Sesión de trabajo", pie: "Modalidad híbrida: participantes en el aula y en pantalla al mismo tiempo", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2025-actas-ajea.jpg", titulo: "CICE 2025 · Libro de actas", pie: "Publicado en AJEA, el repositorio de actas académicas de la UTN", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2024-delegacion-chubut.jpg", titulo: "CICE 2024 · Facultad Regional Chubut", pie: "Equipo presentador en la 3.ª edición del congreso", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2024-modaa-mexico.jpg", titulo: "CICE 2024 · Intercambio con México", pie: "Modelo Dinámico de Aprendizaje Activo, del CIIDET · Tecnológico Nacional de México", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2024-taller-cinco-mentes.jpg", titulo: "CICE 2024 · Taller magistral", pie: "\"Enseñar para las 5 mentes del futuro\", para docentes y estudiantes con vocación docente", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2024-taller-prompting.jpg", titulo: "CICE 2024 · Taller de prompting", pie: "Potenciando el uso de la IA generativa en la enseñanza", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2024-equipos-multifuncionales.jpg", titulo: "CICE 2024 · Equipos multifuncionales", pie: "Presentación sobre prácticas ágiles y distribución de habilidades en equipos", autorizado: true },
+  { img: "../assets/fotos/congresos/cice2024-ponencia-matematica.jpg", titulo: "CICE 2024 · Ponencia", pie: "Experiencia de aula sobre ecuaciones, inecuaciones y valor absoluto", autorizado: true }
 ];
